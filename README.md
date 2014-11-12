@@ -308,8 +308,7 @@ this contest are lost.
 in which case those more specific terms will apply to the relevant items. We may make changes to these rules at any
 time without notice to you. The most current version of the rules can be reviewed on the https://software.intel.com/enus/
 android-devstory website. Contributing to the contest or accepting prizes will constitute acceptance of the revised
-rules: https://software.intel.com/sites/default/files/managed/e6/7c/DevStory-Hack-the-Code-Skills-Contest-Terms-and-
-Conditions.pdf
+rules: https://software.intel.com/sites/default/files/managed/e6/7c/DevStory-Hack-the-Code-Skills-Contest-Terms-and-Conditions.pdf
 23. These rules set Intel’s sole responsibilities with respect to the contest. These rules prevail in the event of any conflict or
 inconsistency with any other communications, including advertising or promotional materials.
 24. For any feedback or questions regarding the contest or the prizes you can contact Intel by sending an email or by
