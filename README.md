@@ -192,8 +192,7 @@ Legal Documents
 Privacy Policy, http://www.intel.com/sites/sitewide/en_US/privacy/privacy.htm?iid=ftr+privacy
 Terms of Use, http://www.intel.com/sites/corporate/termsofuse.htm
 Intel® Dev Story – Hack the Code Contest Description and Rules:
-https://software.intel.com/sites/default/files/managed/e6/7c/DevStory-Hack-the-Code-Skills-Contest-Terms-and-
-Conditions.pdf
+https://software.intel.com/sites/default/files/managed/e6/7c/DevStory-Hack-the-Code-Skills-Contest-Terms-and-Conditions.pdf
 ###Intel® Dev Story – Hack the Code Contest Rules
 1. These rules govern the Intel® Hack & Tweak the Code skills contest (the “**contest**”) and set out the terms and conditions
 between Intel Corporation and its affiliates (“**Intel**” or “**we/us**”) and each participant (“**participant**” or “**you**”). They include
