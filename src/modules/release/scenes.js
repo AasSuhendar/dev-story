@@ -58,36 +58,14 @@ game.module(
             // Set bg colour
             game.system.stage.setBackgroundColor(App.currentPalette[3]);
 
-            // Container
-            this.loading = new game.Container();
-            this.loading.scale.set(App.deviceScale(), App.deviceScale());
-
             // Create loader
             this.loader = new game.Loader();
 
             // Set dynamic
             this.loader.dynamic = true;
-            this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold '+ App.pX(5) +'px sans-serif' } );
-            this.loadingText.anchor.set(0.5, 0.5);
-            this.loadingText.position.x = App.pX(50);
-            this.loadingText.position.y = App.pY(50);
-
-            // Objects
-            this.bar = new game.Graphics();
-            this.bar.beginFill(0xce5064); 
-            this.bar.drawRect(0, 0, App.pX(100), App.pY(100));
-            this.bar.position.y = 0;
-            this.bar.position.x = -App.pX(100);
-            this.bar.endFill();
-
-            // Add to scene
-            this.loading.addChild(this.bar);
-            this.loading.addChild(this.loadingText);
-            this.stage.addChild(this.loading);
 
             // Start loading
             this.loader.start();
-
 
         },
 
@@ -147,15 +125,7 @@ game.module(
                 if(this.loader.started) {
 
                     // If bar is finished
-                    if(this.loader.percent < 100) {
-
-                        // Move the bar
-                        this.bar.position.x = -App.pX(100) + App.pX(this.loader.percent);
-
-                    } else {
-
-                        // Remove the loading screen
-                        this.stage.removeChild(this.loading);
+                    if(this.loader.percent === 100) {
 
                         // Reset loader
                         this.loader.started = false;

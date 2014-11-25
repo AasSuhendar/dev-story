@@ -22,7 +22,7 @@ game.module(
             } else {
                 this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold '+(App.pY(5))+'px sans-serif' } );
                 this.text.position.x = App.pX(17);
-                this.text.position.y = App.pY(55) + (this.id * App.pY(10));
+                this.text.position.y = App.pY(55) + (this.id * App.pY(9));
             }
 
             // Create graphic
@@ -323,9 +323,6 @@ game.module(
 });
 
 game.createClass(App.GameIntro, {
-    init: function(){
-        alert("??");
-    },
     load: function(){
 
         // Container
@@ -344,82 +341,85 @@ game.createClass(App.GameIntro, {
         // Objects
         this.fade = new game.Graphics();
         this.fade.beginFill(this.colour4); 
-        this.fade.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
+        this.fade.drawRect(0, 0, App.pX(100), App.pY(100));
         this.fade.endFill();
         this.fade.alpha = 0.75;
 
         this.bg = new game.Graphics();
         this.bg.beginFill(0xFFFFFF); 
-        App.roundRect(this.bg, 96, 64, (game.system.width / App.deviceScale()) - 192, (game.system.height / App.deviceScale()) - 128, 24, 24, 24, 24);
+        App.roundRect(this.bg, App.pX(5), App.pY(10), App.pX(90), App.pY(85), App.pX(3), App.pX(3), App.pX(3), App.pX(3));
         this.bg.beginFill(this.colour2);
-        App.roundRect(this.bg, 96, 64, (game.system.width / App.deviceScale()) - 192, 144, 24, 24, 0, 0);
+        App.roundRect(this.bg, App.pX(5), App.pY(10), App.pX(90), App.pY(18), App.pX(3), App.pX(3), 0, 0);
         this.bg.endFill();
 
-        this.titleText = new game.Text(this.title, { fill: "white", font: 'bold 48px sans-serif' } );
-        this.titleText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.titleText.width / 2);
-        this.titleText.position.y = 128;
+        this.titleText = new game.Text(this.title, { fill: "white", font: 'bold '+App.pX(4)+'px sans-serif' } );
+        this.titleText.position.x = App.pX(50) - (this.titleText.width / 2);
+        this.titleText.position.y = App.pY(18);
         this.titleText.tint = 0xFFFFFF;
 
         this.iconBg = new game.Graphics();
         this.iconBg.beginFill(0xFFFFFF); 
-        this.iconBg.drawCircle(0,0,48);
+        this.iconBg.drawCircle(0,0,App.pX(4));
         this.iconBg.endFill();
-        this.iconBg.position.x = ((game.system.width / App.deviceScale()) / 2);
-        this.iconBg.position.y = 64;
+        this.iconBg.position.x = App.pX(50);
+        this.iconBg.position.y = App.pY(10);
 
         this.titleIcon = new game.Sprite(this.icon);
-        this.titleIcon.position.x = ((game.system.width / App.deviceScale()) / 2) - 48;
-        this.titleIcon.position.y = 16;
+        this.titleIcon.anchor.set(0.5,0.5);
+        this.titleIcon.width = App.pX(8);
+        this.titleIcon.height = App.pX(8);
+        this.titleIcon.position.x = App.pX(50);
+        this.titleIcon.position.y = App.pY(10);
         this.titleIcon.tint = this.colour2;
 
-        this.text1 = new game.Text(this.text1, { align: "center", fill: "white", font: '28px sans-serif', wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 1.2) } );
-        this.text1.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text1.width / 2);
-        this.text1.position.y = this.titleText.position.y + this.titleText.height + 64;
+        this.text1 = new game.Text(this.text1, { align: "center", fill: "white", font: App.pX(2.5)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(80)} );
+        this.text1.position.x = App.pX(50) - (this.text1.width / 2);
+        this.text1.position.y = this.titleText.position.y + this.titleText.height + App.pY(10);
         this.text1.tint = 0x000000;
 
         this.image1 = new game.Sprite(this.img1[0]);
-        this.image1.width = this.img1[1];
-        this.image1.height = this.img1[2];
-        this.image1.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.image1.width / 2);
-        this.image1.position.y = this.text1.position.y + this.text1.height + 24;
-
+        this.image1.ratio = this.img1[1]/this.img1[2]
+        this.image1.height = App.pY(10);
+        this.image1.width = App.pY(10) * this.image1.ratio;
+        this.image1.position.y = this.text1.position.y + this.text1.height + App.pY(5);
+        
         if(this.text2 !== "") {
-            this.text2 = new game.Text(this.text2, { align: "center", fill: "white", font: '28px sans-serif', wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 1.2) } );
-            this.text2.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text2.width / 2);
-            this.text2.position.y = this.image1.position.y + this.image1.height + 24;
+            this.text2 = new game.Text(this.text2, { align: "center", fill: "white", font: App.pX(2.5)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(80) } );
+            this.text2.position.x = App.pX(50) - (this.text2.width / 2);
             this.text2.tint = 0x000000;
         }
 
-        this.playText = new game.Text( "Play".toUpperCase(), { fill: "white", font: 'bold 38px sans-serif' } );
+        this.playText = new game.Text( "Play".toUpperCase(), { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
         this.playText.tint = this.colour2;
-        this.playText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.playText.width / 2);
+        this.playText.position.x = App.pX(50) - (this.playText.width / 2);
 
         if(this.img2[0] !== "") {
             this.image2 = new game.Sprite(this.img2[0]);
-            this.image2.width = this.img2[1];
-            this.image2.height = this.img2[2];
-            this.image2.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.image2.width / 2);
-            this.image2.position.y = this.text2.position.y + this.text2.height + 24;
-        } 
+            this.image2.ratio = this.img2[1]/this.img2[2]
+            this.image2.height = App.pY(10);
+            this.image2.width = App.pY(10) * this.image2.ratio;
+            this.image2.position.x = App.pX(50) - (this.image2.width / 2);
+        }  else {
+            this.image1.height = App.pY(20);
+            this.image1.width = App.pY(20) * this.image1.ratio;
+        }
 
-        this.playText.position.y = this.bg.position.y + this.bg.height - 48;
+        this.image1.position.x = App.pX(50) - (this.image1.width / 2);
+        this.text2.position.y = this.image1.position.y + this.image1.height + App.pY(5);
+        if(this.img2[0] !== "") {
+            this.image2.position.y = this.text2.position.y + this.text2.height + App.pY(5);
+        }
+        this.playText.position.y = this.bg.position.y + this.bg.height;
 
         this.button = new game.Graphics();
         this.button.beginFill(this.colour4); 
         App.roundRect(this.button, 0, 0, this.playText.width + 64, this.playText.height + 24, 24, 24, 24, 24);
         this.button.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.playText.width / 2) - 32;
-        this.button.position.y = this.playText.position.y - 12;
+        this.button.position.y = this.playText.position.y - 16;
         this.button.interactive = true;
         this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.playText.width + 24, this.playText.height + 24);
         this.button.tap = this.button.click = this.go.bind(this);
         this.button.alpha = 0;
-
-        this.wipe = new game.Graphics();
-        this.wipe.beginFill(this.colour2); 
-        this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
-        this.wipe.position.x = 0;
-        this.wipe.position.y = 0;
-        var wipeTween = new game.Tween(this.wipe).to({ alpha: 0 }, 500);
 
         this.container.addChild(this.fade);
         this.container.addChild(this.bg);
@@ -439,10 +439,7 @@ game.createClass(App.GameIntro, {
         }
 
         this.container.addChild(this.titleText);
-        this.container.addChild(this.wipe);
         game.scene.stage.addChild(this.container);
-
-        wipeTween.start();
 
     },
 
@@ -466,7 +463,10 @@ game.createClass(App.GameOutro, {
         // Container
         this.container = new game.Container();
         //this.container.scale.set(App.deviceScale(), App.deviceScale());
-        
+
+        // Get level
+        this.level = game.storage.get("CurrentLevel");
+
         // Colours
         this.colour1 = App.currentPalette[0]; // Dark
         this.colour2 = App.currentPalette[1]; // Med
@@ -482,54 +482,61 @@ game.createClass(App.GameOutro, {
 
         this.bg = new game.Graphics();
         this.bg.beginFill(0xFFFFFF); 
-        App.roundRect(this.bg, 96, 64, (game.system.width / App.deviceScale()) - 192, (game.system.height / App.deviceScale()) - 128, 24, 24, 24, 24);
+        App.roundRect(this.bg, App.pX(5), App.pY(10), App.pX(90), App.pY(85), App.pX(3), App.pX(3), App.pX(3), App.pX(3));
         this.bg.beginFill(this.colour2);
-        App.roundRect(this.bg, 96, 64, (game.system.width / App.deviceScale()) - 192, 180, 24, 24, 0, 0);
+        App.roundRect(this.bg, App.pX(5), App.pY(10), App.pX(90), App.pY(26), App.pX(3), App.pX(3), 0, 0);
         this.bg.endFill();
 
-        this.titleText1 = new game.Text(this.title, { align: "center", fill: "white", font: '44px sans-serif' } );
-        this.titleText1.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.titleText1.width / 2);
-        this.titleText1.position.y = 112;
+        this.titleText1 = new game.Text(this.title, { fill: "white", font: App.pX(4)+'px sans-serif' } );
+        this.titleText1.position.x = App.pX(50) - (this.titleText1.width / 2);
+        this.titleText1.position.y = App.pY(18);
 
         this.iconBg = new game.Graphics();
         this.iconBg.beginFill(0xFFFFFF); 
-        this.iconBg.drawCircle(0,0,48);
+        this.iconBg.drawCircle(0,0,App.pX(4));
         this.iconBg.endFill();
-        this.iconBg.position.x = ((game.system.width / App.deviceScale()) / 2);
-        this.iconBg.position.y = 64;
+        this.iconBg.position.x = App.pX(50);
+        this.iconBg.position.y = App.pY(10);
 
         this.titleIcon = new game.Sprite(this.icon);
-        this.titleIcon.position.x = ((game.system.width / App.deviceScale()) / 2) - 48;
-        this.titleIcon.position.y = 16;
+        this.titleIcon.anchor.set(0.5,0.5);
+        this.titleIcon.width = App.pX(8);
+        this.titleIcon.height = App.pX(8);
+        this.titleIcon.position.x = App.pX(50);
+        this.titleIcon.position.y = App.pY(10);
         this.titleIcon.tint = this.colour2;
 
-        this.titleText2 = new game.Text( "\""+ game.storage.get("CurrentAppName") +"\"", { align: "center", fill: "white", font: 'bold 44px sans-serif' } );
-        this.titleText2.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.titleText2.width / 2);
-        this.titleText2.position.y = 164;
+        this.titleText2 = new game.Text( "\""+ game.storage.get("CurrentAppName") +"\"", { align: "center", fill: "white", font: 'bold '+App.pX(4)+'px sans-serif' } );
+        this.titleText2.position.x = App.pX(50) - (this.titleText2.width / 2);
+        this.titleText2.position.y = App.pY(26);
 
-        this.text1 = new game.Text("Score", { align: "center", fill: "white", font: '32px sans-serif' } );
-        this.text1.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text1.width / 2);
-        this.text1.position.y = this.titleText2.position.y + this.titleText2.height + 56;
+        this.text1 = new game.Text("Score", { align: "center", fill: "white", font: App.pX(3)+'px sans-serif' } );
+        this.text1.position.x = App.pX(50) - (this.text1.width / 2);
+        this.text1.position.y = this.titleText2.position.y + this.titleText2.height + App.pY(10);
         this.text1.tint = 0x000000;
 
         this.shape = new game.Sprite(this.shape);
-        this.shape.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.shape.width / 2);
-        this.shape.position.y = ((game.system.height / App.deviceScale()) / 2) - (this.shape.height / 2) + 72;
+        this.shape.anchor.set(0.5,0.5);
+        this.shape.width = App.pX(15);
+        this.shape.height = App.pX(15);
+        this.shape.position.x = App.pX(50);
+        this.shape.position.y = App.pY(65);
 
-        this.scoreText = new game.Text(this.score, { fill: "white", font: 'bold 64px sans-serif' } );
-        this.scoreText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.scoreText.width / 2);
-        this.scoreText.position.y = this.shape.position.y + (this.shape.height / 2) - (this.scoreText.height / 2);
-        
-        this.nextText = new game.Text( "Next".toUpperCase(), { fill: "white", font: 'bold 48px sans-serif' } );
+        this.scoreText = new game.Text(this.score, { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+        this.scoreText.anchor.set(0.5,0.5);
+        this.scoreText.position.x = App.pX(50);
+        this.scoreText.position.y = App.pY(65);
+
+        this.nextText = new game.Text( "Next".toUpperCase(), { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
         this.nextText.tint = this.colour2;
-        this.nextText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.nextText.width / 2);
-        this.nextText.position.y = (game.system.height / App.deviceScale()) - 168;
+        this.nextText.position.x = App.pX(50) - (this.nextText.width / 2);
+        this.nextText.position.y = this.bg.position.y + this.bg.height;
 
         this.button = new game.Graphics();
         this.button.beginFill(this.colour4); 
         App.roundRect(this.button, 0, 0, this.nextText.width + 64, this.nextText.height + 24, 24, 24, 24, 24);
         this.button.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.nextText.width / 2) - 32;
-        this.button.position.y = (game.system.height / App.deviceScale()) - 180;
+        this.button.position.y = this.nextText.position.y - 16;
         this.button.interactive = true;
         this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.nextText.width + 24, this.nextText.height + 24);
         this.button.tap = this.button.click = this.go.bind(this);
