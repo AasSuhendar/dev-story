@@ -465,7 +465,7 @@ game.createClass(App.GameOutro, {
 
         // Container
         this.container = new game.Container();
-        this.container.scale.set(App.deviceScale(), App.deviceScale());
+        //this.container.scale.set(App.deviceScale(), App.deviceScale());
         
         // Colours
         this.colour1 = App.currentPalette[0]; // Dark
@@ -476,7 +476,7 @@ game.createClass(App.GameOutro, {
         // Objects
         this.fade = new game.Graphics();
         this.fade.beginFill(this.colour4); 
-        this.fade.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
+        this.fade.drawRect(0, 0, App.pX(100), App.pY(100));
         this.fade.endFill();
         this.fade.alpha = 0.75;
 

@@ -151,11 +151,13 @@ game.module(
                 // Check loader started
                 if(this.loader.started) {
 
-                    // Move the bar
-                    this.bar.position.x = App.pX(this.loader.percent);
-
                     // If bar is finished
-                    if(this.loader.percent === 100) {
+                    if(this.loader.percent < 100) {
+
+                        // Move the bar
+                        this.bar.position.x = -App.pX(100) + App.pX(this.loader.percent);
+
+                    } else {
 
                         // Remove the loading screen
                         this.stage.removeChild(this.loading);

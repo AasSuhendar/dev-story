@@ -152,7 +152,7 @@ game.module(
 
         loaded: function(){
 
-            var img_ratio, titleTween, wipeTween, heroTween, 
+            var titleTween, wipeTween, heroTween, 
                 i, menuItems = [
                     "Play", 
                     "Get involved", 
@@ -168,19 +168,19 @@ game.module(
             //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Objects
-            this.code = new game.PIXI.Sprite.fromImage('media/home/code.png', 0, 0);
-            img_ratio = this.code.width / this.code.height;
+            this.code = new game.Sprite('home/code.png');
+            this.code.ratio = this.code.width / this.code.height;
             this.code.height = App.pY(100);
-            this.code.width = this.code.height * img_ratio;
+            this.code.width = this.code.height * this.code.ratio;
             this.code.position.x = 0;
             this.code.position.y = 0;
 
-            this.title = new game.Sprite('home/title.png', 745, 224);
-            img_ratio = this.title.height / this.title.width;
-            this.title.width = App.pY(75);
-            this.title.height = this.title.width * img_ratio;
+            this.title = new game.Sprite('home/title.png');
+            this.title.ratio = this.title.height / this.title.width;
+            this.title.width = App.pX(60);
+            this.title.height = this.title.width * this.title.ratio;
             this.title.anchor.set(0.5, 0.5);
-            this.title.position.x = App.pY(66);
+            this.title.position.x = App.pX(40);
             this.title.position.y = App.pY(30);
             this.title.oScale = this.title.scale;
             this.title.scale = { x:0, y: 0 };
@@ -189,7 +189,7 @@ game.module(
                 .to({ x: this.title.oScale.x, y: this.title.oScale.y }, 250)
                 .easing(game.Tween.Easing.Back.Out);
 
-            this.hero = new game.PIXI.Sprite.fromImage('media/home/hero.png', 0, 0);
+            this.hero = new game.Sprite('media/home/hero.png');
             this.hero.height = App.pY(80);
             this.hero.width = App.pY(80);
             this.hero.anchor.set(0.5, 0.5);
@@ -247,11 +247,14 @@ game.module(
                 // Check loader started
                 if(this.loader.started) {
 
-                    // Move the bar
-                    this.bar.position.x = App.pX(this.loader.percent);
 
                     // If bar is finished
-                    if(this.loader.percent === 100) {
+                    if(this.loader.percent < 100) {
+
+                        // Move the bar
+                        this.bar.position.x = -App.pX(100) + App.pX(this.loader.percent);
+
+                    } else {
 
                         // Remove the loading screen
                         this.stage.removeChild(this.loading);
@@ -376,7 +379,7 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
             this.back.width = 48;
@@ -390,26 +393,27 @@ game.module(
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
             };
 
-            this.text1 = new game.Text("About the app".toUpperCase(), { fill: "white", font: 'bold 64px sans-serif' } );
-            this.text1.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text1.width / 2);
-            this.text1.position.y = 48;
+            this.text1 = new game.Text("About the app".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.text1.anchor.set(0.5, 0.5);
+            this.text1.position.x = App.pX(50);
+            this.text1.position.y = App.pY(15);
 
             this.carousel_position = 0;
 
-            this.text2 = new game.Text("Intel challenged a small team of developers to build an open source app. They created Dev Story/*HACK THE CODE*/, a set of mini-challenges about the development cycle of an app. But it’s not finished yet.\n\nYou’ve downloaded the app. Now it’s over to you...\n\nWe’re bringing developers together from around the world to build something special and unique. So whether you’re honing your skills or flexing your coding muscles, you can modify and shape the open source code however you choose.\n\nIf your code makes the cut, you’ll see it in the next update. And you’ll take the credit.\n\nTo get involved, head to the Intel® Developer Zone where the code is available to download. You’ll also find free tools, tutorials and support from a network of Android developers.\n\nWe can’t wait to see what you create.", { fill: "white", font: '32px sans-serif', wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 1.5) } );
-            this.text2.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text2.width / 2);
-            this.text2.position.y = this.text1.position.y + this.text1.height + 48;
+            this.text2 = new game.Text("Intel challenged a small team of developers to build an open source app. They created Dev Story/*HACK THE CODE*/, a set of mini-challenges about the development cycle of an app. But it’s not finished yet.\n\nYou’ve downloaded the app. Now it’s over to you...\n\nWe’re bringing developers together from around the world to build something special and unique. So whether you’re honing your skills or flexing your coding muscles, you can modify and shape the open source code however you choose.\n\nIf your code makes the cut, you’ll see it in the next update. And you’ll take the credit.\n\nTo get involved, head to the Intel® Developer Zone where the code is available to download. You’ll also find free tools, tutorials and support from a network of Android developers.\n\nWe can’t wait to see what you create.", { fill: "white", font: App.pX(2.5)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(75) } );
+            this.text2.position.x = App.pX(50) - (this.text2.width / 2);
+            this.text2.position.y = this.text1.position.y + this.text1.height + App.pY(5);
 
-            this.text3 = new game.Text( "Let’s go".toUpperCase(), { fill: "white", font: 'bold 64px sans-serif' } );
+            this.text3 = new game.Text( "Let’s go".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
             this.text3.tint = 0xce5064;
-            this.text3.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text3.width / 2);
-            this.text3.position.y = this.text2.position.y + this.text2.height + 48;
+            this.text3.position.x = App.pX(50) - (this.text3.width / 2);
+            this.text3.position.y = this.text2.position.y + this.text2.height + App.pY(5);
        
             this.button = new game.Graphics();
             this.button.beginFill(this.colour4); 
             this.button.drawRect(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.position.x = this.text3.position.x - 24;
-            this.button.position.y = this.text3.position.y - 12;
+            this.button.position.y = this.text3.position.y - 16;
             this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.tap = this.button.click = function() {
@@ -421,35 +425,35 @@ game.module(
 
             this.facebook = new game.PIXI.Sprite.fromImage("media/home/facebook.png");
             this.facebook.anchor.set(0.5,0.5);
-            this.facebook.width = 80;
-            this.facebook.height = 80;
-            this.facebook.position.x = (game.system.width / App.deviceScale()) - 128;
-            this.facebook.position.y = this.text2.position.y + this.text2.height + 80;
+            this.facebook.width = App.pX(5);
+            this.facebook.height = App.pX(5);
+            this.facebook.position.x = App.pX(90);
+            this.facebook.position.y = this.text2.position.y + this.text2.height + App.pY(8);
             this.facebook.interactive = true;
             this.facebook.hitArea = new game.PIXI.Rectangle(-40, -40, 80, 80);
             this.facebook.tap = this.facebook.click = this.share_facebook.bind(this);
 
             this.twitter = new game.PIXI.Sprite.fromImage("media/home/twitter.png");
             this.twitter.anchor.set(0.5,0.5);
-            this.twitter.width = 80;
-            this.twitter.height = 80;
-            this.twitter.position.x = this.facebook.position.x - this.twitter.width - 32;
-            this.twitter.position.y = this.text2.position.y + this.text2.height + 80;
+            this.twitter.width = App.pX(5);
+            this.twitter.height = App.pX(5);
+            this.twitter.position.x = this.facebook.position.x - this.twitter.width - App.pX(2);
+            this.twitter.position.y = this.text2.position.y + this.text2.height + App.pY(8);
             this.twitter.interactive = true;
             this.twitter.hitArea = new game.PIXI.Rectangle(-40, -40, 80, 80);
             this.twitter.tap = this.twitter.click = this.share_twitter.bind(this);
 
             this.scrollbar = new game.Graphics();
             this.scrollbar.beginFill(0xFFFFFF);
-            this.scrollbar.drawRect(0, 0, 12, 200);
+            this.scrollbar.drawRect(0, 0, App.pX(1), App.pY(20));
             this.scrollbar.endFill();
-            this.scrollbar.position.x = (game.system.width / App.deviceScale()) - 12;
+            this.scrollbar.position.x = App.pX(99);
             this.scrollbar.position.y = 0;
             this.scrollbar.alpha = 0.5;
 
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()) * 5);
+            this.wipe.drawRect(0, 0, App.pX(100), App.pY(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             var wipeTween = new game.Tween(this.wipe).to({ alpha: 0 }, 500);
@@ -466,8 +470,16 @@ game.module(
             this.container.addChild(this.back);
             this.container.addChild(this.wipe);
             this.stage.addChild(this.container);
-            this.stageHeight = this.text2.position.y + this.text2.height + 180 - (game.system.height / App.deviceScale());
-            this.remainingHeight = (game.system.height / App.deviceScale()) - this.scrollbar.height;
+
+            this.stageHeight = this.text2.position.y + this.text2.height + App.pY(20);
+
+            // Recaclculate stage height
+            if(this.stageHeight >= App.pY(100)) {
+                this.stageHeight -= App.pY(100);
+            }
+
+            this.remainingHeight = App.pY(100) - this.scrollbar.height;
+
             wipeTween.start();
 
         },
@@ -507,7 +519,7 @@ game.module(
             if(this.movement) {
 
                 // Move container
-                this.container.position.y = -this.movementY * App.deviceScale();
+                this.container.position.y = -this.movementY;
                 this.scrollbar.position.y = this.movementY + (this.remainingHeight * (this.movementY / this.stageHeight));
 
             }
@@ -572,7 +584,7 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.games = App.LevelList[this.level].games;
 
@@ -597,20 +609,20 @@ game.module(
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
             };
 
-            this.text2 = new game.Text("You’re a kick ass developer. The rest of the world just doesn’t know it yet. It’s time to get your killer app out there. But you’ve got to build it from scratch and that’s easier said than done. Have you got what it takes to make it a worldwide success? It’s all down to you.", { fill: "white", font: '32px sans-serif', align: "center", wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 1.5) } );
-            this.text2.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text2.width / 2);
-            this.text2.position.y = ((game.system.height / App.deviceScale()) / 2) - (this.text2.height / 2) - 128;
+            this.text2 = new game.Text("You’re a kick ass developer. The rest of the world just doesn’t know it yet. It’s time to get your killer app out there. But you’ve got to build it from scratch and that’s easier said than done. Have you got what it takes to make it a worldwide success? It’s all down to you.", { fill: "white", font: App.pX(3)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(66) } );
+            this.text2.position.x = App.pX(50) - (this.text2.width / 2);
+            this.text2.position.y = App.pY(35) - (this.text2.height / 2);
 
-            this.text3 = new game.Text( "Continue".toUpperCase(), { fill: "white", font: 'bold 64px sans-serif' } );
+            this.text3 = new game.Text( "Continue".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
             this.text3.tint = 0xce5064;
-            this.text3.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text3.width / 2);
-            this.text3.position.y = this.text2.position.y + this.text2.height + 48;
+            this.text3.position.x = App.pX(50) - (this.text3.width / 2);
+            this.text3.position.y = this.text2.position.y + this.text2.height + App.pY(5);
        
             this.button = new game.Graphics();
             this.button.beginFill(this.colour4); 
             this.button.drawRect(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.position.x = this.text3.position.x - 24;
-            this.button.position.y = this.text3.position.y - 12;
+            this.button.position.y = this.text3.position.y - 16;
             this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.tap = this.button.click = function() {
@@ -624,20 +636,21 @@ game.module(
             };
             this.button.alpha = 0;
 
-            this.hero = new game.PIXI.Sprite.fromImage("media/home/about_hero.png");
-            this.hero.width = 320;
-            this.hero.height = 320;
+            this.hero = new game.Sprite("home/about_hero.png");
+            this.hero.width = App.pX(25);
+            this.hero.height = App.pX(25);
             this.hero.anchor.set(0.5, 1);
-            this.hero.position.x = (game.system.width / App.deviceScale()) / 2;
-            this.hero.position.y = (game.system.height / App.deviceScale());
+            this.hero.oScale = this.hero.scale;
+            this.hero.position.x = App.pX(50);
+            this.hero.position.y = App.pY(100);
             this.hero.scale = { x: 0, y: 0 };
             heroTween = new game.Tween(this.hero.scale)
-                .to({ x: 1, y: 1 }, 250)
+                .to({ x: this.hero.oScale.x, y: this.hero.oScale.y }, 250)
                 .easing(game.Tween.Easing.Back.Out);
 
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()) * 5);
+            this.wipe.drawRect(0, 0, App.pX(100), App.pY(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             wipeTween = new game.Tween(this.wipe).to({ alpha: 0 }, 500);
@@ -898,7 +911,7 @@ game.module(
             this.text1.tint = this.colour4;
 
             this.text2 = new game.Text("Want to be part of Dev Story/*HACK THE CODE*/? We want you to take the reins (and the credit). Here's how.", { fill: "white", font: App.pX(2.5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(50) } );
-            this.text2.position.x = ((game.system.width / App.deviceScale()) / 3) - (this.text2.width / 2);
+            this.text2.position.x = App.pX(33) - (this.text2.width / 2);
             this.text2.position.y = this.text1.position.y + this.text1.height + 48;
             this.text2.tint = this.colour4;
 
@@ -1186,7 +1199,7 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Get Data
             this.level = game.storage.get("CurrentLevel");
@@ -1210,72 +1223,72 @@ game.module(
 
             this.bottom = new game.Graphics();
             this.bottom.beginFill(this.colour2); 
-            this.bottom.drawRect(0, (game.system.height / App.deviceScale()) - 60, (game.system.width / App.deviceScale()), 60);
+            this.bottom.drawRect(0, App.pY(95), App.pX(100), App.pY(5));
             this.bottom.endFill();
 
-            this.text4 = new game.Text( "High Score: " + this.rating + "%", { fill: "white", font: '32px sans-serif' } );
-            this.text4.position.x = (game.system.width / App.deviceScale()) - this.text4.width - 48;
-            this.text4.position.y = 48;
+            this.text4 = new game.Text( "High Score: " + this.rating + "%", { fill: "white", font: App.pX(3)+'px sans-serif' } );
+            this.text4.position.x = App.pX(97) - this.text4.width;
+            this.text4.position.y = App.pY(5);
             this.text4.tint = this.colour4;
 
             if(this.rating > 70) {
-                this.wreath = new game.PIXI.Sprite.fromImage("media/home/star_3.png");
+                this.wreath = new game.Sprite("home/star_3.png");
             } else if(this.rating > 60) {
-                this.wreath = new game.PIXI.Sprite.fromImage("media/home/star_2.png");
+                this.wreath = new game.Sprite("home/star_2.png");
             } else if(this.rating > 50) {
-                this.wreath = new game.PIXI.Sprite.fromImage("media/home/star_1.png");
+                this.wreath = new game.Sprite("home/star_1.png");
             } else {
-                this.wreath = new game.PIXI.Sprite.fromImage("media/home/star_0.png");
+                this.wreath = new game.Sprite("home/star_0.png");
             }
 
-            this.wreath.width = 120;
-            this.wreath.height = 120;
-            this.wreath.position.x = ((game.system.width / App.deviceScale()) / 4) - (this.wreath.width / 2);
-            this.wreath.position.y = 48;
+            this.wreath.width = App.pX(10);
+            this.wreath.height = App.pX(10);
+            this.wreath.position.x = App.pX(25) - (this.wreath.width / 2);
+            this.wreath.position.y = App.pY(5);
             this.wreath.tint = this.colour4;
 
-            this.text1 = new game.Text( this.name, { fill: "white", font: 'bold 48px sans-serif' } );
-            this.text1.position.x = ((game.system.width / App.deviceScale()) / 4) - (this.text1.width / 2);
-            this.text1.position.y = this.wreath.position.y + this.wreath.height  + 16;
+            this.text1 = new game.Text( this.name, { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
+            this.text1.position.x = App.pX(25) - (this.text1.width / 2);
+            this.text1.position.y = this.wreath.position.y + this.wreath.height + App.pY(2);
             this.text1.tint = this.colour4;
 
-            this.text2 = new game.Text( this.title, { fill: "white", font: '48px sans-serif' } );
-            this.text2.position.x = ((game.system.width / App.deviceScale()) / 4) - (this.text2.width / 2);
-            this.text2.position.y = this.text1.position.y + this.text1.height  + 16;
+            this.text2 = new game.Text( this.title, { fill: "white", font: App.pX(3)+'px sans-serif' } );
+            this.text2.position.x = App.pX(25) - (this.text2.width / 2);
+            this.text2.position.y = this.text1.position.y + this.text1.height + App.pY(2);
             this.text2.tint = this.colour4;
 
-            this.text5 = new game.Text( this.description, { fill: "white", align: "center", font: '28px sans-serif', wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 2.5) } );
-            this.text5.position.x = ((game.system.width / App.deviceScale()) / 4) - (this.text5.width / 2);
-            this.text5.position.y = this.text2.position.y + this.text2.height  + 48;
+            this.text5 = new game.Text( this.description, { fill: "white", align: "center", font: App.pX(2.5)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(40) } );
+            this.text5.position.x = App.pX(25) - (this.text5.width / 2);
+            this.text5.position.y = this.text2.position.y + this.text2.height + App.pY(10);
             this.text5.tint = this.colour4;
 
             this.keyline = new game.Graphics();
             this.keyline.beginFill(this.colour4); 
             this.keyline.drawRect(
-                ((game.system.width / App.deviceScale()) / 4) - (this.text5.width / 2), 
-                this.text2.position.y + this.text2.height  + 32, 
+                App.pX(25) - (this.text5.width / 2), 
+                this.text2.position.y + this.text2.height  + App.pY(5), 
                 this.text5.width, 
-                1.5
+                App.pY(0.25)
             );
 
             this.keyline.endFill();
 
-            this.icons = new game.PIXI.Sprite.fromImage("media/home/level_"+(this.level+1)+"_games.png");
-            this.icons.width = 300;
-            this.icons.height = 300;
-            this.icons.position.x = ((game.system.width / App.deviceScale()) / 4) - (this.icons.width / 2);
-            this.icons.position.y = this.text5.position.y + this.text5.height + 64 - (this.icons.height / 2);
+            this.icons = new game.Sprite("home/level_"+(this.level+1)+"_games.png");
+            this.icons.width = App.pX(30);
+            this.icons.height = App.pX(30);
+            this.icons.position.x = App.pX(25) - (this.icons.width / 2);
+            this.icons.position.y = this.text5.position.y + this.text5.height + App.pY(10) - (this.icons.height / 2);
 
-            this.text3 = new game.Text( "Play".toUpperCase(), { fill: "white", font: 'bold 48px sans-serif' } );
+            this.text3 = new game.Text( "Play".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
             this.text3.tint = this.colour3;
-            this.text3.position.x = ((game.system.width / App.deviceScale()) / 4) - (this.text3.width / 2);
-            this.text3.position.y = this.icons.position.y + (this.icons.height / 2) + 64;
+            this.text3.position.x = App.pX(25) - (this.text3.width / 2);
+            this.text3.position.y = this.icons.position.y + (this.icons.height / 2) + App.pY(15);
 
             this.button = new game.Graphics();
             this.button.beginFill(this.colour2); 
             this.button.drawRect(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.position.x = this.text3.position.x - 24;
-            this.button.position.y = this.text3.position.y - 12;
+            this.button.position.y = this.text3.position.y - 16;
             this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.tap = this.button.click = function() {
@@ -1293,23 +1306,25 @@ game.module(
 
             this.button.alpha = 0;
 
-            this.heroBg = new game.PIXI.Sprite.fromImage("media/home/level_"+(this.level+1)+"_hero_bg.png");
-            this.heroBg.height = (game.system.height / App.deviceScale()) - 60;
-            this.heroBg.width = (game.system.height / App.deviceScale()) - 60;
-            this.heroBg.position.x = (game.system.width / App.deviceScale());
-            this.heroBg.position.y = 0;
+            this.heroBg = new game.Sprite("media/home/level_"+(this.level+1)+"_hero_bg.png");
+            this.heroBg.anchor.set(0,1);
+            this.heroBg.width = App.pX(60);
+            this.heroBg.height = App.pX(60);
+            this.heroBg.position.x = App.pX(100);
+            this.heroBg.position.y = App.pY(100);
 
             heroBgTween = new game.Tween(this.heroBg.position);
-            heroBgTween.to({ x: (game.system.width / App.deviceScale()) - (this.heroBg.width * 0.9) }, 1500).easing(game.Tween.Easing.Quartic.Out);
+            heroBgTween.to({ x: App.pX(45) }, 1500).easing(game.Tween.Easing.Quartic.Out);
 
-            this.heroFg = new game.PIXI.Sprite.fromImage("media/home/level_"+(this.level+1)+"_hero_fg.png");
-            this.heroFg.height = (game.system.height / App.deviceScale());
-            this.heroFg.width = (game.system.height / App.deviceScale());
-            this.heroFg.position.x = (game.system.width / App.deviceScale()) * 1.3;
-            this.heroFg.position.y = 0;
+            this.heroFg = new game.Sprite("home/level_"+(this.level+1)+"_hero_fg.png");
+            this.heroFg.anchor.set(0,1);
+            this.heroFg.height = App.pX(60);
+            this.heroFg.width = App.pX(60);
+            this.heroFg.position.x = App.pX(130);
+            this.heroFg.position.y = App.pY(100);
 
             heroFgTween = new game.Tween(this.heroFg.position);
-            heroFgTween.to({ x: (game.system.width / App.deviceScale()) - this.heroFg.width }, 1500).easing(game.Tween.Easing.Quartic.Out);
+            heroFgTween.to({ x: App.pX(45) }, 1500).easing(game.Tween.Easing.Quartic.Out);
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
             this.back.width = 48;
@@ -1325,7 +1340,7 @@ game.module(
 
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()) * 5);
+            this.wipe.drawRect(0, 0, App.pX(100), App.pY(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             wipeTween = new game.Tween(this.wipe).to({ alpha: 0 }, 500);
@@ -1367,7 +1382,7 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Get Data
             this.level = game.storage.get("CurrentLevel");
@@ -1431,57 +1446,60 @@ game.module(
 
             this.bottom = new game.Graphics();
             this.bottom.beginFill(this.colour2); 
-            this.bottom.drawRect(0, (game.system.height / App.deviceScale()) - 48, (game.system.width / App.deviceScale()), 48);
+            this.bottom.drawRect(0, App.pY(95), App.pX(100), App.pY(5));
             this.bottom.endFill();
 
-            this.hero = new game.PIXI.Sprite.fromImage("media/home/level_"+(this.level+1)+"_outro.png");
-            this.hero.height = 720;
-            this.hero.width = 720;
-            this.hero.position.x = (game.system.width / App.deviceScale()) - this.hero.width;
-            this.hero.position.y = (game.system.height / App.deviceScale()) - this.hero.height;
+            this.hero = new game.Sprite.fromImage("media/home/level_"+(this.level+1)+"_outro.png");
+            this.hero.anchor.set(0,1);
+            this.hero.width = App.pX(60);
+            this.hero.height = App.pX(60);
+            this.hero.position.x = App.pX(40);
+            this.hero.position.y = App.pY(102);
 
-            this.appName = new game.Text(game.storage.get("CurrentAppName"), { fill: "white", font: '60px sans-serif' } );
-            this.appName.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.appName.width / 2);
-            this.appName.position.y = 48;
+            this.appName = new game.Text(game.storage.get("CurrentAppName"), { fill: "white", font: App.pX(4)+'px sans-serif' } );
+            this.appName.position.x = App.pX(50) - (this.appName.width / 2);
+            this.appName.position.y = App.pY(10);
             this.appName.tint = this.colour3;
 
-            this.nextText = new game.Text( "Next".toUpperCase(), { fill: "white", font: 'bold 64px sans-serif' } );
+            this.nextText = new game.Text( "Next".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
             this.nextText.tint = this.colour3;
-            this.nextText.position.x = (game.system.width / App.deviceScale()) - this.nextText.width - 48;
-            this.nextText.position.y = ((game.system.height / App.deviceScale()) / 2) + 220;
+            this.nextText.position.x = App.pX(95) - this.nextText.width;
+            this.nextText.position.y = App.pY(85);
 
             if(this.overallScore > 70) {
-                this.stars = new game.PIXI.Sprite.fromImage("media/home/stars_3.png");
+                this.stars = new game.Sprite.fromImage("media/home/stars_3.png");
             } else if(this.overallScore > 60) {
-                this.stars = new game.PIXI.Sprite.fromImage("media/home/stars_2.png");
+                this.stars = new game.Sprite.fromImage("media/home/stars_2.png");
             } else if(this.overallScore > 50) {
-                this.stars = new game.PIXI.Sprite.fromImage("media/home/stars_1.png");
+                this.stars = new game.Sprite.fromImage("media/home/stars_1.png");
             } else {
-                this.stars = new game.PIXI.Sprite.fromImage("media/home/stars_0.png");
+                this.stars = new game.Sprite.fromImage("media/home/stars_0.png");
             }
 
-            this.stars.width = 180;
-            this.stars.height = 180;
-            this.stars.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.stars.width / 2);
-            this.stars.position.y = this.appName.position.y + this.appName.height;
+            this.stars.width = App.pX(20);
+            this.stars.height = App.pX(20);
+            this.stars.anchor.set(0.5,0.5);
+            this.stars.position.x = App.pX(50);
+            this.stars.position.y = App.pY(30);
             this.stars.tint = this.colour4;
 
-            this.scoreText = new game.Text(this.overallScore + "%", { fill: "white", align: "center", font: 'bold 64px sans-serif' } );
-            this.scoreText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.scoreText.width / 2);
-            this.scoreText.position.y = this.stars.position.y + this.stars.height - (this.stars.height/5);
+            this.scoreText = new game.Text(this.overallScore + "%", { fill: "white", align: "center", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.scoreText.position.x = App.pX(50) - (this.scoreText.width / 2);
+            this.scoreText.position.y = this.stars.position.y + App.pY(10);
             this.scoreText.tint = this.colour4;
         
             if(this.overallScore > 50) {
                 
                 this.wreath = new game.PIXI.Sprite.fromImage("media/home/quote.png");
                 this.wreath.anchor.set(0.5,0.5);
-                this.wreath.width = 915;
-                this.wreath.height = 168;
-                this.wreath.position.x = ((game.system.width / App.deviceScale()) / 2);
-                this.wreath.position.y = this.scoreText.position.y + this.scoreText.height + 128;
+                this.wreath.ratio = 168/915;
+                this.wreath.width = App.pX(75);
+                this.wreath.height = App.pX(75) * this.wreath.ratio;
+                this.wreath.position.x = App.pX(50);
+                this.wreath.position.y = this.scoreText.position.y + this.scoreText.height + App.pY(15);
                 this.wreath.tint = this.colour4;
 
-                this.feedback = new game.Text("\"" + feedback[0] + "\"", { fill: "white", align: "center", font: 'bold 40px sans-serif', wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 1.8) } );
+                this.feedback = new game.Text("\"" + feedback[0] + "\"", { fill: "white", align: "center", font: 'bold 40px sans-serif', wordWrap: true, wordWrapWidth: App.pX(50) } );
                 this.feedback.position.x = -(this.feedback.width / 2);
                 this.feedback.position.y = -72;
                 this.feedback.tint = this.colour4;
@@ -1495,14 +1513,14 @@ game.module(
                 this.wreath.addChild(this.author);
                 this.container.addChild(this.wreath);
             } else {
-                this.feedback1 = new game.Text("Wow this app sucks!", { fill: "white", align: "center", font: 'bold 40px sans-serif' } );
-                this.feedback1.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.feedback1.width / 2);
-                this.feedback1.position.y = this.scoreText.position.y + this.scoreText.height + 48;
+                this.feedback1 = new game.Text("Wow this app sucks!", { fill: "white", align: "center", font: 'bold '+App.pX(4)+'px sans-serif' } );
+                this.feedback1.position.x = App.pX(50) - (this.feedback1.width / 2);
+                this.feedback1.position.y = this.scoreText.position.y + this.scoreText.height + App.pY(10);
                 this.feedback1.tint = this.colour4;
 
-                this.feedback2 = new game.Text("You need at least 1 star to progress to the next level", { fill: "white", align: "center", font: '32px sans-serif' } );
-                this.feedback2.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.feedback2.width / 2);
-                this.feedback2.position.y = this.feedback1.position.y + this.feedback1.height + 16;
+                this.feedback2 = new game.Text("You need at least 1 star to progress to the next level", { fill: "white", align: "center", font: App.pX(2.5)+'px sans-serif' } );
+                this.feedback2.position.x = App.pX(50) - (this.feedback2.width / 2);
+                this.feedback2.position.y = this.feedback1.position.y + this.feedback1.height + App.pY(5);
                 this.feedback2.tint = this.colour4;
 
                 this.container.addChild(this.feedback1);
@@ -1513,7 +1531,7 @@ game.module(
             this.button.beginFill(this.colour2); 
             this.button.drawRect(0, 0, this.nextText.width + 48, this.nextText.height + 24);
             this.button.position.x = this.nextText.position.x - 24;
-            this.button.position.y = this.nextText.position.y - 12;
+            this.button.position.y = this.nextText.position.y - 16;
             this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.nextText.width + 24, this.nextText.height + 24);
             this.button.tap = this.button.click = function() {
@@ -1528,10 +1546,10 @@ game.module(
             this.facebook = new game.PIXI.Sprite.fromImage("media/home/facebook.png");
             this.facebook.anchor.set(0.5,0.5);
             this.facebook.tint = this.colour3;
-            this.facebook.width = 80;
-            this.facebook.height = 80;
-            this.facebook.position.x = 88;
-            this.facebook.position.y = this.nextText.position.y + 40;
+            this.facebook.width = App.pX(5);
+            this.facebook.height = App.pX(5);
+            this.facebook.position.x = App.pX(5);
+            this.facebook.position.y = App.pY(88);
             this.facebook.interactive = true;
             this.facebook.hitArea = new game.PIXI.Rectangle(-40, -40, 80, 80);
             this.facebook.tap = this.facebook.click = this.share_facebook.bind(this);
@@ -1539,10 +1557,10 @@ game.module(
             this.twitter = new game.PIXI.Sprite.fromImage("media/home/twitter.png");
             this.twitter.anchor.set(0.5,0.5);
             this.twitter.tint = this.colour3;
-            this.twitter.width = 80;
-            this.twitter.height = 80;
-            this.twitter.position.x = this.facebook.position.x + this.twitter.width + 32;
-            this.twitter.position.y = this.nextText.position.y + 40;
+            this.twitter.width = App.pX(5);
+            this.twitter.height = App.pX(5);
+            this.twitter.position.x = this.facebook.position.x + this.facebook.width + App.pX(2);
+            this.twitter.position.y = App.pY(88);
             this.twitter.interactive = true;
             this.twitter.hitArea = new game.PIXI.Rectangle(-40, -40, 80, 80);
             this.twitter.tap = this.twitter.click = this.share_twitter.bind(this);
