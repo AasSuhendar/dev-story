@@ -28,16 +28,12 @@ var game = {
         Current engine version.
         @property {String} version
     **/
-    version: '1.7.0',
+    version: '1.10.1',
     /**
         Engine settings.
         @property {Object} config
     **/
     config: typeof pandaConfig !== 'undefined' ? pandaConfig : {},
-    /**
-        Configurable list of modules, that are loaded from core.
-        @property {Array} coreModules
-    **/
     coreModules: [
         'engine.analytics',
         'engine.audio',
@@ -184,6 +180,7 @@ var game = {
         for (i in obj) {
             keys.push(i);
         }
+        
         keys.sort();
         for (i = 0; i < keys.length; i++) {
             result[keys[i]] = obj[keys[i]];
@@ -238,6 +235,17 @@ var game = {
     },
 
     /**
+        Add multiple assets to loader.
+        @method addAssets
+        @param {Array} assets
+    **/
+    addAssets: function(assets) {
+        for (var i = 0; i < assets.length; i++) {
+            this.addAsset(assets[i]);
+        }
+    },
+
+    /**
         Add audio to loader.
         @method addAudio
         @param {String} path
@@ -250,7 +258,8 @@ var game = {
 
     addFileToQueue: function(path, id, queue) {
         id = id || path;
-        path = this.config.mediaFolder + path + this.nocache;
+        path = path + this.nocache;
+        if (this.config.mediaFolder) path = this.config.mediaFolder + '/' + path;
         if (this.paths[id]) return id;
         this.paths[id] = path;
         if (this[queue].indexOf(path) === -1) this[queue].push(path);
@@ -258,16 +267,49 @@ var game = {
     },
 
     /**
+        Remove asset from memory.
+        @method removeAsset
+        @param {String} id
+    **/
+    removeAsset: function(id) {
+        var path = this.paths[id];
+        if (this.json[path] && this.json[path].frames) {
+            // Sprite sheet
+            for (var key in this.json[path].frames) {
+                this.TextureCache[key].destroy(true);
+                delete this.TextureCache[key];
+            }
+        }
+        else if (this.TextureCache[path]) {
+            // Sprite
+            this.TextureCache[path].destroy(true);
+            delete this.TextureCache[path];
+        }
+        delete this.paths[id];
+    },
+
+    /**
+        Remove all assets from memory.
+        @method removeAssets
+    **/
+    removeAssets: function() {
+        for (var key in this.TextureCache) {
+            this.TextureCache[key].destroy(true);
+            delete this.TextureCache[key];
+        }
+        this.paths = {};
+    },
+
+    /**
         Define new module.
         @method module
         @param {String} name
-        @param {String} [version]
     **/
-    module: function(name, version) {
+    module: function(name) {
         if (this.current) throw('Module ' + this.current.name + ' has no body');
         if (this.modules[name] && this.modules[name].body) throw('Module ' + name + ' is already defined');
 
-        this.current = { name: name, requires: [], loaded: false, body: null, version: version };
+        this.current = { name: name, requires: [], loaded: false, body: null };
         if (name === 'game.main') this.current.requires.push('engine.core');
         this.modules[name] = this.current;
         this.moduleQueue.push(this.current);
@@ -311,18 +353,23 @@ var game = {
     /**
         Start the game engine.
         @method start
-        @param {game.Scene} [scene] Starting scene.
-        @param {Number} [width] Width of canvas.
-        @param {Number} [height] Height of canvas.
-        @param {game.Loader} [loaderClass] Custom loader class.
-        @param {String} [canvasId] Id of canvas element.
     **/
-    start: function(scene, width, height, loaderClass, canvasId) {
-        if (this.moduleQueue.length > 0) throw('Core not ready');
+    start: function(scene, width, height) {
+        if (this.moduleQueue.length > 0) return;
 
-        this.system = new this.System(width, height, canvasId);
+        this.system = new this.System(width, height);
 
         if (this.Audio) this.audio = new this.Audio();
+
+        if (game.Debug && game.Debug.enabled) {
+            console.log('Panda.js ' + game.version);
+            console.log('Pixi.js ' + game.PIXI.VERSION.replace('v', ''));
+            console.log((this.system.renderer.gl ? 'WebGL' : 'Canvas') + ' renderer ' + this.system.width + 'x' + this.system.height);
+            if (this.Audio && this.Audio.enabled) console.log((this.audio.context ? 'Web Audio' : 'HTML5 Audio') + ' engine');
+            else console.log('Audio disabled');
+            if (this.config.version) console.log((this.config.name ? this.config.name : 'Game') + ' ' + this.config.version);
+        }
+
         if (this.Pool) this.pool = new this.Pool();
         if (this.DebugDraw && this.DebugDraw.enabled) this.debugDraw = new this.DebugDraw();
         if (this.Storage && this.Storage.id) this.storage = new this.Storage(this.Storage.id);
@@ -334,7 +381,7 @@ var game = {
             this.plugins[name] = new (this.plugins[name])();
         }
 
-        this.loader = new (loaderClass || this.Loader)(scene);
+        this.loader = new (this.Loader)(scene);
         if (!this.system.rotateScreenVisible) this.loader.start();
     },
 
@@ -342,7 +389,9 @@ var game = {
         this.modules[name] = true;
         this.waitForLoad++;
 
-        var path = this.config.sourceFolder + '/' + name.replace(/\./g, '/') + '.js' + this.nocache;
+        var path = name.replace(/\./g, '/') + '.js' + this.nocache;
+        if (this.config.sourceFolder) path = this.config.sourceFolder + '/' + path;
+
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = path;
@@ -391,6 +440,7 @@ var game = {
                 module.body(this);
                 moduleLoaded = true;
                 i--;
+                if (this.moduleQueue.length === 0 && this.config.autoStart !== false && !this.system) this.start();
             }
         }
 
@@ -446,35 +496,29 @@ var game = {
     },
 
     boot: function() {
-        // Test canvas support
-        var elem = document.createElement('canvas');
-        var canvasSupported = !!(elem.getContext && elem.getContext('2d'));
-        if (!canvasSupported) {
-            if (game.config.noCanvasURL) window.location = game.config.noCanvasURL;
-            else throw('Canvas not supported');
+        if (game.config.noCanvasURL) {
+            var canvas = document.createElement('canvas');
+            var canvasSupported = !!(canvas.getContext && canvas.getContext('2d'));
+            if (!canvasSupported) window.location = game.config.noCanvasURL;
         }
 
-        // Native Math extensions
         Math.distance = function(x, y, x2, y2) {
             x = x2 - x;
             y = y2 - y;
             return Math.sqrt(x * x + y * y);
         };
 
-        Math.randomBetween = function(min, max) {
-            return Math.random() * (max - min) + min;
+        Math._random = Math.random;
+        Math.random = function(min, max) {
+            if (typeof max === 'number') return Math._random() * (max - min) + min;
+            else return Math._random(min);
         };
 
-        Math.randomInt = function(min, max) {
-            return Math.round(Math.randomBetween(min, max));
-        };
-
-        // Native object extensions
         Number.prototype.limit = function(min, max) {
             var i = this;
             if (i < min) i = min;
             if (i > max) i = max;
-            return i;
+            return parseFloat(i);
         };
 
         Number.prototype.round = function(precision) {
@@ -526,12 +570,9 @@ var game = {
             return this.charAt(0).toUpperCase() + this.slice(1);
         };
 
-        this.coreModules = this.config.coreModules || this.coreModules;
         this.module('engine.core');
 
         game.normalizeVendorAttribute(window, 'requestAnimationFrame');
-
-        if (document.location.href.match(/\?nocache/)) this.nocache = '?' + Date.now();
 
         this.device.pixelRatio = window.devicePixelRatio || 1;
         this.device.screen = {
@@ -544,7 +585,7 @@ var game = {
 
         // iPhone
         this.device.iPhone = /iPhone/i.test(navigator.userAgent);
-        this.device.iPhone4 = (this.device.iPhone && this.device.pixelRatio === 2);
+        this.device.iPhone4 = (this.device.iPhone && this.device.pixelRatio === 2 && this.device.screen.height === 920);
         this.device.iPhone5 = (this.device.iPhone && this.device.pixelRatio === 2 && this.device.screen.height === 1096);
 
         // iPad
@@ -562,7 +603,9 @@ var game = {
         // Android
         this.device.android = /android/i.test(navigator.userAgent);
         this.device.android2 = /android 2/i.test(navigator.userAgent);
-
+        var androidVer = navigator.userAgent.match(/Android.*AppleWebKit\/([\d.]+)/);
+        this.device.androidStock = (androidVer && androidVer[1] < 537);
+        
         // Internet Explorer
         this.device.ie9 = /MSIE 9/i.test(navigator.userAgent);
         this.device.ie10 = /MSIE 10/i.test(navigator.userAgent);
@@ -578,7 +621,7 @@ var game = {
         this.device.wt = (this.device.ie && /Tablet/i.test(navigator.userAgent));
 
         // Others
-        this.device.opera = /Opera/i.test(navigator.userAgent);
+        this.device.opera = /Opera/i.test(navigator.userAgent) || /OPR/i.test(navigator.userAgent);
         this.device.crosswalk = /Crosswalk/i.test(navigator.userAgent);
         this.device.cocoonJS = !!navigator.isCocoonJS;
         this.device.ejecta = /Ejecta/i.test(navigator.userAgent);
@@ -601,12 +644,21 @@ var game = {
     
         for (var i in this.device) {
             if (this.device[i] && this.config[i]) {
-                for (var o in this.config[i]) this.merge(this.config[o], this.config[i][o]);
+                for (var o in this.config[i]) {
+                    if (typeof this.config[i][o] === 'object') {
+                        this.merge(this.config[o], this.config[i][o]);
+                    }
+                    else {
+                        this.config[o] = this.config[i][o];
+                    }
+                }
             }
         }
 
-        this.config.sourceFolder = this.config.sourceFolder || 'src';
-        this.config.mediaFolder = this.config.mediaFolder ? this.config.mediaFolder + '/' : 'media/';
+        if (document.location.href.match(/\?nocache/) || this.config.disableCache) this.nocache = '?' + Date.now();
+
+        if (typeof this.config.sourceFolder === 'undefined') this.config.sourceFolder = 'src';
+        if (typeof this.config.mediaFolder === 'undefined') this.config.mediaFolder = 'media';
 
         var metaTags = document.getElementsByTagName('meta');
         var viewportFound = false;
@@ -639,6 +691,29 @@ var game = {
             if (!document.body) return setTimeout(this.DOMReady.bind(this), 13);
             this.DOMLoaded = true;
             this.loadModules();
+        }
+    },
+
+    createClass: function(name, extend, content) {
+        if (game[name]) throw 'Class ' + name + ' already exist';
+
+        if (typeof extend === 'object') {
+            content = extend;
+            extend = 'Class';
+        }
+
+        return game[name] = game[extend].extend(content);
+    },
+
+    createScene: function(name, content) {
+        return this.createClass('Scene' + name, 'Scene', content);
+    },
+
+    addAttributes: function(className, attributes) {
+        if (!this[className]) throw 'Class ' + className + ' not found';
+
+        for (var name in attributes) {
+            this[className][name] = attributes[name];
         }
     }
 };

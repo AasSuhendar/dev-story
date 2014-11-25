@@ -8,7 +8,7 @@
       "src": "blankproject",
       "sourceDirectory": "www",
       "projectGuid": "1a69d090-304f-4920-bd62-9e54996c947d",
-      "lastModifiedDate": 1408096546060,
+      "lastModifiedDate": 1416840043239,
       "creationDate": 1407937983850
     },
     "sourceDirectory": "",
@@ -98,6 +98,7 @@
     "buildConfigurations": {
       "Android": {
         "platform_": "android",
+        "runtime_": "Cordova 3.x",
         "name_": "Android",
         "preferences_": {},
         "isActive_": true,
@@ -111,37 +112,62 @@
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "3.3",
         "crosswalkVersion_": "stable",
-        "appVersion_": "1.0.0",
-        "runtime_": "Cordova 3.x"
+        "appVersion_": "1.0.0"
       },
       "Android-Crosswalk": {
         "platform_": "android",
+        "runtime_": "Crosswalk with Cordova 3.x",
         "name_": "Android-Crosswalk",
         "preferences_": {
           "Fullscreen": true,
           "Orientation": "landscape",
-          "android-minSdkVersion": "4",
-          "android-targetedSdkVersion": "4"
+          "android-minSdkVersion": "14",
+          "android-targetSdkVersion": "19"
         },
         "isActive_": true,
         "appName_": "DevStory",
-        "appID_": "com.android.intel",
+        "appID_": "com.intel.hackthecode",
         "appAccess_": "*",
-        "icons_": [],
+        "icons_": [
+          {
+            "relPath": "media/splash/36x36.png",
+            "density": "ldpi",
+            "height": 36,
+            "width": 36
+          },
+          {
+            "relPath": "media/splash/48x48.png",
+            "density": "mdpi",
+            "height": 48,
+            "width": 48
+          },
+          {
+            "relPath": "media/splash/72x72.png",
+            "density": "hdpi",
+            "height": 72,
+            "width": 72
+          },
+          {
+            "relPath": "media/splash/96x96.png",
+            "density": "xhdpi",
+            "height": 96,
+            "width": 96
+          }
+        ],
         "splashes_": [],
         "iosProvs_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "3.3",
         "crosswalkVersion_": "beta",
-        "appVersion_": "1.0.0",
-        "runtime_": "Crosswalk with Cordova 3.x",
-        "appDescription_": "DevStory",
-        "appAuthor_": "DevStory",
-        "appVersionCode_": "1"
+        "appVersion_": "2.0.0",
+        "appDescription_": "You decide the future of the open-source app! Play it. Hack it. Help build v2.0.",
+        "appAuthor_": "Intel Corporation",
+        "appVersionCode_": "6"
       },
       "iOS": {
         "platform_": "ios",
+        "runtime_": "Cordova 3.x",
         "name_": "iOS",
         "preferences_": {},
         "isActive_": true,
@@ -155,11 +181,11 @@
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "3.3",
         "crosswalkVersion_": "stable",
-        "appVersion_": "1.0.0",
-        "runtime_": "Cordova 3.x"
+        "appVersion_": "1.0.0"
       },
       "Windows8": {
         "platform_": "windows8",
+        "runtime_": "Cordova 3.x",
         "name_": "Windows8",
         "preferences_": {},
         "isActive_": true,
@@ -173,11 +199,11 @@
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "3.3",
         "crosswalkVersion_": "stable",
-        "appVersion_": "1.0.0.0",
-        "runtime_": "Cordova 3.x"
+        "appVersion_": "1.0.0.0"
       },
       "WindowsPhone8": {
         "platform_": "wp8",
+        "runtime_": "Cordova 3.x",
         "name_": "WindowsPhone8",
         "preferences_": {},
         "isActive_": true,
@@ -191,8 +217,7 @@
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "3.3",
         "crosswalkVersion_": "stable",
-        "appVersion_": "1.0.0.0",
-        "runtime_": "Cordova 3.x"
+        "appVersion_": "1.0.0.0"
       }
     }
   }

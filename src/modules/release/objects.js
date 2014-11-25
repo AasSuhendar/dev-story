@@ -6,7 +6,7 @@ game.module(
 )
 .body(function() {
 
-    App.Release.Hype = game.Class.extend({
+    game.createClass(App.Release.Hype, {
 
         id: 0,
         score:0,
@@ -21,7 +21,7 @@ game.module(
         activeCount: 0,
         items: [],
 
-        init: function(){
+        load: function(){
 
             // Store this
             var launch, radius = 36, angle = (Math.PI * 2), i, j, k, item, position;
@@ -61,7 +61,7 @@ game.module(
                 this.launch.beginFill(App.currentPalette[2]);
                 this.launch.drawCircle(game.scene.positions[this.id], (game.system.height / App.deviceScale()) / 1.7, 60);
                 this.launch.endFill();
-                this.launch.setInteractive(true);
+                this.launch.interactive = true;
                 this.launch.hitArea = new game.PIXI.Circle(game.scene.positions[this.id], (game.system.height / App.deviceScale()) / 1.7, 72);
                 this.launch.click = this.launch.tap = function(){
                     App.vibrate(1000);
@@ -363,7 +363,7 @@ game.module(
         
     });
 
-    App.Release.Countdown = game.Class.extend({
+    game.createClass(App.Release.Countdown, {
 
         init: function(){
 

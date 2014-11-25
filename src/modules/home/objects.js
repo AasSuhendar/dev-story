@@ -5,27 +5,24 @@ game.module(
     'engine.core'
 )
 .body(function() {
-    App.Home.HomeButton = game.Class.extend({
-
-        id: 0,
-        name: "",
-
-        init: function(){
+    
+    game.createClass(App.Home.HomeButton, {
+        load: function(){
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Set bigger play button
             if(this.id === 0) {
-                this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold 64px sans-serif' } );
+                this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold '+(App.pY(10))+'px sans-serif' } );
                 this.text.tint = 0x51b6b0;
-                this.text.position.x = 235;
-                this.text.position.y = ((game.system.height / App.deviceScale()) /2);
+                this.text.position.x = App.pX(17);
+                this.text.position.y = App.pY(50);
             } else {
-                this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold 32px sans-serif' } );
-                this.text.position.x = 235;
-                this.text.position.y = ((game.system.height / App.deviceScale()) /2) + 45 + (this.id * 60);
+                this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold '+(App.pY(5))+'px sans-serif' } );
+                this.text.position.x = App.pX(17);
+                this.text.position.y = App.pY(55) + (this.id * App.pY(10));
             }
 
             // Create graphic
@@ -39,7 +36,7 @@ game.module(
             );
 
             // Create hitbox
-            this.button.setInteractive(true);
+            this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(
                 this.text.position.x - 25, // X
                 this.text.position.y - 5, // Y
@@ -74,7 +71,7 @@ game.module(
                     this.button.tap = this.button.click = function(){
                         // Analytics event
                         App.sendEvent('MainMenu', 'click', 'CREDITS');
-                        App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Credits);
+                        App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.GameCredits);
                     };
                     break;
             }
@@ -92,7 +89,7 @@ game.module(
 
     });
 
-    App.Home.Stages = game.Class.extend({
+    game.createClass(App.Home.Stages, {
 
         moving: false,
         position:0,
@@ -196,17 +193,9 @@ game.module(
          }
     });
 
-    App.Home.StageButton = game.Class.extend({
+    game.createClass(App.Home.StageButton, {
 
-        id: 0,
-        idx: 1,
-        name: "",
-        title: "",
-        games: [],
-        rating: 0,
-        unlocked: false,
-
-        init: function(){
+        load: function(){
 
             var self = this, stageTween;
 
@@ -224,7 +213,7 @@ game.module(
             );
 
             // Create hitbox
-            this.interact.setInteractive(true);
+            this.interact.interactive = true;
             this.interact.hitArea = new game.PIXI.Rectangle(
                 48 + (this.idx * (game.system.width / App.deviceScale() / 2.5)), // X
                 (game.system.height / App.deviceScale() / 2) - 240, // Y
@@ -249,7 +238,7 @@ game.module(
                             App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.GetInvolved);
                         } else {
                             // Analytics event
-                            App.sendEvent('Levels', 'click', 'Level ' + (self.id+1));
+                            App.sendEvent('Levels', 'click', 'Level ' + (self.id));
                             App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.LevelIntro);
                         }
                     } 
@@ -328,17 +317,11 @@ game.module(
     });
 });
 
-App.GameIntro = game.Class.extend({
-
-    icon: "",
-    title: "",
-    text1: "",
-    text2: "",
-    img1: "",
-    img2: "",
-    link: "",
-
+game.createClass(App.GameIntro, {
     init: function(){
+        alert("??");
+    },
+    load: function(){
 
         // Container
         this.container = new game.Container();
@@ -421,7 +404,7 @@ App.GameIntro = game.Class.extend({
         App.roundRect(this.button, 0, 0, this.playText.width + 64, this.playText.height + 24, 24, 24, 24, 24);
         this.button.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.playText.width / 2) - 32;
         this.button.position.y = this.playText.position.y - 12;
-        this.button.setInteractive(true);
+        this.button.interactive = true;
         this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.playText.width + 24, this.playText.height + 24);
         this.button.tap = this.button.click = this.go.bind(this);
         this.button.alpha = 0;
@@ -471,14 +454,9 @@ App.GameIntro = game.Class.extend({
 
 });
 
-App.GameOutro = game.Class.extend({
+game.createClass(App.GameOutro, {
 
-    icon: "",
-    title: "",
-    shape: "",
-    score: "",
-    
-    init: function(){
+    load: function(){
 
         // Container
         this.container = new game.Container();
@@ -547,7 +525,7 @@ App.GameOutro = game.Class.extend({
         App.roundRect(this.button, 0, 0, this.nextText.width + 64, this.nextText.height + 24, 24, 24, 24, 24);
         this.button.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.nextText.width / 2) - 32;
         this.button.position.y = (game.system.height / App.deviceScale()) - 180;
-        this.button.setInteractive(true);
+        this.button.interactive = true;
         this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.nextText.width + 24, this.nextText.height + 24);
         this.button.tap = this.button.click = this.go.bind(this);
         this.button.alpha = 0;

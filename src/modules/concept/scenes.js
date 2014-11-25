@@ -16,7 +16,7 @@ game.module(
 )
 .body(function() {
     
-    App.Concept.Intro = game.Scene.extend({
+    game.createScene(App.Concept.Intro, {
 
         backgroundColor: 0x143559,
 
@@ -147,7 +147,7 @@ game.module(
 
         loaded: function(){
 
-            var text1, text2, text3;
+            var text1, text2, text3, self = this;
 
             // Get level
             this.level = game.storage.get("CurrentLevel");
@@ -172,21 +172,20 @@ game.module(
                     text3 = "Just be sure to avoid the notorious distraction demons.";
                     break;
             }
-
-            // Create level object
-            var GameIntro = App.GameIntro.extend({ 
-                icon: "media/concept/icon.png",
-                title: text1,
-                text1: text2,
-                text2: text3,
-                img1: ["media/concept/level_"+(this.level+1)+"_intro_1.png", 600, 80],
-                img2: ["media/concept/level_"+(this.level+1)+"_intro_2.png", 400, 80],
-                link: App.Concept.Game
+            game.GameIntro.inject({
+                init: function(){
+                    this.icon = "media/concept/icon.png";
+                    this.title = text1;
+                    this.text1 = text2;
+                    this.text2 = text3;
+                    this.img1 = ["media/concept/level_1_intro_1.png", 600, 80];
+                    this.img2 = ["media/concept/level_1_intro_2.png", 400, 80];
+                    this.link = App.Concept.Game;
+                    this.load();
+                }
             });
-
-            // Create
-            this.gameIntro = new GameIntro();
-
+            // Create level object
+            this.gameIntro = new game.GameIntro();
         },
 
         update: function(){
@@ -227,7 +226,7 @@ game.module(
         }
     });
 
-    App.Concept.Game = game.Scene.extend({
+    game.createScene(App.Concept.Game, {
         
         backgroundColor: 0x000000,
 
@@ -238,7 +237,7 @@ game.module(
             var levelString = (1 + this.level);
             
             // Initialise game specific palette
-            this.palette = new App.Concept.Palette();
+            this.palette = new game.Palette();
             
             // Used to control simulation speed
             this.deltaMultiplier = 1;
@@ -249,11 +248,11 @@ game.module(
             this.ending = false;
             
             // Containers used to ensure sprites sit in appropriate z-order
-            this.gameLayer = new App.Concept.GameLayer();
-            this.playerLayer = new App.Concept.PlayerLayer();
-            this.reverseTimeLayer = new App.Concept.ReverseTimeLayer();
+            this.gameLayer = new game.GameLayer();
+            this.playerLayer = new game.PlayerLayer();
+            this.reverseTimeLayer = new game.ReverseTimeLayer();
             
-            this.background = new App.Concept.Background();
+            this.background = new game.Background();
             
             switch(this.level){
                 case 0:
@@ -321,70 +320,70 @@ game.module(
 
             //Seekers
             for (var i=0; i< this.seeker1Count; i++){
-                this.seekers1[i] = new App.Concept.Distraction1();
+                this.seekers1[i] = new game.Distraction1();
             }
             
             for (var i=0; i< this.seeker2Count; i++){
-                this.seekers2[i] = new App.Concept.Distraction2();
+                this.seekers2[i] = new game.Distraction2();
             }
             
             for (var i=0; i< this.seeker3Count; i++){
-                this.seekers3[i] = new App.Concept.Distraction3();
+                this.seekers3[i] = new game.Distraction3();
             }
             
             //Evaders
             for (var i=0; i< this.evader1Count; i++){
-                this.evaders1[i] = new App.Concept.Spark();
+                this.evaders1[i] = new game.Spark();
             }
             
             for (var i=0; i< this.evader2Count; i++){
-                this.evaders2[i] = new App.Concept.Nucleus();
+                this.evaders2[i] = new game.Nucleus();
             }
             
             for (var i=0; i< this.evader3Count; i++){
-                this.evaders3[i] = new App.Concept.Cog();
+                this.evaders3[i] = new game.Cog();
             }
             
             //PowerUps
             for (var i=0; i< this.powerUp1Count; i++){
-                this.powerUps1[i] = new App.Concept.PowerUp1();
+                this.powerUps1[i] = new game.PowerUp1();
             }
             
             for (var i=0; i< this.powerUp2Count; i++){
-                this.powerUps2[i] = new App.Concept.PowerUp2();
+                this.powerUps2[i] = new game.PowerUp2();
             }
             
             for (var i=0; i< this.powerUp3Count; i++){
-                this.powerUps3[i] = new App.Concept.PowerUp3();
+                this.powerUps3[i] = new game.PowerUp3();
             }  
             
             //Cats
             for (var i=0; i< this.catCount; i++){
-                this.cats[i] = new App.Concept.Cat();
+                this.cats[i] = new game.Cat();
             }  
             
-            this.player = new App.Concept.Player();
+            this.player = new game.Player();
             
             //Cameras
-            this.gameCamera = new App.Concept.GameCamera();
-            this.playerCamera = new App.Concept.PlayerCamera();
+            this.gameCamera = new game.GameCamera();
+            this.playerCamera = new game.PlayerCamera();
             
             //HUD elements
-            this.hud = new App.Concept.HUD();
-            this.inputControl = new App.Concept.InputControl();
-            this.pause = new App.Pause.PauseButton();
-            this.energyBar1 = new App.Concept.EnergyBar1();
-            this.energyBar2 = new App.Concept.EnergyBar2();
-            this.energyBar3 = new App.Concept.EnergyBar3();
-            this.countdown = new App.Concept.Countdown();
+            this.hud = new game.HUD();
+            this.inputControl = new game.InputControl();
+            this.pause = new game.PauseButton();
+            this.energyBar1 = new game.EnergyBar1();
+            this.energyBar2 = new game.EnergyBar2();
+            this.energyBar3 = new game.EnergyBar3();
+            this.countdown = new game.G1Countdown();
             
             //Post-processing shader effects
             this.grayFilter = new game.PIXI.GrayFilter();
             this.blurFilter = new game.PIXI.BlurFilter();
             this.noiseFilter = new App.NoiseFilter();
             this.colorFilter = new game.PIXI.ColorMatrixFilter();
-            this.colorCycle = new App.Concept.ColorCycle();
-            this.timeReverse = new App.Concept.TimeReverse();
+            this.colorCycle = new game.ColorCycle();
+            this.timeReverse = new game.TimeReverse();
             
             App.playMusic("music"+levelString, 1);
         },
@@ -501,12 +500,12 @@ game.module(
         }
     });
 
-    App.Concept.Outro = game.Scene.extend({
+    game.createScene(App.Concept.Outro, {
 
         backgroundColor: 0x000000,
 
         init: function(){
-
+            var self = this;
             // set app name
             game.storage.set("CurrentAppName", App.generateName());
             
@@ -514,17 +513,18 @@ game.module(
             this.score = Math.floor(game.storage.get("game_1_score")) || 0;
 
             // Create level object
-            var GameOutro = App.GameOutro.extend({ 
-
-                icon: "media/concept/icon.png",
-                title: "You called your app",
-                shape: "media/concept/shape.png",
-                score: this.score + "%"
-
+            game.GameOutro.inject({
+                init: function(){
+                    this.icon = "media/concept/icon.png";
+                    this.title = "You called your app";
+                    this.shape = "media/concept/shape.png";
+                    this.score = self.score + "%";
+                    this.load();
+                }
             });
 
             // Create
-            this.gameOutro = new GameOutro();
+            this.gameOutro = new game.GameOutro();
 
         }
     });

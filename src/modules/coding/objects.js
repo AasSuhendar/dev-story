@@ -6,7 +6,7 @@ game.module(
 )
 .body(function() {
     
-    App.Coding.Row = game.Class.extend({
+    game.createClass(App.Coding.Row, {
 
         types: ["++", "</>", "==", "{;}", "!=", "[i]", "&&", "//", "<?>"],
         toFix: true,
@@ -150,7 +150,7 @@ game.module(
             if(game.scene.pauseObjects && this.hex.isBug && !this.hex.fixed) {
 
                 // Allow the click
-                this.hex.setInteractive(true);
+                this.hex.interactive = true;
 
                 // Change the colour
                 this.hex.tint = 0xFF0000;
@@ -262,7 +262,7 @@ game.module(
 
     });
 
-    App.Coding.Countdown = game.Class.extend({
+    game.createClass(App.Coding.Countdown, {
 
         init: function(){
 
@@ -341,7 +341,7 @@ game.module(
 
     });
 
-    App.Coding.Controls = game.Class.extend({
+    game.createClass(App.Coding.Controls, {
 
         init: function(){
 
@@ -354,7 +354,7 @@ game.module(
 
             // Create control graphics            
             this.control_top = new game.Graphics();
-            this.control_top.setInteractive(true);
+            this.control_top.interactive = true;
             this.control_top.hitArea = new game.PIXI.Rectangle(game.scene.mouseZoneStart, game.scene.positions[0] - (control_size / 2), 180, control_size);
             this.control_top.tap = this.control_top.click = function(){
                 if(!game.scene.ended && !App.paused) {
@@ -363,7 +363,7 @@ game.module(
             };
 
             this.control_middle = new game.Graphics();
-            this.control_middle.setInteractive(true);
+            this.control_middle.interactive = true;
             this.control_middle.hitArea = new game.PIXI.Rectangle(game.scene.mouseZoneStart, game.scene.positions[1] - (control_size / 2), 180, control_size);
             this.control_middle.tap = this.control_middle.click = function(){
                 if(!game.scene.ended && !App.paused) {
@@ -372,7 +372,7 @@ game.module(
             };
 
             this.control_bottom = new game.Graphics();
-            this.control_bottom.setInteractive(true);
+            this.control_bottom.interactive = true;
             this.control_bottom.hitArea = new game.PIXI.Rectangle(game.scene.mouseZoneStart, game.scene.positions[2] - (control_size / 2), 180, control_size);
             this.control_bottom.tap = this.control_bottom.click = function(){
                 if(!game.scene.ended && !App.paused) {

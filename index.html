@@ -24,7 +24,7 @@
 
                     analytics.startTrackerWithId("#GA-ID#");
 
-                    if(typeof analytics !== "undefined") {
+                    if(typeof device !== "undefined") {
 
                         analytics.setUserId(device.uuid);
 
@@ -37,10 +37,6 @@
         <script type="text/javascript" src="src/plugins/modernizr-2.5.3.min.js"></script>
     </head>
     <body>
-
-        <div id="splash">
-            <div id="arrow"></div>
-        </div>
 
         <div id="log" style="position:fixed; bottom:0; right:0; background:#000; color:#fff; z-index:1000; display:none;">Log</div>
         <div id="actions" style="position:fixed; bottom:0; left:0; background:#000; color:#fff; z-index:1000; display:none;">

@@ -6,7 +6,7 @@ game.module(
 )
 .body(function() {
 
-    App.Release.Intro = game.Scene.extend({
+    game.createScene(App.Release.Intro, {
 
         backgroundColor: 0x143559,
 
@@ -129,19 +129,20 @@ game.module(
                     break;
             }
 
-            // Create level object
-            GameIntro = App.GameIntro.extend({ 
-                icon: "media/release/icon.png",
-                title: text1,
-                text1: text2,
-                text2: text3,
-                img1: ["media/release/level_3_intro_1.png", 568, 160],
-                img2: [""],
-                link: App.Release.Game
+            game.GameIntro.inject({
+                init: function(){
+                    this.icon = "media/release/icon.png";
+                    this.title = text1;
+                    this.text1 = text2;
+                    this.text2 = text3;
+                    this.img1 = ["media/release/level_3_intro_1.png", 568, 160];
+                    this.img2 = [""];
+                    this.link = App.Release.Game;
+                    this.load();
+                }
             });
-
-            // Create
-            this.gameIntro = new GameIntro();
+            // Create level object
+            this.gameIntro = new game.GameIntro();
 
         },
 
@@ -186,7 +187,7 @@ game.module(
 
     });
 
-    App.Release.Game = game.Scene.extend({
+    game.createScene(App.Release.Game, {
 
         backgroundColor: 0xaee8d0,
         meters: [],
@@ -194,7 +195,7 @@ game.module(
 
         init: function(){
 
-            var i, Hype;
+            var i, Hype, self = this;
 
             // Set bg colour
             game.system.stage.setBackgroundColor(App.currentPalette[3]);
@@ -267,28 +268,30 @@ game.module(
             // Hype-o-meter
             for(i = 0; i < this.positions.length; i += 1) {
 
-                // Create level object
-                Hype = App.Release.Hype.extend({ 
-                    id: i,
-                    difficulty: this.difficulty,
-                    isPlayer: (this.playerId === i) ? true : false
+                game.Hype.inject({
+                    init: function(){
+                        this.id = i;
+                        this.difficulty = self.difficulty;
+                        this.isPlayer = (self.playerId === i) ? true : false;
+                        this.load();
+                    }
                 });
 
                 // Store hype meter
-                this.meters.push(new Hype());
+                this.meters.push(new game.Hype());
 
             }           
 
             // Countdown
             this.deltaMultiplier = 1;
-            this.countdown = new App.Release.Countdown();
+            this.countdown = new game.G3Countdown();
 
             // Sounds
             App.playMusic("launch_bg", 0.5);
 
             // Pause
             this.stage.addChild(this.container);
-            this.pauseButton = new App.Pause.PauseButton();
+            this.pauseButton = new game.PauseButton();
 
         },
 
@@ -356,11 +359,13 @@ game.module(
 
     });
 
-    App.Release.Outro = game.Scene.extend({
+    game.createScene(App.Release.Outro, {
 
         backgroundColor: 0xaee8d0,
 
         init: function(){
+            
+            var self = this;
 
             // Get/Set app name
             if(!game.storage.get("CurrentAppName")) {
@@ -371,17 +376,18 @@ game.module(
             this.score = Math.floor(game.storage.get("game_3_score")) || 0;
 
             // Create level object
-            var GameOutro = App.GameOutro.extend({ 
-
-                icon: "media/release/icon.png",
-                title: "You launched",
-                shape: "media/release/shape.png",
-                score: this.score + "%"
-
+            game.GameOutro.inject({
+                init: function(){
+                    this.icon = "media/release/icon.png";
+                    this.title = "You launched";
+                    this.shape = "media/release/shape.png";
+                    this.score = self.score + "%";
+                    this.load();
+                }
             });
 
             // Create
-            this.gameOutro = new GameOutro();
+            this.gameOutro = new game.GameOutro();
 
         }
 

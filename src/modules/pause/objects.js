@@ -6,7 +6,7 @@ game.module(
 )
 .body(function() {
     
-    App.Pause.PauseButton = game.Class.extend({
+    game.createClass(App.Pause.PauseButton, {
 
         init: function(){ 
 
@@ -32,7 +32,7 @@ game.module(
             this.pauseIcon.position.x = 20;
             this.pauseIcon.position.y = 20;
 
-            this.pauseButton.setInteractive(true);
+            this.pauseButton.interactive = true;
             this.pauseButton.hitArea = new game.PIXI.Circle(0, 0, 40);
             this.pauseButton.tap = this.pauseButton.click = this.togglePause.bind(this);
 
@@ -150,7 +150,7 @@ game.module(
             App.roundRect(this.quitButton, 0, 0, (game.system.width / App.deviceScale()) - 560, this.quitText.height + 18, 24, 24, 24, 24);
             this.quitButton.position.x = this.quitText.position.x - 100;
             this.quitButton.position.y = this.quitText.position.y - 12;
-            this.quitButton.setInteractive(true);
+            this.quitButton.interactive = true;
             this.quitButton.hitArea = new game.PIXI.Rectangle(0, 0, 602, this.quitText.height + 18);
             this.quitButton.tap = this.quitButton.click = function(){
 
@@ -169,7 +169,7 @@ game.module(
             this.resumeButton.drawRect(0, 0, 602, this.resumeText.height + 18);
             this.resumeButton.position.x = this.resumeText.position.x -72;
             this.resumeButton.position.y = this.resumeText.position.y - 6;
-            this.resumeButton.setInteractive(true);
+            this.resumeButton.interactive = true;
             this.resumeButton.hitArea = new game.PIXI.Rectangle(0, 0, 602, this.resumeText.height + 18);
             this.resumeButton.tap = this.resumeButton.click = this.resume.bind(this);
             this.resumeButton.alpha = 0;
@@ -196,7 +196,7 @@ game.module(
             this.muteButton.drawRect(0, 0, 144, 72);
             this.muteButton.position.x = ((game.system.width / App.deviceScale()) / 2) + (this.bg.width / 2) - 180;
             this.muteButton.position.y = this.soundsText.position.y;
-            this.muteButton.setInteractive(true);
+            this.muteButton.interactive = true;
             this.muteButton.hitArea = new game.PIXI.Rectangle(0, 0, 144, 72);
             this.muteButton.tap = this.muteButton.click = this.toggleMute.bind(this);
             this.muteButton.alpha = 0.1;
@@ -223,7 +223,7 @@ game.module(
             this.vibrateButton.drawRect(0, 0, 144, 72);
             this.vibrateButton.position.x = ((game.system.width / App.deviceScale()) / 2) + (this.bg.width / 2) - 180;
             this.vibrateButton.position.y = this.vibrateText.position.y;
-            this.vibrateButton.setInteractive(true);
+            this.vibrateButton.interactive = true;
             this.vibrateButton.hitArea = new game.PIXI.Rectangle(0, 0, 144, 72);
             this.vibrateButton.tap = this.vibrateButton.click = this.toggleVibrate.bind(this);
             this.vibrateButton.alpha = 0.1;

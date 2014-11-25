@@ -9,28 +9,42 @@ game.module(
 'use strict';
 
 /**
+    Google Analytics tracking.
     @class Analytics
     @extends game.Class
+    @constructor
+    @param {String} id
 **/
 game.Analytics = game.Class.extend({
+    /**
+        Is analytics enabled.
+        @property {Boolean} enabled
+    **/
+    enabled: true,
+    /**
+        Current tracking id.
+        @property {String} trackId
+    **/
     trackId: null,
     userId: null,
 
     init: function(id) {
-        if (!navigator.onLine || game.device.cocoonJS && !game.Analytics.cocoonJS) return;
-        if (!id) throw('Analytics id not set.');
+        if (!navigator.onLine || game.device.cocoonJS && !game.Analytics.cocoonJS) {
+            this.enabled = false;
+            return;
+        }
 
         this.trackId = id;
 
         if (game.device.cocoonJS && game.Analytics.cocoonJS) {
-            this.userId = this.guid();
+            this.userId = Date.now();
             var request = new XMLHttpRequest();
             var params = 'v=1&tid=' + this.trackId + '&cid=' + this.userId + '&t=pageview&dp=%2F';
             request.open('POST', 'http://www.google-analytics.com/collect', true);
             request.send(params);
         }
         else {
-
+            
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -41,27 +55,21 @@ game.Analytics = game.Class.extend({
             } else {
                 ga('create', id, 'auto');
             }
+
             ga('send', 'pageview');
         }
     },
 
-    guid: function() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    },
-
     /**
         Send event to analytics.
-        @method event
+        @method send
         @param {String} category
         @param {String} action
         @param {String} [label]
         @param {String} [value]
     **/
-    event: function(category, action, label, value) {
-        if (!navigator.onLine || game.device.cocoonJS && !game.Analytics.cocoonJS) return;
+    send: function(category, action, label, value) {
+        if (!this.enabled) return;
 
         if (game.device.cocoonJS && game.Analytics.cocoonJS) {
             var request = new XMLHttpRequest();
@@ -78,13 +86,13 @@ game.Analytics = game.Class.extend({
 });
 
 /**
-    Tracking id for Analytics.
+    Tracking id for analytics.
     @attribute {String} id
 **/
 game.Analytics.id = '';
 
 /**
-    Enable Analytics on CocoonJS.
+    Enable analytics on CocoonJS.
     @attribute {Boolean} cocoonJS
     @default false
 **/

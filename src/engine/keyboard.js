@@ -14,100 +14,10 @@ game.module(
 **/
 game.Keyboard = game.Class.extend({
     /**
-        List of keys.
-
-            BACKSPACE
-            TAB
-            ENTER
-            SHIFT
-            CTRL
-            ALT
-            PAUSE
-            CAPS_LOCK
-            ESC
-            SPACE
-            PAGE_UP
-            PAGE_DOWN
-            END
-            HOME
-            LEFT
-            UP
-            RIGHT
-            DOWN
-            PRINT_SCREEN
-            INSERT
-            DELETE
-            0
-            1
-            2
-            3
-            4
-            5
-            6
-            7
-            8
-            9
-            A
-            B
-            C
-            D
-            E
-            F
-            G
-            H
-            I
-            J
-            K
-            L
-            M
-            N
-            O
-            P
-            Q
-            R
-            S
-            T
-            U
-            V
-            W
-            X
-            Y
-            Z
-            NUM_ZERO
-            NUM_ONE
-            NUM_TWO
-            NUM_THREE
-            NUM_FOUR
-            NUM_FIVE
-            NUM_SIX
-            NUM_SEVEN
-            NUM_EIGHT
-            NUM_NINE
-            NUM_MULTIPLY
-            NUM_PLUS
-            NUM_MINUS
-            NUM_PERIOD
-            NUM_DIVISION
-            F1
-            F2
-            F3
-            F4
-            F5
-            F6
-            F7
-            F8
-            F9
-            F10
-            F11
-            F12
-
+        List of available keys.
         @property {Array} keys
     **/
     keys: [],
-    /**
-        List of keys, that are pressed down.
-        @property {Array} keysDown
-    **/
     keysDown: [],
 
     init: function() {
@@ -196,31 +106,31 @@ game.Keyboard = game.Class.extend({
         this.keys[122] = 'F11';
         this.keys[123] = 'F12';
 
-        window.addEventListener('keydown', this.keydown.bind(this), false);
-        window.addEventListener('keyup', this.keyup.bind(this), false);
+        window.addEventListener('keydown', this.keydown.bind(this));
+        window.addEventListener('keyup', this.keyup.bind(this));
+        window.addEventListener('blur', this.resetKeys.bind(this));
     },
 
-    /**
-        @method keydown
-    **/
-    keydown: function(event) {
-        if (game.Keyboard.preventDefault) event.preventDefault();
+    resetKeys: function() {
+        for (var key in this.keysDown) {
+            this.keysDown[key] = false;
+        }
+    },
 
+    keydown: function(event) {
+        if (!game.scene) return;
         if (!this.keys[event.keyCode]) return; // unkown key
         if (this.keysDown[this.keys[event.keyCode]]) return; // key already down
 
         this.keysDown[this.keys[event.keyCode]] = true;
-        if (game.scene) game.scene.keydown(this.keys[event.keyCode], !!this.keysDown['SHIFT'], !!this.keysDown['CTRL'], !!this.keysDown['ALT']);
+        var prevent = game.scene.keydown(this.keys[event.keyCode], this.down('SHIFT'), this.down('CTRL'), this.down('ALT'));
+        if (prevent) event.preventDefault();
     },
 
-    /**
-        @method keyup
-    **/
     keyup: function(event) {
-        if (game.Keyboard.preventDefault) event.preventDefault();
-        
+        if (!game.scene) return;
         this.keysDown[this.keys[event.keyCode]] = false;
-        if (game.scene) game.scene.keyup(this.keys[event.keyCode]);
+        game.scene.keyup(this.keys[event.keyCode]);
     },
 
     /**
@@ -229,16 +139,9 @@ game.Keyboard = game.Class.extend({
         @return {Boolean}
     **/
     down: function(key) {
-        return (this.keysDown[key]);
+        return !!this.keysDown[key];
     }
 });
-
-/**
-    Prevent default keyboard action.
-    @attribute {Boolean} preventDefault
-    @default false
-**/
-game.Keyboard.preventDefault = false;
 
 game.keyboard = new game.Keyboard();
 

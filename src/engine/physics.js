@@ -99,18 +99,23 @@ game.World = game.Class.extend({
     },
 
     /**
-        Collide body against it's `collideAgainst` group.
+        Collide body against it's `collideAgainst` groups.
         @method collide
         @param {game.Body} body
     **/
     collide: function(body) {
-        if (!this.collisionGroups[body.collideAgainst]) return;
+        var g, i, b, group;
 
-        var i, b;
-        for (i = this.collisionGroups[body.collideAgainst].length - 1; i >= 0; i--) {
-            if (!this.collisionGroups[body.collideAgainst]) break;
-            b = this.collisionGroups[body.collideAgainst][i];
-            if (body !== b) this.solver.solve(body, b);
+        for (g = 0; g < body.collideAgainst.length; g++) {
+            group = this.collisionGroups[body.collideAgainst[g]];
+            
+            if (!group) continue;
+
+            for (i = group.length - 1; i >= 0; i--) {
+                if (!group) break;
+                b = group[i];
+                if (body !== b) this.solver.solve(body, b);
+            }
         }
     },
 
@@ -132,7 +137,9 @@ game.World = game.Class.extend({
         for (i = this.collisionGroups.length - 1; i >= 0; i--) {
             if (this.collisionGroups[i]) {
                 for (j = this.collisionGroups[i].length - 1; j >= 0; j--) {
-                    if (this.collisionGroups[i][j] && typeof this.collisionGroups[i][j].collideAgainst === 'number') this.collide(this.collisionGroups[i][j]);
+                    if (this.collisionGroups[i][j] && this.collisionGroups[i][j].collideAgainst.length > 0) {
+                        this.collide(this.collisionGroups[i][j]);
+                    }
                 }
             }
         }
@@ -266,35 +273,34 @@ game.CollisionSolver = game.Class.extend({
     **/
     hitResponse: function(a, b) {
         if (a.shape instanceof game.Rectangle && b.shape instanceof game.Rectangle) {
-            // TODO can this be optimized?
             if (a.last.y + a.shape.height / 2 <= b.last.y - b.shape.height / 2) {
-                if (a.collide(b)) {
+                if (a.collide(b, 'DOWN')) {
                     a.position.y = b.position.y - b.shape.height / 2 - a.shape.height / 2;
                     return true;
                 }
             }
             else if (a.last.y - a.shape.height / 2 >= b.last.y + b.shape.height / 2) {
-                if (a.collide(b)) {
+                if (a.collide(b, 'UP')) {
                     a.position.y = b.position.y + b.shape.height / 2 + a.shape.height / 2;
                     return true;
                 }
             }
             else if (a.last.x + a.shape.width / 2 <= b.last.x - b.shape.width / 2) {
-                if (a.collide(b)) {
+                if (a.collide(b, 'RIGHT')) {
                     a.position.x = b.position.x - b.shape.width / 2 - a.shape.width / 2;
                     return true;
                 }
             }
             else if (a.last.x - a.shape.width / 2 >= b.last.x + b.shape.width / 2) {
-                if (a.collide(b)) {
+                if (a.collide(b, 'LEFT')) {
                     a.position.x = b.position.x + b.shape.width / 2 + a.shape.width / 2;
                     return true;
                 }
             }
         }
         else if (a.shape instanceof game.Circle && b.shape instanceof game.Circle) {
-            if (a.collide(b)) {
-                var angle = b.position.angle(a.position);
+            var angle = b.position.angle(a.position);
+            if (a.collide(b, angle)) {
                 var dist = a.shape.radius + b.shape.radius;
 
                 a.position.x = b.position.x + Math.cos(angle) * dist;
@@ -388,11 +394,11 @@ game.Body = game.Class.extend({
     **/
     collisionGroup: null,
     /**
-        Group number that body collides against.
-        @property {Number} collideAgainst
+        Group numbers that body collides against.
+        @property {Array} collideAgainst
         @default null
     **/
-    collideAgainst: null,
+    collideAgainst: [],
     /**
         Rotation of body.
         @property {Number} rotation
@@ -445,15 +451,6 @@ game.Body = game.Class.extend({
         if (!this.world) return;
         if (typeof this.collisionGroup === 'number') this.world.removeBodyCollision(this, this.collisionGroup);
         this.world.addBodyCollision(this, group);
-    },
-
-    /**
-        Set collision group that body will collide against.
-        @method setCollideAgainst
-        @param {Number} group
-    **/
-    setCollideAgainst: function(group) {
-        this.collideAgainst = group;
     },
 
     /**

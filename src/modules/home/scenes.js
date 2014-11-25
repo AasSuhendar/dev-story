@@ -6,7 +6,51 @@ game.module(
 )
 .body(function() {
 
-    App.Home.Main = game.Scene.extend({
+    game.createScene(App.Home.Splash, {
+        backgroundColor: 0x0074c5,
+        init: function(){
+
+            // Container
+            this.container = new game.Container();
+            this.container.scale.set(App.deviceScale(), App.deviceScale());
+
+            this.bg = new game.Sprite.fromImage('media/splash/splash_en.png', 1280, 720);
+            this.bg.ratio = 1280/720;
+            this.bg.height = (App.pY(100) > 720) ? 720 : App.pY(100);
+            this.bg.width = (App.pY(100) * this.bg.ratio > 1280) ? 1280 : App.pY(100) * this.bg.ratio;
+            this.bg.anchor.set(0.5, 0.5);
+            this.bg.position.x = App.pX(50);
+            this.bg.position.y = App.pY(50);
+
+            this.fold = new game.Sprite.fromImage('media/splash/arrow_forward.png', 48, 48);
+            this.fold.position.x = App.pX(100) - 60;
+            this.fold.position.y = App.pY(100) - 60;
+
+            this.arrow = new game.Sprite.fromImage('media/splash/page.png', 115, 115);
+            this.arrow.anchor.set(1, 0);
+            this.arrow.position.x = App.pX(100);
+            this.arrow.position.y = 0
+
+            this.action = new game.Graphics();
+            this.action.width = App.pX(100);
+            this.action.height = App.pY(100);
+            this.action.interactive = true;
+            this.action.hitArea = new game.PIXI.Rectangle(0,0,(game.system.width / App.deviceScale()), game.system.height / App.deviceScale());
+            this.action.tap = this.action.click = function(){
+                App.init();
+            };
+            
+            this.container.addChild(this.bg);
+            this.container.addChild(this.arrow);
+            this.container.addChild(this.fold);
+            this.container.addChild(this.action);
+            this.stage.addChild(this.container);
+
+        }
+    });
+
+
+    game.createScene(App.Home.Main, {
 
         backgroundColor: 0x143559,
         buttons: [],
@@ -73,7 +117,7 @@ game.module(
 
             // Container
             this.loading = new game.Container();
-            this.loading.scale.set(App.deviceScale(), App.deviceScale());
+            //this.loading.scale.set(App.deviceScale(), App.deviceScale());
 
             // If assets to load
             if(assets) {
@@ -113,71 +157,75 @@ game.module(
 
         loaded: function(){
 
-            var code_ratio, titleTween, wipeTween, heroTween, 
+            var img_ratio, titleTween, wipeTween, heroTween, 
                 i, menuItems = [
                     "Play", 
                     "Get involved", 
                     "About", 
                     "Credits"
-                ], NewButton;
+                ], NewButton = [];
 
             // Analytics event
             App.sendPageView('Home Screen');
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Objects
             this.code = new game.PIXI.Sprite.fromImage('media/home/code.png', 0, 0);
-            code_ratio = this.code.width / this.code.height;
-            this.code.height = (game.system.height / App.deviceScale());
-            this.code.width = this.code.height * code_ratio;
+            img_ratio = this.code.width / this.code.height;
+            this.code.height = App.pY(100);
+            this.code.width = this.code.height * img_ratio;
             this.code.position.x = 0;
             this.code.position.y = 0;
 
-            this.title = new game.PIXI.Sprite.fromImage('media/home/title.png', 0, 0);
-            this.title.height = 745;
-            this.title.width = 224;
+            this.title = new game.Sprite('home/title.png', 745, 224);
+            img_ratio = this.title.height / this.title.width;
+            this.title.width = App.pY(75);
+            this.title.height = this.title.width * img_ratio;
             this.title.anchor.set(0.5, 0.5);
-            this.title.position.x = 550;
-            this.title.position.y = 200;
+            this.title.position.x = App.pY(66);
+            this.title.position.y = App.pY(30);
+            this.title.oScale = this.title.scale;
             this.title.scale = { x:0, y: 0 };
 
             titleTween = new game.Tween(this.title.scale)
-                .to({ x: 1, y: 1 }, 250)
+                .to({ x: this.title.oScale.x, y: this.title.oScale.y }, 250)
                 .easing(game.Tween.Easing.Back.Out);
 
             this.hero = new game.PIXI.Sprite.fromImage('media/home/hero.png', 0, 0);
-            this.hero.height = 600;
-            this.hero.width = 600;
+            this.hero.height = App.pY(80);
+            this.hero.width = App.pY(80);
             this.hero.anchor.set(0.5, 0.5);
-            this.hero.position.x = (game.system.width / App.deviceScale()) - (this.hero.width / 2);
-            this.hero.position.y = (game.system.height / App.deviceScale()) - (this.hero.height / 2);
+            this.hero.position.x = game.system.width - App.pY(40);
+            this.hero.position.y = game.system.height - App.pY(40);
+            this.hero.oScale = this.hero.scale;
             this.hero.scale = { x:0, y: 0 };
 
             heroTween = new game.Tween(this.hero.scale)
-                .to({ x: 1, y: 1 }, 500)
+                .to({ x: this.hero.oScale.x, y: this.hero.oScale.y}, 500)
                 .delay(125)
                 .easing(game.Tween.Easing.Back.Out);
 
+
             // Loop through levels
             for(i = 0; i < menuItems.length; i += 1) {
-
-                // Create level object
-                NewButton = App.Home.HomeButton.extend({ 
-                    id: i,
-                    name: menuItems[i] 
-                });
-
                 // Store
-                this.buttons.push(new NewButton());
-
+                game.HomeButton.inject({
+                    init: function(){
+                        this.id = i;
+                        this.name = menuItems[i];
+                        this.load();
+                    }
+                });
+                NewButton = new game.HomeButton();
             }
+
 
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()) * 5);
+            this.wipe.drawRect(0, 0, App.pX(100), App.pX(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             wipeTween = new game.Tween(this.wipe).to({ alpha: 0 }, 500);
@@ -205,18 +253,10 @@ game.module(
                 if(this.loader.started) {
 
                     // Move the bar
-                    this.bar.position.x += (2500 * game.system.delta);
-
-                    // Check bar is not overrun
-                    if(this.bar.position.x > (-(game.system.width / App.deviceScale()) + ( (game.system.width / App.deviceScale()) / 100) * this.loader.percent)) {
-
-                        // Reset bar position
-                        this.bar.position.x = -(game.system.width / App.deviceScale()) + (((game.system.width / App.deviceScale()) / 100) * this.loader.percent);
-
-                    }
+                    this.bar.position.x = App.pX(this.loader.percent);
 
                     // If bar is finished
-                    if(this.bar.position.x >= 0) {
+                    if(this.loader.percent === 100) {
 
                         // Remove the loading screen
                         this.stage.removeChild(this.loading);
@@ -234,7 +274,7 @@ game.module(
         }
     });
 
-    App.Home.Levels = game.Scene.extend({
+    game.createScene(App.Home.Levels, {
 
         backgroundColor: 0x143559,
         targetPosition: 0,
@@ -258,27 +298,29 @@ game.module(
             App.LevelList = App.getLevelList();
 
             // Create buttons
-            this.stages = new App.Home.Stages();
+            this.stages = new game.Stages();
 
             // Loop through levels
             for(i = 0; i < App.LevelList.length; i += 1) {
 
+                
                 // Create level object
-                NewButton = App.Home.StageButton.extend({ 
-                    id: i,
-                    idx: k, 
-                    name: App.LevelList[i].name, 
-                    title: App.LevelList[i].title, 
-                    games: App.LevelList[i].games, 
-                    rating: App.LevelList[i].rating,
-                    unlocked: App.LevelList[i].unlocked 
+                game.StageButton.inject({
+                    init: function(){
+                        this.id = i;
+                        this.idx = k;
+                        this.name = App.LevelList[i].name;
+                        this.title = App.LevelList[i].title;
+                        this.games = App.LevelList[i].games;
+                        this.rating = App.LevelList[i].rating;
+                        this.unlocked = App.LevelList[i].unlocked;
+                        this.load();
+                    }
                 });
-
+                // Store
+                NewButton = new game.StageButton();
                 // New column
                 k += 1;
-
-                // Store
-                this.buttons.push(new NewButton());
 
             }
 
@@ -287,7 +329,7 @@ game.module(
             this.back.height = 48;
             this.back.position.x = 24;
             this.back.position.y = 24;
-            this.back.setInteractive(true);
+            this.back.interactive = true;
             this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
             this.back.tap = this.back.click = function(){
                 App.buttonClick(game.scene.wipe, "wipe", "goHome");
@@ -327,7 +369,7 @@ game.module(
         }
     });
 
-    App.Home.About = game.Scene.extend({
+    game.createScene(App.Home.About, {
 
         backgroundColor: 0x143559,
         startPosition:0,
@@ -346,7 +388,7 @@ game.module(
             this.back.height = 48;
             this.back.position.x = 24;
             this.back.position.y = 24;
-            this.back.setInteractive(true);
+            this.back.interactive = true;
             this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
             this.back.tint = 0xFFFFFF;
             this.back.tap = this.back.click = function(){
@@ -373,7 +415,7 @@ game.module(
             this.button.drawRect(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.position.x = this.text3.position.x - 24;
             this.button.position.y = this.text3.position.y - 12;
-            this.button.setInteractive(true);
+            this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.tap = this.button.click = function() {
                 // Play level
@@ -388,7 +430,7 @@ game.module(
             this.facebook.height = 80;
             this.facebook.position.x = (game.system.width / App.deviceScale()) - 128;
             this.facebook.position.y = this.text2.position.y + this.text2.height + 80;
-            this.facebook.setInteractive(true);
+            this.facebook.interactive = true;
             this.facebook.hitArea = new game.PIXI.Rectangle(-40, -40, 80, 80);
             this.facebook.tap = this.facebook.click = this.share_facebook.bind(this);
 
@@ -398,7 +440,7 @@ game.module(
             this.twitter.height = 80;
             this.twitter.position.x = this.facebook.position.x - this.twitter.width - 32;
             this.twitter.position.y = this.text2.position.y + this.text2.height + 80;
-            this.twitter.setInteractive(true);
+            this.twitter.interactive = true;
             this.twitter.hitArea = new game.PIXI.Rectangle(-40, -40, 80, 80);
             this.twitter.tap = this.twitter.click = this.share_twitter.bind(this);
 
@@ -519,7 +561,7 @@ game.module(
 
     });
 
-    App.Home.GameIntro = game.Scene.extend({
+    game.createScene(App.Home.OverallGameIntro, {
 
         backgroundColor: 0x143559,
 
@@ -553,7 +595,7 @@ game.module(
             this.back.height = 48;
             this.back.position.x = 24;
             this.back.position.y = 24;
-            this.back.setInteractive(true);
+            this.back.interactive = true;
             this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
             this.back.tint = 0xFFFFFF;
             this.back.tap = this.back.click = function(){
@@ -574,7 +616,7 @@ game.module(
             this.button.drawRect(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.position.x = this.text3.position.x - 24;
             this.button.position.y = this.text3.position.y - 12;
-            this.button.setInteractive(true);
+            this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.tap = this.button.click = function() {
                 
@@ -616,7 +658,7 @@ game.module(
         }
     });
 
-    App.Home.Credits = game.Scene.extend({
+    game.createScene(App.Home.GameCredits, {
 
         backgroundColor: 0xf5f3e4,
         startPosition:0,
@@ -656,7 +698,7 @@ game.module(
             this.back.height = 48;
             this.back.position.x = 24;
             this.back.position.y = 24;
-            this.back.setInteractive(true);
+            this.back.interactive = true;
             this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
             this.back.tint = 0x143559;
             this.back.tap = this.back.click = function(){
@@ -827,7 +869,7 @@ game.module(
 
     });
 
-    App.Home.GetInvolved = game.Scene.extend({
+    game.createScene(App.Home.GetInvolved, {
 
         backgroundColor: 0x143559,
 
@@ -878,7 +920,7 @@ game.module(
             this.back.height = 48;
             this.back.position.x = 24;
             this.back.position.y = 24;
-            this.back.setInteractive(true);
+            this.back.interactive = true;
             this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
             this.back.tint = this.colour4;
             this.back.tap = this.back.click = function(){
@@ -940,7 +982,7 @@ game.module(
             this.arrow_right.height = 60;
             this.arrow_right.position.x = (game.system.width / App.deviceScale()) / 3 + 260;
             this.arrow_right.position.y = this.step2.position.y + (this.step2.height / 2);
-            this.arrow_right.setInteractive(true);
+            this.arrow_right.interactive = true;
             this.arrow_right.alpha = 1;
             this.arrow_right.hitArea = new game.PIXI.Rectangle(-30,-30,60,60);
             this.arrow_right.tap = this.arrow_right.click = this.carousel_right.bind(this);
@@ -951,7 +993,7 @@ game.module(
             this.arrow_left.height = 60;
             this.arrow_left.position.x = (game.system.width / App.deviceScale()) / 3 - 260;
             this.arrow_left.position.y = this.step2.position.y + (this.step2.height / 2);
-            this.arrow_left.setInteractive(true);
+            this.arrow_left.interactive = true;
             this.arrow_left.alpha = 0.25;
             this.arrow_left.hitArea = new game.PIXI.Rectangle(-30,-30,60,60);
             this.arrow_left.tap = this.arrow_left.click = this.carousel_left.bind(this);
@@ -966,7 +1008,7 @@ game.module(
             App.roundRect(this.button, 0, 0, this.text3.width + 64, this.text3.height + 24, 24, 24, 24, 24);
             this.button.position.x = this.text3.position.x - 32;
             this.button.position.y = this.text3.position.y - 12;
-            this.button.setInteractive(true);
+            this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.tap = this.button.click = function() {
 
@@ -1131,7 +1173,7 @@ game.module(
 
     });
 
-    App.Home.LevelIntro = game.Scene.extend({
+    game.createScene(App.Home.LevelIntro, {
 
         backgroundColor: 0x143559,
 
@@ -1234,7 +1276,7 @@ game.module(
             this.button.drawRect(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.position.x = this.text3.position.x - 24;
             this.button.position.y = this.text3.position.y - 12;
-            this.button.setInteractive(true);
+            this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.tap = this.button.click = function() {
 
@@ -1242,7 +1284,7 @@ game.module(
                 App.sendEvent('Level '+ (self.level + 1) +' Intro', 'click', 'Play');
 
                 if(self.level === 0) {
-                    App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.GameIntro);
+                    App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.OverallGameIntro);
                 } else {
                     App.playGame(self.games[0]);
                 }
@@ -1274,7 +1316,7 @@ game.module(
             this.back.height = 48;
             this.back.position.x = 24;
             this.back.position.y = 24;
-            this.back.setInteractive(true);
+            this.back.interactive = true;
             this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
             this.back.tint = this.colour4;
             this.back.tap = this.back.click = function(){
@@ -1312,7 +1354,7 @@ game.module(
 
     });
     
-    App.Home.LevelOutro = game.Scene.extend({
+    game.createScene(App.Home.LevelOutro, {
 
         backgroundColor: 0x143559,
 
@@ -1472,7 +1514,7 @@ game.module(
             this.button.drawRect(0, 0, this.nextText.width + 48, this.nextText.height + 24);
             this.button.position.x = this.nextText.position.x - 24;
             this.button.position.y = this.nextText.position.y - 12;
-            this.button.setInteractive(true);
+            this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.nextText.width + 24, this.nextText.height + 24);
             this.button.tap = this.button.click = function() {
 
@@ -1490,7 +1532,7 @@ game.module(
             this.facebook.height = 80;
             this.facebook.position.x = 88;
             this.facebook.position.y = this.nextText.position.y + 40;
-            this.facebook.setInteractive(true);
+            this.facebook.interactive = true;
             this.facebook.hitArea = new game.PIXI.Rectangle(-40, -40, 80, 80);
             this.facebook.tap = this.facebook.click = this.share_facebook.bind(this);
 
@@ -1501,7 +1543,7 @@ game.module(
             this.twitter.height = 80;
             this.twitter.position.x = this.facebook.position.x + this.twitter.width + 32;
             this.twitter.position.y = this.nextText.position.y + 40;
-            this.twitter.setInteractive(true);
+            this.twitter.interactive = true;
             this.twitter.hitArea = new game.PIXI.Rectangle(-40, -40, 80, 80);
             this.twitter.tap = this.twitter.click = this.share_twitter.bind(this);
 
@@ -1568,7 +1610,7 @@ game.module(
                 this.popupCloseButton.drawRect(0, 0, this.popupClose.width + 48, this.popupClose.height + 24);
                 this.popupCloseButton.position.x = this.popupClose.position.x - 24;
                 this.popupCloseButton.position.y = this.popupClose.position.y - 12;
-                this.popupCloseButton.setInteractive(true);
+                this.popupCloseButton.interactive = true;
                 this.popupCloseButton.hitArea = new game.PIXI.Rectangle(0, 0, this.popupClose.width + 24, this.popupClose.height + 24);
                 this.popupCloseButton.tap = this.popupCloseButton.click = this.closePopup.bind(this);
                 this.popupCloseButton.alpha = 0;

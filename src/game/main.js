@@ -1,23 +1,3 @@
-var App = {};
-// Sections
-App.Home = {}; 
-App.Pause = {}; 
-
-/** 
-    XDK_CHALLENGE 
-    This section sepcifies namespaces and id's for the mini challenges.
-    Further down the file you will find specific level related configurations.
-    To create a new game you must specify a namespace and unique ID and add it to a level inside App.getLevelList.
-    Create the module folder and module files that correspond with the mini challenge name.
-    The new files must be required below with the others.
-*/
-
-// Mini Games 
-App.Concept = { id: 1 };
-App.Coding = { id: 2 }; 
-App.Release = { id: 3 };
-//App.YourGame = { id: 4 }; 
-
 game.module(
     'game.main'
 )
@@ -41,13 +21,6 @@ game.module(
 
         // Enable/disable sound
         App.sound_disabled = false;
-        App.developer = false;
-
-        // Set orientation
-        game.System.resizeToFill = true;
-
-        // Set initial scene
-        App.startScene = App.Home.Main;
 
         /******************************************************************
         ** Debug **/
@@ -76,16 +49,6 @@ game.module(
         ** Debug **/
         /*****************************************************************/
 
-        // Remove splash screen
-        $("#splash").remove();
-
-        // Start game
-        game.start(
-            App.Home.Main, 
-            window.innerWidth * game.device.pixelRatio, 
-            window.innerHeight * game.device.pixelRatio
-        );
-
         // Set progress
         game.storage.set("CurrentMiniGame", 0);
         game.storage.set("CurrentLevel", 1);
@@ -95,6 +58,9 @@ game.module(
 
         // Set vibrations
         App.novibrations = game.storage.get("gameVibrations") || false;
+
+        // Change scene
+        game.system.setScene(App.Home.Main);
 
     };
 
@@ -151,7 +117,7 @@ game.module(
         } else {
 
             // Change scene
-            game.system.setScene(App.Home.LevelOutro);
+            game.system.setScene(App.Home.LevelOutro, true);
             
         }
     };
@@ -361,7 +327,7 @@ game.module(
             if(data.id === id) {
 
                 // Change scene
-                game.system.setScene(data.Intro);
+                game.system.setScene(data.Intro, true);
 
             }
         });
@@ -600,7 +566,7 @@ game.module(
     App.deviceScale = function(){
 
         // Check mobile
-        if (game.device.mobile){
+        /*if (game.device.mobile){
 
             // Check device width
             if(game.system.width / game.device.pixelRatio < 560) {
@@ -616,7 +582,18 @@ game.module(
 
         // Return pixel ratio
         return game.device.pixelRatio;
+        */
 
+        return 1;
+
+    };
+
+    App.pX = function(i){
+        return (game.system.width / 100) * i;
+    };
+
+    App.pY = function(i){
+        return (game.system.height / 100) * i;
     };
     
     App.mapToRange = function(x, inputStart, inputEnd, outputStart, outputEnd){
@@ -815,8 +792,5 @@ game.module(
 
     };
         
-    // Bind splash screen to touch and click
-    $("#splash").bind("touchstart click", App.init.bind(App));
-
 });
 

@@ -42,11 +42,13 @@ game.Scene = game.Class.extend({
     /**
         Minimum distance to trigger swipe.
         @property {Number} swipeDist
+        @default 100
     **/
     swipeDist: 100,
     /**
-        Maximum time to trigger swipe.
+        Maximum time to trigger swipe (ms).
         @property {Number} swipeTime
+        @default 500
     **/
     swipeTime: 500,
     
@@ -58,6 +60,7 @@ game.Scene = game.Class.extend({
         }
         game.system.stage.setBackgroundColor(this.backgroundColor);
 
+        game.system.stage.interactive = true;
         game.system.stage.mousemove = game.system.stage.touchmove = this._mousemove.bind(this);
         game.system.stage.click = game.system.stage.tap = this.click.bind(this);
         game.system.stage.mousedown = game.system.stage.touchstart = this._mousedown.bind(this);
@@ -66,6 +69,13 @@ game.Scene = game.Class.extend({
 
         this.stage = new game.Container();
         game.system.stage.addChild(this.stage);
+
+        if (game.audio && game.Audio.stopOnSceneChange) {
+            game.audio.stopMusic();
+            game.audio.stopSound(false, true);
+            game.audio.pausedSounds.length = 0;
+            game.audio.playingSounds.length = 0;
+        }
 
         if (game.debugDraw) game.debugDraw.reset();
     },
@@ -129,7 +139,7 @@ game.Scene = game.Class.extend({
         @param {game.Emitter} emitter
     **/
     removeEmitter: function(emitter) {
-        emitter._remove = true;
+        emitter.remove();
     },
 
     /**
@@ -149,6 +159,18 @@ game.Scene = game.Class.extend({
     },
 
     /**
+        Remove timer from scene.
+        @method removeTimer
+        @param {game.Timer} timer
+        @param {Boolean} doCallback
+    **/
+    removeTimer: function(timer, doCallback) {
+        if (!doCallback) timer.callback = null;
+        timer.repeat = false;
+        timer.set(0);
+    },
+
+    /**
         Shorthand for adding tween.
         @method addTween
         @param {Object} obj
@@ -163,18 +185,6 @@ game.Scene = game.Class.extend({
             tween[i](settings[i]);
         }
         return tween;
-    },
-
-    /**
-        Remove timer from scene.
-        @method removeTimer
-        @param {game.Timer} timer
-        @param {Boolean} doCallback
-    **/
-    removeTimer: function(timer, doCallback) {
-        if (!doCallback) timer.callback = null;
-        timer.repeat = false;
-        timer.set(0);
     },
     
     /**
@@ -267,11 +277,11 @@ game.Scene = game.Class.extend({
     },
 
     pause: function() {
-        if (game.audio) game.audio.pauseAll();
+        if (game.audio) game.audio.systemPause();
     },
 
     resume: function() {
-        if (game.audio && !App.mute) game.audio.resumeAll();
+        if (game.audio) game.audio.systemResume();
     }
 });
 

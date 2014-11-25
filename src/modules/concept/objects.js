@@ -16,7 +16,7 @@ game.module(
     
     // SPRITE CONTAINERS
 
-    App.Concept.GameLayer = game.Class.extend({
+    game.createClass(App.Concept.GameLayer, {
         init: function(){
             this.gameWidth = window.innerWidth * game.device.pixelRatio * 2;
             this.gameHeight = window.innerHeight * game.device.pixelRatio * 2;
@@ -38,14 +38,14 @@ game.module(
         }   
     });
     
-    App.Concept.PlayerLayer = game.Class.extend({
+    game.createClass(App.Concept.PlayerLayer, {
         init: function(){
             this.container = new game.Container();
             game.scene.stage.addChild(this.container);
         }
     });
     
-    App.Concept.ReverseTimeLayer = game.Class.extend({
+    game.createClass(App.Concept.ReverseTimeLayer, {
         init: function(){
             this.container = new game.Container();
             game.scene.stage.addChild(this.container);
@@ -54,7 +54,7 @@ game.module(
     
     // PALETTE AND BACKGROUND
     
-    App.Concept.Palette = game.Class.extend({
+    game.createClass(App.Concept.Palette, {
         init: function(whichScene_){
             this.bright = 0xffffff;
             this.hue1 =  App.currentPalette[0];//spark
@@ -64,7 +64,7 @@ game.module(
         }
     });
     
-    App.Concept.Background = game.Class.extend({
+    game.createClass(App.Concept.Background, {
         init: function(){
             var asset = 'concept/level_' + (game.scene.level+1) + '_background_tile_01.png';
             this.sprite = new game.TilingSprite(asset, game.scene.gameLayer.gameWidth, game.scene.gameLayer.gameHeight);
@@ -75,7 +75,7 @@ game.module(
     
     // MOVER CLASS
     
-    App.Concept.Mover = game.Class.extend({
+    game.createClass(App.Concept.Mover, {
         /*
         Base steering behaviour class from which all common sprite behaviours are inherited.
         Based on Craig Reynolds paper 'Steering Behaviours for Autonomous Characters' http://www.red3d.com/cwr/steer/
@@ -343,7 +343,7 @@ game.module(
     // DISTRACTION CLASSES
 
     //cat video
-    App.Concept.Distraction1 = App.Concept.Mover.extend({
+    game.createClass(App.Concept.Distraction1, App.Concept.Mover, {
         init: function(){
             /* XDK_PARAMS
             The properties below control the behaviour of this distraction. Increasing the maxSpeed and maxForce as well as increasing the seek radius will make the distraction more of a threat.
@@ -410,7 +410,7 @@ game.module(
     });
     
     // Cat sprite that appears during video penalty
-    App.Concept.Cat = game.Class.extend({
+    game.createClass(App.Concept.Cat, {
         init: function(){
             this.sprite = new game.Sprite('concept/cat.png');
             this.sprite.anchor.set(0, 0);
@@ -505,7 +505,7 @@ game.module(
     });
     
     //pillow
-    App.Concept.Distraction2 = App.Concept.Mover.extend({
+    game.createClass(App.Concept.Distraction2, App.Concept.Mover, {
         init: function(){
             /* XDK_PARAMS
             The properties below control the behaviour of this distraction. Increasing the maxSpeed and maxForce as well as increasing the seek radius will make the distraction more of a threat.
@@ -569,7 +569,7 @@ game.module(
     }); 
     
     //noodles
-    App.Concept.Distraction3 = App.Concept.Mover.extend({
+    game.createClass(App.Concept.Distraction3, App.Concept.Mover, {
         init: function(){
             /* XDK_PARAMS
             The properties below control the behaviour of this distraction. Increasing the maxSpeed and maxForce as well as increasing the seek radius will make the distraction more of a threat.
@@ -632,7 +632,7 @@ game.module(
         }  
     }); 
     
-    App.Concept.Distraction4 = App.Concept.Mover.extend({
+    game.createClass(App.Concept.Distraction4, App.Concept.Mover, {
         /* XDK_AMBUSH 
         Try creating an additional distraction based on the behaviours above.
         */
@@ -640,7 +640,7 @@ game.module(
     
     // IDEA CLASSES
         
-    App.Concept.Spark = App.Concept.Mover.extend({
+    game.createClass(App.Concept.Spark, App.Concept.Mover, {
         init: function(){
             /* XDK_PARAMS
             The properties below control the behaviour of this idea. Increasing the maxSpeed and maxForce as well as increasing the zipRange will make the idea harder to catch.
@@ -777,7 +777,7 @@ game.module(
         }
     });
         
-    App.Concept.Nucleus = App.Concept.Mover.extend({
+    game.createClass(App.Concept.Nucleus, App.Concept.Mover, {
         init: function(){
             /* XDK_PARAMS
             The properties below control the behaviour of this idea. Increasing the maxSpeed, the maxForce, the wanderSpeed or the fearRadius will make the idea harder to catch.
@@ -891,7 +891,7 @@ game.module(
         }
     });
         
-    App.Concept.Cog = App.Concept.Mover.extend({
+    game.createClass(App.Concept.Cog, App.Concept.Mover, {
         init: function(){
             /* XDK_PARAMS
             The properties below control the behaviour of this idea. Increasing the maxSpeed and maxForce as well as increasing the fearRadius will make the idea harder to catch.
@@ -998,7 +998,7 @@ game.module(
     
     // POWERUP CLASSES
     
-    App.Concept.PowerUp1 = App.Concept.Mover.extend({//unicorn
+    game.createClass(App.Concept.PowerUp1, App.Concept.Mover, {
         init: function(){
             this.radius = 32 * App.deviceScale();
             this.location = game.scene.gameLayer.getRandomPositionInGameWorld();
@@ -1054,7 +1054,7 @@ game.module(
         }
     });
     
-    App.Concept.PowerUp2 = App.Concept.Mover.extend({//clock
+    game.createClass(App.Concept.PowerUp2, App.Concept.Mover, {
         init: function(){
             this.radius = 32 * App.deviceScale();
             this.location = game.scene.gameLayer.getRandomPositionInGameWorld();
@@ -1110,7 +1110,7 @@ game.module(
         }
     });
     
-    App.Concept.PowerUp3 = App.Concept.Mover.extend({//coffee
+    game.createClass(App.Concept.PowerUp3, App.Concept.Mover, {
         init: function(){
             this.radius = 32 * App.deviceScale();
             this.location = game.scene.gameLayer.getRandomPositionInGameWorld();
@@ -1168,7 +1168,7 @@ game.module(
     
     // PLAYER CLASS
         
-    App.Concept.Player = App.Concept.Mover.extend({
+    game.createClass(App.Concept.Player, App.Concept.Mover, {
         init: function(){
             // Properties below control player character behaviour. He can be made more or less responsive by adjusting the maxSpeed and maxForce properties. 
             
@@ -1721,7 +1721,7 @@ game.module(
     
     // CAMERA CLASSES
     
-    App.Concept.Camera = game.Class.extend({
+    game.createClass(App.Concept.Camera, {
         init: function(){
             this.camera = new game.Camera();
             this.camera.target = game.scene.player.sprite;
@@ -1733,7 +1733,7 @@ game.module(
         }
     });
     
-    App.Concept.GameCamera = App.Concept.Camera.extend({
+    game.createClass(App.Concept.GameCamera, App.Concept.Camera, {
         init: function(){
             // Main camera moving the gameLayer container
             this._super();
@@ -1742,7 +1742,7 @@ game.module(
         }
     });
     
-    App.Concept.PlayerCamera = App.Concept.Camera.extend({
+    game.createClass(App.Concept.PlayerCamera, App.Concept.Camera, {
         init: function(){
             // Player camera tracking the player's movements
             this._super();
@@ -1753,7 +1753,7 @@ game.module(
     
     // HUD CLASSES
     
-    App.Concept.HUD = game.Class.extend({
+    game.createClass(App.Concept.HUD, {
         init: function(){
             // Container housing all HUD elements
             this.container = new game.Container();
@@ -1762,7 +1762,7 @@ game.module(
         }
     });
     
-    App.Concept.InputControl = game.Class.extend({
+    game.createClass(App.Concept.InputControl, {
         init: function(){
             /* XDK_SHAKE 
             The inputControl class takes touch or mouse based input and converts them to a velocity vector for the player. Can the accelerometer be used to provide a velocity vector instead?
@@ -1838,7 +1838,7 @@ game.module(
         }
     });
     
-    App.Concept.EnergyBar = game.Class.extend({
+    game.createClass(App.Concept.EnergyBar, {
         // Energy bars accumulate points every time an idea sprite is acquired by the player. They fade slowly over time rewarding players who take a risk and leave acquiring ideas til later in the game (at the risk of missing some)
         
         init: function(){
@@ -1879,7 +1879,7 @@ game.module(
         }
     });
     
-    App.Concept.EnergyBar1 = App.Concept.EnergyBar.extend({
+    game.createClass(App.Concept.EnergyBar1, App.Concept.EnergyBar, {
         init: function(){
             this.location = new game.Vector(144 * App.deviceScale(), 32 * App.deviceScale());
             this.colour = game.scene.palette.hue1;
@@ -1887,7 +1887,7 @@ game.module(
         }
     });
     
-    App.Concept.EnergyBar2 = App.Concept.EnergyBar.extend({
+    game.createClass(App.Concept.EnergyBar2, App.Concept.EnergyBar, {
         init: function(){
             this.location = new game.Vector(144 * App.deviceScale(), 48 * App.deviceScale());
             this.colour = game.scene.palette.hue3;
@@ -1895,7 +1895,7 @@ game.module(
         }
     });
     
-    App.Concept.EnergyBar3 = App.Concept.EnergyBar.extend({
+    game.createClass(App.Concept.EnergyBar3, App.Concept.EnergyBar, {
         init: function(){
             this.location = new game.Vector(144 * App.deviceScale(), 64 * App.deviceScale());
             this.colour = game.scene.palette.hue2;
@@ -1904,7 +1904,7 @@ game.module(
     });
     
     
-    App.Concept.Countdown = game.Class.extend({
+    game.createClass(App.Concept.Countdown, {
         init: function(){
             this.text = new game.BitmapText( "Test", { font: 'Roboto-export' });
             this.location = new game.Vector(0 * App.deviceScale(), 80 * App.deviceScale());
@@ -1958,7 +1958,7 @@ game.module(
     
     // POST-PROCESSING CLASSES
     
-    App.Concept.ColorCycle = game.Class.extend({
+    game.createClass(App.Concept.ColorCycle, {
         init: function(){
             // Class that implements a Pixi color cycling shader during the unicorn effect
             this.location = new game.Vector(game.system.width/2, game.system.height/2);
@@ -2031,7 +2031,7 @@ game.module(
         }
     });
     
-    App.Concept.TimeReverse = game.Class.extend({
+    game.createClass(App.Concept.TimeReverse, {
         init: function(){
             // Class that captures two copies of the stage image and ping pongs between them with reduced alpha to create a motion blur effect
             this.location = new game.Vector(game.system.width/2, game.system.height/2);

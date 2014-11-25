@@ -6,7 +6,7 @@ game.module(
 )
 .body(function() {
 
-    App.Coding.Intro = game.Scene.extend({
+    game.createScene(App.Coding.Intro, {
 
         backgroundColor: 0x143559,
 
@@ -136,19 +136,20 @@ game.module(
                     break;
             }
 
-            // Create level object
-            GameIntro = App.GameIntro.extend({ 
-                icon: "media/coding/icon.png",
-                title: text1,
-                text1: text2,
-                text2: text3,
-                img1: ["media/coding/level_2_intro_1.png", 320, 80],
-                img2: ["media/coding/level_2_intro_2.png", 320, 80],
-                link: App.Coding.Game
+            game.GameIntro.inject({
+                init: function(){
+                    this.icon = "media/coding/icon.png";
+                    this.title = text1;
+                    this.text1 = text2;
+                    this.text2 = text3;
+                    this.img1 = ["media/coding/level_2_intro_1.png", 320, 80];
+                    this.img2 = ["media/coding/level_2_intro_2.png", 320, 80];
+                    this.link = App.Coding.Game;
+                    this.load();
+                }
             });
-
-            // Create
-            this.gameIntro = new GameIntro();
+            // Create level object
+            this.gameIntro = new game.GameIntro();
 
         },
 
@@ -192,7 +193,7 @@ game.module(
         }
     });
 
-    App.Coding.Game = game.Scene.extend({
+    game.createScene(App.Coding.Game, {
 
         backgroundColor: 0x3c495b,
         score: 0,
@@ -318,14 +319,14 @@ game.module(
             this.container.addChild(this.textBox);
 
             // Controls layer
-            this.controlsLayer = new App.Coding.Controls();
+            this.controlsLayer = new game.Controls();
 
             this.deltaMultiplier = 1;
-            this.countdown = new App.Coding.Countdown();
+            this.countdown = new game.G2Countdown();
             this.timeIndex = 0;
 
             // Pause
-            this.pauseButton = new App.Pause.PauseButton();
+            this.pauseButton = new game.PauseButton();
             
             this.container.addChild(this.flash);
             this.stage.addChild(this.container);
@@ -437,7 +438,7 @@ game.module(
             if(!this.pauseObjects && this.timeleft >= 0) {
                 
                 // Create row
-                var new_row = new App.Coding.Row();
+                var new_row = new game.Row();
 
                 // Add to scene
                 this.addObject(new_row);
@@ -692,11 +693,13 @@ game.module(
         }
     });
 
-    App.Coding.Outro = game.Scene.extend({
+    game.createScene(App.Coding.Outro, {
 
         backgroundColor: 0x3c495b,
 
         init: function(){
+
+            var self = this;
 
             // Get/Set app name
             if(!game.storage.get("CurrentAppName")) {
@@ -707,17 +710,18 @@ game.module(
             this.score = Math.floor(game.storage.get("game_2_score")) || 0;
 
             // Create level object
-            var GameOutro = App.GameOutro.extend({ 
-
-                icon: "media/coding/icon.png",
-                title: "You built",
-                shape: "media/coding/shape.png",
-                score: this.score + "%"
-
+            game.GameOutro.inject({
+                init: function(){
+                    this.icon = "media/coding/icon.png";
+                    this.title = "You built";
+                    this.shape = "media/coding/shape.png";
+                    this.score = self.score + "%";
+                    this.load();
+                }
             });
 
             // Create
-            this.gameOutro = new GameOutro();
+            this.gameOutro = new game.GameOutro();
             
         }
 
