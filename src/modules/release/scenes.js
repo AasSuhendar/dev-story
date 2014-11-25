@@ -18,25 +18,25 @@ game.module(
             // Get level
             this.level = game.storage.get("CurrentLevel");
             
-            var assets = 0, i;
+            var i;
 
             // Aquire game assets
-            assets += App.requireAsset("Roboto-export.png");
-            assets += App.requireAsset("Roboto-export.fnt");
-            assets += App.requireAsset("pause.png");
-            assets += App.requireAsset("pause_sound.png");
-            assets += App.requireAsset("pause_vibrate.png");
-            assets += App.requireAsset("pause_quit.png");
-            assets += App.requireAsset("pause_resume.png");
-            assets += App.requireAsset("release/icon.png");
-            assets += App.requireAsset("release/shape.png");
-            assets += App.requireAsset("release/level_3_intro_1.png");
-            assets += App.requireSound("audio/launch_fire.wav", "launch_fire");
-            assets += App.requireSound("audio/launch_bg.wav", "launch_bg");
+            game.addAsset("Roboto-export.png");
+            game.addAsset("Roboto-export.fnt");
+            game.addAsset("pause.png");
+            game.addAsset("pause_sound.png");
+            game.addAsset("pause_vibrate.png");
+            game.addAsset("pause_quit.png");
+            game.addAsset("pause_resume.png");
+            game.addAsset("release/icon.png");
+            game.addAsset("release/shape.png");
+            game.addAsset("release/level_3_intro_1.png");
+            game.addAudio("audio/launch_fire.wav", "launch_fire");
+            game.addAudio("audio/launch_bg.wav", "launch_bg");
 
             // Add icon assets
             for(i = 1; i <= 25; i += 1) {
-                assets += App.requireAsset("release/"+i+".png");
+                game.addAsset("release/"+i+".png");
             }
 
             // Colours
@@ -62,42 +62,32 @@ game.module(
             this.loading = new game.Container();
             this.loading.scale.set(App.deviceScale(), App.deviceScale());
 
-            // If assets to load
-            if(assets) {
+            // Create loader
+            this.loader = new game.Loader();
 
-                // Create loader
-                this.loader = new game.Loader();
+            // Set dynamic
+            this.loader.dynamic = true;
+            this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold '+ App.pX(5) +'px sans-serif' } );
+            this.loadingText.anchor.set(0.5, 0.5);
+            this.loadingText.position.x = App.pX(50);
+            this.loadingText.position.y = App.pY(50);
 
-                // Set dynamic
-                this.loader.dynamic = true;
+            // Objects
+            this.bar = new game.Graphics();
+            this.bar.beginFill(0xce5064); 
+            this.bar.drawRect(0, 0, App.pX(100), App.pY(100));
+            this.bar.position.y = 0;
+            this.bar.position.x = -App.pX(100);
+            this.bar.endFill();
 
-                // Objects
-                this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold 72px sans-serif' } );
-                this.loadingText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.loadingText.width / 2);
-                this.loadingText.position.y = ((game.system.height / App.deviceScale()) / 2) - (this.loadingText.height / 2);
-                this.bar = new game.Graphics();
-                this.bar.beginFill(App.currentPalette[1]); 
-                this.bar.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
-                this.bar.position.y = 0;
-                this.bar.position.x = -(game.system.width / App.deviceScale());
-                this.bar.endFill();
+            // Add to scene
+            this.loading.addChild(this.bar);
+            this.loading.addChild(this.loadingText);
+            this.stage.addChild(this.loading);
 
-                // Add to sprite
-                this.loading.addChild(this.bar);
-                this.loading.addChild(this.loadingText);
+            // Start loading
+            this.loader.start();
 
-                // Add to scene
-                this.stage.addChild(this.loading);
-
-                // Start loading
-                this.loader.start();
-
-            } else {
-
-                // Skip preloading
-                this.loaded();         
-
-            }
 
         },
 
@@ -157,18 +147,10 @@ game.module(
                 if(this.loader.started) {
 
                     // Move the bar
-                    this.bar.position.x += (2500 * game.system.delta);
-
-                    // Check bar is not overrun
-                    if(this.bar.position.x > (-(game.system.width / App.deviceScale()) + ( (game.system.width / App.deviceScale()) / 100) * this.loader.percent)) {
-
-                        // Reset bar position
-                        this.bar.position.x = -(game.system.width / App.deviceScale()) + (((game.system.width / App.deviceScale()) / 100) * this.loader.percent);
-
-                    }
+                    this.bar.position.x = App.pX(this.loader.percent);
 
                     // If bar is finished
-                    if(this.bar.position.x >= 0) {
+                    if(this.loader.percent === 100) {
 
                         // Remove the loading screen
                         this.stage.removeChild(this.loading);

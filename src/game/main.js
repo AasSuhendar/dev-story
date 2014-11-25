@@ -350,7 +350,7 @@ game.module(
 
         // Container
         container = new game.Container();
-        container.scale.set(App.deviceScale(), App.deviceScale());
+        //container.scale.set(App.deviceScale(), App.deviceScale());
 
         // Random number
         rand = 250 + (Math.random() * 1000);
@@ -363,10 +363,10 @@ game.module(
 
             // Draw rectangle
             boxes[i].beginFill(0xFFFFFF);
-            boxes[i].drawRect(0, 0, ((game.system.width / App.deviceScale()) / 7) * (Math.random() * 5), 30);
+            boxes[i].drawRect(0, 0, App.pX(14) * (Math.random() * 5), App.pY(4));
             boxes[i].endFill();
-            boxes[i].position.x = 48 + ((game.system.width / App.deviceScale()) / 15) * (Math.random());
-            boxes[i].position.y = (game.system.height / App.deviceScale()) + (55 * i);
+            boxes[i].position.x = App.pX(5) + (App.pX(7) * (Math.random()));
+            boxes[i].position.y = App.pY(100) + (App.pY(8) * i);
             boxes[i].alpha = 0.25;
 
             // Create tweens

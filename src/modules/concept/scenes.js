@@ -29,59 +29,57 @@ game.module(
             
             var levelString = (1 + this.level);
             
-            var assets = 0;
-
             // Aquire game assets
-            assets += App.requireAsset("font.fnt");
-            assets += App.requireAsset("Roboto-export.png");
-            assets += App.requireAsset("Roboto-export.fnt");
-            assets += App.requireAsset("concept/level_"+levelString+"_background_tile_01.png");
-            assets += App.requireAsset("concept/character_body.png");
-            assets += App.requireAsset("concept/character_arms.png");
-            assets += App.requireAsset("concept/character_legs.png");
-            assets += App.requireAsset("concept/character_face_01_default.png");
-            assets += App.requireAsset("concept/character_face_02_smile.png");
-            assets += App.requireAsset("concept/character_face_03_wired.png");
-            assets += App.requireAsset("concept/character_face_04_content.png");
-            assets += App.requireAsset("concept/character_face_05_hypnotised.png");
-            assets += App.requireAsset("concept/character_face_06_squint.png");
-            assets += App.requireAsset("concept/character_face_07_asleep.png");
-            assets += App.requireAsset("concept/glow_01.png");
-            assets += App.requireAsset("concept/particle.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_distraction_cat_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_distraction_noodles_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_distraction_pillow_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_powerup_clock_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_powerup_coffee_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_powerup_drink_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_powerup_sushi_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_powerup_unicorn_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_collectable_atom_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_collectable_cog_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_collectable_star_01.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_collectable_star_tail_01.png");
-            assets += App.requireAsset("concept/cat.png");
-            assets += App.requireAsset("concept/unicorn.png");
-            assets += App.requireSound("audio/concept_bg_level_0"+levelString+".wav", "music"+levelString);
-            assets += App.requireSound("audio/concept_reverse_level_0"+levelString+".wav", "reverse"+levelString);
-            assets += App.requireSound("audio/concept_bg_end.wav", "end");
-            assets += App.requireSound("audio/concept_idea_spark_01.wav", "spark");
-            assets += App.requireSound("audio/concept_idea_nucleus_01.wav", "nucleus");
-            assets += App.requireSound("audio/concept_idea_cog_03.wav", "cog");
-            assets += App.requireSound("audio/concept_power_coffee_01.wav", "coffee");
-            assets += App.requireSound("audio/concept_power_unicorn_01.wav", "unicorn");
-            assets += App.requireSound("audio/concept_distract_cat_01.wav", "cat");
-            assets += App.requireSound("audio/concept_distract_sleep_01.wav", "sleep");
-            assets += App.requireSound("audio/concept_distract_noodle_01.wav", "noodle");
-            assets += App.requireAsset("pause.png");
-            assets += App.requireAsset("pause_sound.png");
-            assets += App.requireAsset("pause_vibrate.png");
-            assets += App.requireAsset("pause_quit.png");
-            assets += App.requireAsset("pause_resume.png");
-            assets += App.requireAsset("concept/icon.png");
-            assets += App.requireAsset("concept/shape.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_intro_1.png");
-            assets += App.requireAsset("concept/level_"+levelString+"_intro_2.png");
+            game.addAsset("font.fnt");
+            game.addAsset("Roboto-export.png");
+            game.addAsset("Roboto-export.fnt");
+            game.addAsset("concept/level_"+levelString+"_background_tile_01.png");
+            game.addAsset("concept/character_body.png");
+            game.addAsset("concept/character_arms.png");
+            game.addAsset("concept/character_legs.png");
+            game.addAsset("concept/character_face_01_default.png");
+            game.addAsset("concept/character_face_02_smile.png");
+            game.addAsset("concept/character_face_03_wired.png");
+            game.addAsset("concept/character_face_04_content.png");
+            game.addAsset("concept/character_face_05_hypnotised.png");
+            game.addAsset("concept/character_face_06_squint.png");
+            game.addAsset("concept/character_face_07_asleep.png");
+            game.addAsset("concept/glow_01.png");
+            game.addAsset("concept/particle.png");
+            game.addAsset("concept/level_"+levelString+"_distraction_cat_01.png");
+            game.addAsset("concept/level_"+levelString+"_distraction_noodles_01.png");
+            game.addAsset("concept/level_"+levelString+"_distraction_pillow_01.png");
+            game.addAsset("concept/level_"+levelString+"_powerup_clock_01.png");
+            game.addAsset("concept/level_"+levelString+"_powerup_coffee_01.png");
+            game.addAsset("concept/level_"+levelString+"_powerup_drink_01.png");
+            game.addAsset("concept/level_"+levelString+"_powerup_sushi_01.png");
+            game.addAsset("concept/level_"+levelString+"_powerup_unicorn_01.png");
+            game.addAsset("concept/level_"+levelString+"_collectable_atom_01.png");
+            game.addAsset("concept/level_"+levelString+"_collectable_cog_01.png");
+            game.addAsset("concept/level_"+levelString+"_collectable_star_01.png");
+            game.addAsset("concept/level_"+levelString+"_collectable_star_tail_01.png");
+            game.addAsset("concept/cat.png");
+            game.addAsset("concept/unicorn.png");
+            game.addAudio("audio/concept_bg_level_0"+levelString+".wav", "music"+levelString);
+            game.addAudio("audio/concept_reverse_level_0"+levelString+".wav", "reverse"+levelString);
+            game.addAudio("audio/concept_bg_end.wav", "end");
+            game.addAudio("audio/concept_idea_spark_01.wav", "spark");
+            game.addAudio("audio/concept_idea_nucleus_01.wav", "nucleus");
+            game.addAudio("audio/concept_idea_cog_03.wav", "cog");
+            game.addAudio("audio/concept_power_coffee_01.wav", "coffee");
+            game.addAudio("audio/concept_power_unicorn_01.wav", "unicorn");
+            game.addAudio("audio/concept_distract_cat_01.wav", "cat");
+            game.addAudio("audio/concept_distract_sleep_01.wav", "sleep");
+            game.addAudio("audio/concept_distract_noodle_01.wav", "noodle");
+            game.addAsset("pause.png");
+            game.addAsset("pause_sound.png");
+            game.addAsset("pause_vibrate.png");
+            game.addAsset("pause_quit.png");
+            game.addAsset("pause_resume.png");
+            game.addAsset("concept/icon.png");
+            game.addAsset("concept/shape.png");
+            game.addAsset("concept/level_"+levelString+"_intro_1.png");
+            game.addAsset("concept/level_"+levelString+"_intro_2.png");
             
             // Colours
             switch (this.level) {
@@ -105,43 +103,32 @@ game.module(
             // Container
             this.loading = new game.Container();
             this.loading.scale.set(App.deviceScale(), App.deviceScale());
-            
-            // If assets to load
-            if(assets) {
+        
+            // Create loader
+            this.loader = new game.Loader();
 
-                // Create loader
-                this.loader = new game.Loader();
+            // Set dynamic
+            this.loader.dynamic = true;
+            this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold '+ App.pX(5) +'px sans-serif' } );
+            this.loadingText.anchor.set(0.5, 0.5);
+            this.loadingText.position.x = App.pX(50);
+            this.loadingText.position.y = App.pY(50);
 
-                // Set dynamic
-                this.loader.dynamic = true;
+            // Objects
+            this.bar = new game.Graphics();
+            this.bar.beginFill(0xce5064); 
+            this.bar.drawRect(0, 0, App.pX(100), App.pY(100));
+            this.bar.position.y = 0;
+            this.bar.position.x = -App.pX(100);
+            this.bar.endFill();
 
-                // Objects
-                this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold 72px sans-serif' } );
-                this.loadingText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.loadingText.width / 2);
-                this.loadingText.position.y = ((game.system.height / App.deviceScale()) / 2) - (this.loadingText.height / 2);
-                this.bar = new game.Graphics();
-                this.bar.beginFill(App.currentPalette[1]); 
-                this.bar.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
-                this.bar.position.y = 0;
-                this.bar.position.x = -(game.system.width / App.deviceScale());
-                this.bar.endFill();
+            // Add to scene
+            this.loading.addChild(this.bar);
+            this.loading.addChild(this.loadingText);
+            this.stage.addChild(this.loading);
 
-                // Add items to sprite
-                this.loading.addChild(this.bar);
-                this.loading.addChild(this.loadingText);
-
-                // Add item to stage
-                this.stage.addChild(this.loading);
-
-                // Start loading
-                this.loader.start();
-
-            } else {
-
-                // Skip preloading
-                this.loaded();      
-
-            }
+            // Start loading
+            this.loader.start();
 
         },
 
@@ -199,17 +186,10 @@ game.module(
                 if(this.loader.started) {
 
                     // Move the bar
-                    this.bar.position.x += (2500 * game.system.delta);
-
-                    // Check bar is not overrun
-                    if(this.bar.position.x > (-(game.system.width / App.deviceScale()) + ( (game.system.width / App.deviceScale()) / 100) * this.loader.percent)) {
-
-                        // Reset bar position
-                        this.bar.position.x = -(game.system.width / App.deviceScale()) + (((game.system.width / App.deviceScale()) / 100) * this.loader.percent);
-                    }
+                    this.bar.position.x = App.pX(this.loader.percent);
 
                     // If bar is finished
-                    if(this.bar.position.x >= 0) {
+                    if(this.loader.percent === 100) {
 
                         // Remove the loading screen
                         this.stage.removeChild(this.loading);
@@ -219,6 +199,7 @@ game.module(
 
                         // Fire callback
                         this.loaded();
+
                     }
                 }
             }

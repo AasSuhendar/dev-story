@@ -18,33 +18,31 @@ game.module(
             // Get level
             this.level = game.storage.get("CurrentLevel");
             
-            var assets = 0;
-
             // Aquire generic assets
-            assets += App.requireAsset("Roboto-export.png");
-            assets += App.requireAsset("Roboto-export.fnt");
-            assets += App.requireAsset("pause.png");
-            assets += App.requireAsset("pause_sound.png");
-            assets += App.requireAsset("pause_vibrate.png");
-            assets += App.requireAsset("pause_quit.png");
-            assets += App.requireAsset("pause_resume.png");
+            game.addAsset("Roboto-export.png");
+            game.addAsset("Roboto-export.fnt");
+            game.addAsset("pause.png");
+            game.addAsset("pause_sound.png");
+            game.addAsset("pause_vibrate.png");
+            game.addAsset("pause_quit.png");
+            game.addAsset("pause_resume.png");
 
             // Aquire game assets
-            assets += App.requireAsset("coding/icon.png");
-            assets += App.requireAsset("coding/shape.png");
-            assets += App.requireAsset("coding/code.png");
-            assets += App.requireAsset("coding/cord.png");
-            assets += App.requireAsset("coding/squish.png");
-            assets += App.requireAsset("coding/mouse_"+(this.level+1)+".png");
-            assets += App.requireAsset("coding/bug.png");
-            assets += App.requireAsset("coding/keyboard.png");
-            assets += App.requireAsset("coding/level_2_intro_1.png");
-            assets += App.requireAsset("coding/level_2_intro_2.png");
+            game.addAsset("coding/icon.png");
+            game.addAsset("coding/shape.png");
+            game.addAsset("coding/code.png");
+            game.addAsset("coding/cord.png");
+            game.addAsset("coding/squish.png");
+            game.addAsset("coding/mouse_"+(this.level+1)+".png");
+            game.addAsset("coding/bug.png");
+            game.addAsset("coding/keyboard.png");
+            game.addAsset("coding/level_2_intro_1.png");
+            game.addAsset("coding/level_2_intro_2.png");
 
             // Sound
-            assets += App.requireSound("audio/coding_click.wav", "coding_click"); 
-            assets += App.requireSound("audio/coding_bg.wav", "coding_bg");
-            assets += App.requireSound("audio/coding_debug.wav", "coding_debug");
+            game.addAudio("audio/coding_click.wav", "coding_click"); 
+            game.addAudio("audio/coding_bg.wav", "coding_bg");
+            game.addAudio("audio/coding_debug.wav", "coding_debug");
 
             // Colours
             switch (this.level) {
@@ -69,42 +67,32 @@ game.module(
             this.loading = new game.Container();
             this.loading.scale.set(App.deviceScale(), App.deviceScale());
 
-            // If assets to load
-            if(assets) {
+            // Create loader
+            this.loader = new game.Loader();
 
-                // Create loader
-                this.loader = new game.Loader();
+            // Set dynamic
+            this.loader.dynamic = true;
+            this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold '+ App.pX(5) +'px sans-serif' } );
+            this.loadingText.anchor.set(0.5, 0.5);
+            this.loadingText.position.x = App.pX(50);
+            this.loadingText.position.y = App.pY(50);
 
-                // Set dynamic
-                this.loader.dynamic = true;
+            // Objects
+            this.bar = new game.Graphics();
+            this.bar.beginFill(0xce5064); 
+            this.bar.drawRect(0, 0, App.pX(100), App.pY(100));
+            this.bar.position.y = 0;
+            this.bar.position.x = -App.pX(100);
+            this.bar.endFill();
 
-                // Objects
-                this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold 72px sans-serif' } );
-                this.loadingText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.loadingText.width / 2);
-                this.loadingText.position.y = ((game.system.height / App.deviceScale()) / 2) - (this.loadingText.height / 2);
-                this.bar = new game.Graphics();
-                this.bar.beginFill(App.currentPalette[1]); 
-                this.bar.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
-                this.bar.position.y = 0;
-                this.bar.position.x = -(game.system.width / App.deviceScale());
-                this.bar.endFill();
+            // Add to scene
+            this.loading.addChild(this.bar);
+            this.loading.addChild(this.loadingText);
+            this.stage.addChild(this.loading);
 
-                // Add items to sprite
-                this.loading.addChild(this.bar);
-                this.loading.addChild(this.loadingText);
-
-                // Add item to stage
-                this.stage.addChild(this.loading);
-
-                // Start loading
-                this.loader.start();
-
-            } else {
-
-                // Skip preloading
-                this.loaded();      
-
-            }
+            // Start loading
+            this.loader.start();
+           
         },
 
         loaded: function(){
@@ -164,18 +152,10 @@ game.module(
                 if(this.loader.started) {
 
                     // Move the bar
-                    this.bar.position.x += (2500 * game.system.delta);
-
-                    // Check bar is not overrun
-                    if(this.bar.position.x > (-(game.system.width / App.deviceScale()) + ( (game.system.width / App.deviceScale()) / 100) * this.loader.percent)) {
-
-                        // Reset bar position
-                        this.bar.position.x = -(game.system.width / App.deviceScale()) + (((game.system.width / App.deviceScale()) / 100) * this.loader.percent);
-
-                    }
+                    this.bar.position.x = App.pX(this.loader.percent);
 
                     // If bar is finished
-                    if(this.bar.position.x >= 0) {
+                    if(this.loader.percent === 100) {
 
                         // Remove the loading screen
                         this.stage.removeChild(this.loading);

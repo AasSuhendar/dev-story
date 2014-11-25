@@ -118,7 +118,7 @@ game.module(
                     game.scene.movement = true;
 
                     // Set new target position
-                    this.targetPosition = -this.position * (game.system.width / 2.5);
+                    this.targetPosition = -this.position * App.pX(40);
 
                 } 
 
@@ -129,7 +129,7 @@ game.module(
                     if(this.stages.position.x <= this.targetPosition) {
 
                         // move the stage
-                        this.stages.position.x += (game.system.width / App.deviceScale()) * game.system.delta;
+                        this.stages.position.x += App.pX(100) * game.system.delta;
 
                         // If the stage overan
                         if(this.stages.position.x >= this.targetPosition) {
@@ -161,7 +161,7 @@ game.module(
                     game.scene.movement = true;
                     
                     // Set new target position
-                    this.targetPosition = -this.position * (game.system.width / 2.5);
+                    this.targetPosition = -this.position * App.pX(40);
 
                 } 
                 
@@ -172,7 +172,7 @@ game.module(
                     if(this.stages.position.x >= this.targetPosition) {
                         
                         // move the stage
-                        this.stages.position.x -= (game.system.width / App.deviceScale()) * game.system.delta;
+                        this.stages.position.x -= App.pX(100) * game.system.delta;
                         
                         // If the stage overan
                         if(this.stages.position.x <= this.targetPosition) {
@@ -205,20 +205,22 @@ game.module(
 
             // Objects
             this.interact = new game.Graphics();
+            //this.interact.beginFill(0x000000);
+            //this.interact.alpha = 0.2;
             this.interact.drawRect(
-                48 + (this.idx * (game.system.width / App.deviceScale() / 2.5)), // X
-                (game.system.height / App.deviceScale() / 2) - 240, // Y
-                (game.system.width / App.deviceScale() / 2.5) - 96, // W
-                380// H
+                App.pX(2) + (this.idx * App.pX(40)), // X
+                0, // Y
+                App.pX(38), // W
+                App.pY(100)// H
             );
 
             // Create hitbox
             this.interact.interactive = true;
             this.interact.hitArea = new game.PIXI.Rectangle(
-                48 + (this.idx * (game.system.width / App.deviceScale() / 2.5)), // X
-                (game.system.height / App.deviceScale() / 2) - 240, // Y
-                (game.system.width / App.deviceScale() / 2.5) - 96, // W
-                380// H
+                App.pX(2) + (this.idx * App.pX(40)), // X
+                0, // Y
+                App.pX(38), // W
+                App.pY(100)// H
             );
 
             // Set locked state
@@ -245,10 +247,13 @@ game.module(
                 }
             };
 
-            this.image = new game.PIXI.Sprite.fromImage("media/home/levels_level_"+(this.idx+1)+".png");
+            this.image = new game.Sprite("home/levels_level_"+(this.idx+1)+".png");
             this.image.anchor.set(0.5,0.5);
-            this.image.position.x = (((game.system.width / App.deviceScale())/2.5)/2) + (this.idx * ((game.system.width / App.deviceScale())/2.5));
-            this.image.position.y = ((game.system.height / App.deviceScale()) / 2) - 24;
+            this.image.oScale = this.image.scale;
+            this.image.height = App.pY(50);
+            this.image.width = this.image.oScale.x * App.pY(50);
+            this.image.position.x = App.pX(2) + (App.pX(19) + (this.idx * App.pX(40)));
+            this.image.position.y = App.pY(50);
             this.image.alpha = (this.unlocked) ? 1 : 0.25;
             this.image.scale = { x: 0, y: 0 };
 
@@ -308,7 +313,7 @@ game.module(
 
             game.scene.stages.stages.addChild(this.container);
             stageTween = new game.Tween(this.image.scale)
-                .to({ x: 1, y: 1 }, 500)
+                .to({ x: this.image.oScale.x, y: this.image.oScale.y }, 500)
                 .delay(125 * this.id)
                 .easing(game.Tween.Easing.Back.Out);
             stageTween.start();

@@ -12,7 +12,7 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.bg = new game.Sprite.fromImage('media/splash/splash_en.png', 1280, 720);
             this.bg.ratio = 1280/720;
@@ -35,7 +35,11 @@ game.module(
             this.action.width = App.pX(100);
             this.action.height = App.pY(100);
             this.action.interactive = true;
-            this.action.hitArea = new game.PIXI.Rectangle(0,0,(game.system.width / App.deviceScale()), game.system.height / App.deviceScale());
+            this.action.hitArea = new game.PIXI.Rectangle(
+                0, 0,
+                App.pX(100), 
+                App.pY(100)
+            );
             this.action.tap = this.action.click = function(){
                 App.init();
             };
@@ -57,102 +61,93 @@ game.module(
 
         init: function(){
 
-            var assets = 0;
-
             // Aquire game assets
-            assets += App.requireAsset("pause.png");
-            assets += App.requireAsset("pause_sound.png");
-            assets += App.requireAsset("pause_vibrate.png");
-            assets += App.requireAsset("pause_quit.png");
-            assets += App.requireAsset("pause_resume.png");
+            game.addAsset("pause.png");
+            game.addAsset("pause_sound.png");
+            game.addAsset("pause_vibrate.png");
+            game.addAsset("pause_quit.png");
+            game.addAsset("pause_resume.png");
 
             // Home
-            assets += App.requireAsset("home/code.png");
-            assets += App.requireAsset("home/hero.png");
-            assets += App.requireAsset("home/title.png");
+            game.addAsset("home/code.png");
+            game.addAsset("home/hero.png");
+            game.addAsset("home/title.png");
 
             // About
-            assets += App.requireAsset("home/facebook.png");
-            assets += App.requireAsset("home/twitter.png");
-            assets += App.requireAsset("home/about_hero.png");
-            assets += App.requireAsset("home/arrow_right.png");
-            assets += App.requireAsset("home/arrow_left.png");
-            assets += App.requireAsset("home/level_4_hero.png");
+            game.addAsset("home/facebook.png");
+            game.addAsset("home/twitter.png");
+            game.addAsset("home/about_hero.png");
+            game.addAsset("home/arrow_right.png");
+            game.addAsset("home/arrow_left.png");
+            game.addAsset("home/level_4_hero.png");
 
             // Credits
-            assets += App.requireAsset("home/ant_b.png");
-            assets += App.requireAsset("home/matt_g.png");
-            assets += App.requireAsset("home/jon_w.png");
+            game.addAsset("home/ant_b.png");
+            game.addAsset("home/matt_g.png");
+            game.addAsset("home/jon_w.png");
 
             // Levels
-            assets += App.requireAsset("home/star_0.png");
-            assets += App.requireAsset("home/star_1.png");
-            assets += App.requireAsset("home/star_2.png");
-            assets += App.requireAsset("home/star_3.png");
-            assets += App.requireAsset("home/levels_level_1.png");
-            assets += App.requireAsset("home/levels_level_2.png");
-            assets += App.requireAsset("home/levels_level_3.png");
-            assets += App.requireAsset("home/levels_level_4.png");
+            game.addAsset("home/star_0.png");
+            game.addAsset("home/star_1.png");
+            game.addAsset("home/star_2.png");
+            game.addAsset("home/star_3.png");
+            game.addAsset("home/levels_level_1.png");
+            game.addAsset("home/levels_level_2.png");
+            game.addAsset("home/levels_level_3.png");
+            game.addAsset("home/levels_level_4.png");
 
             // Level Intro
-            assets += App.requireAsset("home/level_1_hero_fg.png");
-            assets += App.requireAsset("home/level_2_hero_fg.png");
-            assets += App.requireAsset("home/level_3_hero_fg.png");
-            assets += App.requireAsset("home/level_1_hero_bg.png");
-            assets += App.requireAsset("home/level_2_hero_bg.png");
-            assets += App.requireAsset("home/level_3_hero_bg.png");
-            assets += App.requireAsset("home/level_1_games.png");
-            assets += App.requireAsset("home/level_2_games.png");
-            assets += App.requireAsset("home/level_3_games.png");
+            game.addAsset("home/level_1_hero_fg.png");
+            game.addAsset("home/level_2_hero_fg.png");
+            game.addAsset("home/level_3_hero_fg.png");
+            game.addAsset("home/level_1_hero_bg.png");
+            game.addAsset("home/level_2_hero_bg.png");
+            game.addAsset("home/level_3_hero_bg.png");
+            game.addAsset("home/level_1_games.png");
+            game.addAsset("home/level_2_games.png");
+            game.addAsset("home/level_3_games.png");
 
              // Level Outro
-            assets += App.requireAsset("home/level_1_outro.png");
-            assets += App.requireAsset("home/level_2_outro.png");
-            assets += App.requireAsset("home/level_3_outro.png");
-            assets += App.requireAsset("home/quote.png");
-            assets += App.requireAsset("home/stars_0.png");
-            assets += App.requireAsset("home/stars_1.png");
-            assets += App.requireAsset("home/stars_2.png");
-            assets += App.requireAsset("home/stars_3.png");
+            game.addAsset("home/level_1_outro.png");
+            game.addAsset("home/level_2_outro.png");
+            game.addAsset("home/level_3_outro.png");
+            game.addAsset("home/quote.png");
+            game.addAsset("home/stars_0.png");
+            game.addAsset("home/stars_1.png");
+            game.addAsset("home/stars_2.png");
+            game.addAsset("home/stars_3.png");
 
             // Container
             this.loading = new game.Container();
             //this.loading.scale.set(App.deviceScale(), App.deviceScale());
 
-            // If assets to load
-            if(assets) {
+            // Create loader
+            this.loader = new game.Loader();
 
-                // Create loader
-                this.loader = new game.Loader();
+            // Set dynamic
+            this.loader.dynamic = true;
+            this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold '+ App.pX(5) +'px sans-serif' } );
+            this.loadingText.anchor.set(0.5, 0.5);
+            this.loadingText.position.x = App.pX(50);
+            this.loadingText.position.y = App.pY(50);
 
-                // Set dynamic
-                this.loader.dynamic = true;
-                this.loadingText = new game.Text( "Loading...".toUpperCase(), { fill: "white", font: 'bold 72px sans-serif' } );
-                this.loadingText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.loadingText.width / 2);
-                this.loadingText.position.y = ((game.system.height / App.deviceScale()) / 2) - (this.loadingText.height / 2);
+            // Objects
+            this.bar = new game.Graphics();
+            this.bar.beginFill(0xce5064); 
+            this.bar.drawRect(0, 0, App.pX(100), App.pY(100));
+            this.bar.position.y = 0;
+            this.bar.position.x = -App.pX(100);
+            this.bar.endFill();
 
-                // Objects
-                this.bar = new game.Graphics();
-                this.bar.beginFill(0xce5064); 
-                this.bar.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
-                this.bar.position.y = 0;
-                this.bar.position.x = -(game.system.width / App.deviceScale());
-                this.bar.endFill();
+            // Add to scene
+            this.loading.addChild(this.bar);
+            this.loading.addChild(this.loadingText);
+            this.stage.addChild(this.loading);
 
-                // Add to scene
-                this.loading.addChild(this.bar);
-                this.loading.addChild(this.loadingText);
-                this.stage.addChild(this.loading);
+            // Start loading
+            this.loader.start();
 
-                // Start loading
-                this.loader.start();
-
-            } else {
-
-                // Skip preloader
-                this.loaded();           
-
-            }
+           
         },
 
         loaded: function(){
@@ -289,10 +284,10 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Swipes
-            this.swipeDist = 300;
+            this.swipeDist = App.pX(10);
 
             // List of Levels
             App.LevelList = App.getLevelList();
@@ -337,7 +332,7 @@ game.module(
 
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()) * 5);
+            this.wipe.drawRect(0, 0, App.pX(100), App.pY(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             wipeTween = new game.Tween(this.wipe)
@@ -691,7 +686,7 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
             this.back.width = 48;
@@ -705,9 +700,10 @@ game.module(
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
             };
 
-            this.text1 = new game.Text("Meet the team".toUpperCase(), { fill: "white", font: 'bold 64px sans-serif', align: "center", wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 1.2) } );
-            this.text1.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text1.width / 2);
-            this.text1.position.y = 48;
+            this.text1 = new game.Text("Meet the team".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 1.2) } );
+            this.text1.anchor.set(0.5, 0.5);
+            this.text1.position.x = App.pX(50);
+            this.text1.position.y = App.pY(15);
             this.text1.tint = 0xce5064;
 
             var person, name, role, row = 0, section_title, section_keyline;
@@ -718,18 +714,18 @@ game.module(
                 row = 0;
 
                 // Set name
-                section_title = new game.Text(superstars[j][0], { fill: "white", font: 'bold 36px sans-serif' } );
-                section_title.position.x = 64;
-                section_title.position.y = this.text1.position.y + this.text1.height + 48 + this.stageHeight;
+                section_title = new game.Text(superstars[j][0], { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
+                section_title.position.x = App.pX(5);
+                section_title.position.y = this.text1.position.y + this.text1.height + App.pX(5) + this.stageHeight;
                 section_title.tint = 0x143559;
 
                 // Set line
                 section_keyline = new game.Graphics();
                 section_keyline.beginFill(0x143559);
-                section_keyline.drawRect(0, 0, (game.system.width / App.deviceScale()) - 256, 3);
+                section_keyline.drawRect(0, 0, App.pX(90), App.pY(1));
                 section_keyline.endFill();
-                section_keyline.position.x = 64;
-                section_keyline.position.y = section_title.position.y + section_title.height + 24;
+                section_keyline.position.x = App.pX(5);
+                section_keyline.position.y = section_title.position.y + section_title.height +  App.pY(3);
                 
                 // Add to container
                 this.container.addChild(section_title);
@@ -744,25 +740,27 @@ game.module(
                     }
 
                     // Set person avatar
-                    person = new game.PIXI.Sprite.fromImage("media/home/"+ superstars[j][1][i][2] +".png");
-                    person.position.x = 128 + (((game.system.width / App.deviceScale()) / 2 - 64) * (i % 2));
-                    person.position.y = section_keyline.position.y - 48 + ((person.height + 48) * row);
-                    person.anchor.set(0.5, 0.5);
+                    person = new game.Sprite("home/"+ superstars[j][1][i][2] +".png");
+                    person.anchor.set(0, 0);
+                    person.width = App.pX(16);
+                    person.height = App.pX(16);
+                    person.position.x = App.pX(5) + (App.pX(45) * (i % 2));
+                    person.position.y = section_keyline.position.y + (row * App.pX(3)) + ((person.height) * (row-1));
 
                     // Set person name
-                    name = new game.Text(superstars[j][1][i][0], { align: "left", fill: "white", font: '32px sans-serif' });
-                    name.position.x = (person.width / 2) + 12;
-                    name.position.y = -(person.height / 2) + 24;
+                    name = new game.Text(superstars[j][1][i][0], { align: "left", fill: "white", font: '24px sans-serif' });
+                    name.position.x = 140;
+                    name.position.y = 48;
                     name.tint = 0x143559;
 
                     // Set person role
-                    role = new game.Text(superstars[j][1][i][1], { align: "left", fill: "white", font: '32px sans-serif' });
-                    role.position.x = (person.width / 2) + 12;
-                    role.position.y = name.position.y + 48;
+                    role = new game.Text(superstars[j][1][i][1], { align: "left", fill: "white", font: '24px sans-serif' });
+                    role.position.x = 140;
+                    role.position.y = name.position.y + name.height + 5;
                     role.tint = 0xce5064;
             
                     // Calculate stage height for later
-                    this.stageHeight = person.position.y;
+                    this.stageHeight = person.position.y + person.height + App.pY(10);
 
                     // Add person
                     person.addChild(name);
@@ -779,15 +777,15 @@ game.module(
             // Create scrollbar
             this.scrollbar = new game.Graphics();
             this.scrollbar.beginFill(0x143559);
-            this.scrollbar.drawRect(0, 0, 12, 300);
+            this.scrollbar.drawRect(0, 0, App.pX(1), App.pY(20));
             this.scrollbar.endFill();
-            this.scrollbar.position.x = (game.system.width / App.deviceScale()) - 12;
+            this.scrollbar.position.x = App.pX(99);
             this.scrollbar.position.y = 0;
 
             // Create screen wipe
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()) * 5);
+            this.wipe.drawRect(0, 0, App.pX(100), App.pY(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             wipeTween = new game.Tween(this.wipe).to({ alpha: 0 }, 500);
@@ -800,12 +798,12 @@ game.module(
             this.stage.addChild(this.container);
 
             // Recaclculate stage height
-            if(this.stageHeight >= (game.system.height / App.deviceScale()) / 1.5) {
-                this.stageHeight -= (game.system.height / App.deviceScale()) / 1.5;
+            if(this.stageHeight >= App.pY(100)) {
+                this.stageHeight -= App.pY(100);
             }
 
             // Calculate remaining height
-            this.remainingHeight = (game.system.height / App.deviceScale()) - this.scrollbar.height;
+            this.remainingHeight = App.pY(100) - this.scrollbar.height;
 
             // Start wipe animation
             wipeTween.start();
@@ -820,7 +818,7 @@ game.module(
             if(this.movement) {
 
                 // Move stage container
-                this.container.position.y = -this.movementY * App.deviceScale();
+                this.container.position.y = -this.movementY;
                 this.scrollbar.position.y = this.movementY + (this.remainingHeight * (this.movementY / this.stageHeight));
 
             }
@@ -882,7 +880,7 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
+            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Set colours
             this.colour1 = 0x143559; // Dark
@@ -893,26 +891,28 @@ game.module(
             // Set bg colour
             game.system.stage.setBackgroundColor(this.colour1);
 
-            this.text1 = new game.Text("It's your turn".toUpperCase(), { fill: "white", font: 'bold 64px sans-serif' } );
-            this.text1.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.text1.width / 2);
-            this.text1.position.y = 48;
+            this.text1 = new game.Text("It's your turn".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.text1.anchor.set(0.5, 0.5);
+            this.text1.position.x = App.pX(50);
+            this.text1.position.y = App.pY(15);
             this.text1.tint = this.colour4;
 
-            this.text2 = new game.Text("Want to be part of Dev Story/*HACK THE CODE*/? We want you to take the reins (and the credit). Here's how.", { fill: "white", font: '28px sans-serif', align: "center", wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 2) } );
+            this.text2 = new game.Text("Want to be part of Dev Story/*HACK THE CODE*/? We want you to take the reins (and the credit). Here's how.", { fill: "white", font: App.pX(2.5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(50) } );
             this.text2.position.x = ((game.system.width / App.deviceScale()) / 3) - (this.text2.width / 2);
             this.text2.position.y = this.text1.position.y + this.text1.height + 48;
             this.text2.tint = this.colour4;
 
-            this.hero = new game.PIXI.Sprite.fromImage("media/home/level_4_hero.png");
-            this.hero.width = 720;
-            this.hero.height = 720;
+            this.hero = new game.Sprite("media/home/level_4_hero.png");
+            this.hero.width = App.pY(80);
+            this.hero.height = App.pY(80);
+            this.hero.oScale = this.hero.scale;
             this.hero.anchor.set(0.5, 1);
-            this.hero.position.x = (game.system.width / App.deviceScale()) - this.hero.width / 2;
-            this.hero.position.y = (game.system.height / App.deviceScale());
+            this.hero.position.x = App.pX(75);
+            this.hero.position.y = App.pY(100);
             this.hero.scale = { x: 0, y: 0 };
 
             heroTween = new game.Tween(this.hero.scale)
-                .to({ x: 1, y: 1 }, 250)
+                .to({ x: this.hero.oScale.x, y: this.hero.oScale.y }, 250)
                 .easing(game.Tween.Easing.Back.Out);
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
@@ -931,56 +931,56 @@ game.module(
             this.carousel_position = 0;
 
             this.step1 = new game.Text("Visit the Intel® Developer Zone and download the code.", { 
-                fill: "white",  font: '32px sans-serif',  align: "center", wordWrap: true, 
-                wordWrapWidth: ((game.system.width / App.deviceScale()) / 3) 
+                fill: "white",  font: App.pX(2.5)+'px sans-serif',  align: "center", wordWrap: true, 
+                wordWrapWidth: App.pX(33) 
             });
-            this.step1.position.x = (game.system.width / App.deviceScale()) / 3 - (this.step1.width / 2);
-            this.step1.position.y = this.text2.position.y + this.text2.height + 128 - (this.step1.height / 2);
+            this.step1.position.x = App.pX(33) - (this.step1.width / 2);
+            this.step1.position.y = this.text2.position.y + this.text2.height + App.pY(15) - (this.step1.height / 2);
 
             this.step2 = new game.Text("Build your new levels, mini challenges and mods.", { 
-                fill: "white",  font: '32px sans-serif',  align: "center", wordWrap: true, 
-                wordWrapWidth: ((game.system.width / App.deviceScale()) / 3) 
+                fill: "white",  font: App.pX(2.5)+'px sans-serif',  align: "center", wordWrap: true, 
+                wordWrapWidth: App.pX(33) 
             });
-            this.step2.position.x = (game.system.width / App.deviceScale()) / 3 - (this.step2.width / 2);
-            this.step2.position.y = this.text2.position.y + this.text2.height + 128 - (this.step2.height / 2);
+            this.step2.position.x = App.pX(33) - (this.step2.width / 2);
+            this.step2.position.y = this.text2.position.y + this.text2.height + App.pY(15) - (this.step2.height / 2);
             this.step2.alpha = 0;
 
             this.step3 = new game.Text("Share your ideas with us. If any of them make it into version 2.0, you’ll get the credit!", { 
-                fill: "white",  font: '32px sans-serif',  align: "center", wordWrap: true, 
-                wordWrapWidth: ((game.system.width / App.deviceScale()) / 3) 
+                fill: "white",  font: App.pX(2.5)+'px sans-serif',  align: "center", wordWrap: true, 
+                wordWrapWidth: App.pX(33) 
             });
-            this.step3.position.x = (game.system.width / App.deviceScale()) / 3 - (this.step3.width / 2);
-            this.step3.position.y = this.text2.position.y + this.text2.height + 128 - (this.step3.height / 2);
+            this.step3.position.x = App.pX(33) - (this.step3.width / 2);
+            this.step3.position.y = this.text2.position.y + this.text2.height + App.pY(15) - (this.step3.height / 2);
             this.step3.alpha = 0;
 
             this.pip1 = new game.PIXI.Graphics();
             this.pip1.beginFill(this.colour4); 
-            this.pip1.drawCircle(0, 0, 12);
+            this.pip1.drawCircle(0, 0, App.pX(0.75));
             this.pip1.endFill();
-            this.pip1.position.x = (game.system.width / App.deviceScale()) / 3 - 50;
-            this.pip1.position.y = this.step3.position.y + this.step3.height + 48;
+            this.pip1.position.x = App.pX(30);
+            this.pip1.position.y = this.step3.position.y + this.step3.height + App.pY(5);
 
             this.pip2 = new game.PIXI.Graphics();
             this.pip2.beginFill(this.colour4); 
-            this.pip2.drawCircle(0, 0, 12);
+            this.pip2.drawCircle(0, 0, App.pX(0.75));
             this.pip2.endFill();
-            this.pip2.position.x = (game.system.width / App.deviceScale()) / 3;
-            this.pip2.position.y = this.step3.position.y + this.step3.height + 48;
+            this.pip2.position.x = App.pX(33);
+            this.pip2.position.y = this.step3.position.y + this.step3.height + App.pY(5);
             this.pip2.alpha = 0.25;
 
             this.pip3 = new game.PIXI.Graphics();
             this.pip3.beginFill(this.colour4); 
-            this.pip3.drawCircle(0, 0, 12);
+            this.pip3.drawCircle(0, 0, App.pX(0.75));
             this.pip3.endFill();
-            this.pip3.position.x = (game.system.width / App.deviceScale()) / 3 + 50;
-            this.pip3.position.y = this.step3.position.y + this.step3.height + 48;
+            this.pip3.position.x = App.pX(36);
+            this.pip3.position.y = this.step3.position.y + this.step3.height + App.pY(5);
             this.pip3.alpha = 0.25;
 
             this.arrow_right = new game.PIXI.Sprite.fromImage("media/home/arrow_right.png");
             this.arrow_right.anchor.set(0.5,0.5);
-            this.arrow_right.width = 60;
-            this.arrow_right.height = 60;
-            this.arrow_right.position.x = (game.system.width / App.deviceScale()) / 3 + 260;
+            this.arrow_right.width = App.pX(5);
+            this.arrow_right.height = App.pX(5);
+            this.arrow_right.position.x = App.pX(55);
             this.arrow_right.position.y = this.step2.position.y + (this.step2.height / 2);
             this.arrow_right.interactive = true;
             this.arrow_right.alpha = 1;
@@ -989,25 +989,25 @@ game.module(
 
             this.arrow_left = new game.PIXI.Sprite.fromImage("media/home/arrow_left.png");
             this.arrow_left.anchor.set(0.5,0.5);
-            this.arrow_left.width = 60;
-            this.arrow_left.height = 60;
-            this.arrow_left.position.x = (game.system.width / App.deviceScale()) / 3 - 260;
+            this.arrow_left.width = App.pX(5);
+            this.arrow_left.height = App.pX(5);
+            this.arrow_left.position.x = App.pX(11);
             this.arrow_left.position.y = this.step2.position.y + (this.step2.height / 2);
             this.arrow_left.interactive = true;
             this.arrow_left.alpha = 0.25;
             this.arrow_left.hitArea = new game.PIXI.Rectangle(-30,-30,60,60);
             this.arrow_left.tap = this.arrow_left.click = this.carousel_left.bind(this);
 
-            this.text3 = new game.Text( "Let’s go".toUpperCase(), { fill: "white", font: 'bold 48px sans-serif' } );
+            this.text3 = new game.Text( "Let’s go".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
             this.text3.tint = this.colour3;
-            this.text3.position.x = ((game.system.width / App.deviceScale()) / 3) - (this.text3.width / 2);
-            this.text3.position.y = this.pip1.position.y + this.pip1.height;
+            this.text3.position.x = App.pX(33) - (this.text3.width / 2);
+            this.text3.position.y = this.pip1.position.y + this.pip1.height + App.pY(5);
 
             this.button = new game.Graphics();
             this.button.beginFill(this.colour4); 
             App.roundRect(this.button, 0, 0, this.text3.width + 64, this.text3.height + 24, 24, 24, 24, 24);
             this.button.position.x = this.text3.position.x - 32;
-            this.button.position.y = this.text3.position.y - 12;
+            this.button.position.y = this.text3.position.y - 16;
             this.button.interactive = true;
             this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.text3.width + 48, this.text3.height + 24);
             this.button.tap = this.button.click = function() {
@@ -1021,7 +1021,7 @@ game.module(
 
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()) * 5);
+            this.wipe.drawRect(0, 0, App.pX(100), App.pY(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             wipeTween = new game.Tween(this.wipe).to({ alpha: 0 }, 500);
@@ -1520,7 +1520,7 @@ game.module(
 
                 // Play level
                 App.sendEvent('Level '+ (self.level + 1) +' Outro', 'click', 'Next');
-                App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Levels);
+                App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main, true);
 
             };
             this.button.alpha = 0;
