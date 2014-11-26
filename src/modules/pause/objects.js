@@ -151,7 +151,7 @@ game.module(
             this.quitButton = new game.Graphics();
             this.quitButton.beginFill(this.colour4); 
             App.roundRect(this.quitButton, 0, 0, App.pX(45), this.quitText.height + App.pY(3), App.pY(2), App.pY(2), App.pY(2), App.pY(2));
-            this.quitButton.position.x = this.quitText.position.x - App.pY(15);
+            this.quitButton.position.x = App.pX(27.5);
             this.quitButton.position.y = this.quitText.position.y - App.pY(2);
             this.quitButton.interactive = true;
             this.quitButton.hitArea = new game.PIXI.Rectangle(0, 0, App.pX(45), this.quitText.height + App.pY(2));
@@ -170,7 +170,7 @@ game.module(
             this.resumeButton = new game.Graphics();
             this.resumeButton.beginFill(this.colour2); 
             this.resumeButton.drawRect(0, 0, App.pX(45), this.resumeText.height + App.pY(3));
-            this.resumeButton.position.x = this.resumeText.position.x - App.pY(15);
+            this.resumeButton.position.x = App.pX(27.5);
             this.resumeButton.position.y = this.resumeText.position.y - App.pY(2);
             this.resumeButton.interactive = true;
             this.resumeButton.hitArea = new game.PIXI.Rectangle(0, 0, App.pX(45), this.resumeText.height +  App.pY(2));

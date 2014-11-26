@@ -159,15 +159,14 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Screenfill
             this.screenFill = new game.Graphics();
             this.screenFill.beginFill(App.currentPalette[1]);
-            this.screenFill.drawCircle(0, 0, game.system.width * 1.5);
+            this.screenFill.drawCircle(0, 0, App.pX(150));
             this.screenFill.endFill();
-            this.screenFill.position.x = (game.system.width / App.deviceScale()) / 2;
-            this.screenFill.position.y = (game.system.height / App.deviceScale()) / 1.7;
+            this.screenFill.position.x = App.pX(50);
+            this.screenFill.position.y = App.pY(60);
             this.screenFill.scale = { x: 0, y: 0 };
 
             // Capture position
@@ -177,8 +176,8 @@ game.module(
             if(this.level === 0) {
 
                 // Set hypmeter position
-                this.positions[0] = ((game.system.width / App.deviceScale()) / 12) * 3;
-                this.positions[1] = ((game.system.width / App.deviceScale()) / 12) * 9;
+                this.positions[0] = App.pX(25);
+                this.positions[1] = App.pX(75);
 
                 // Set player id
                 this.playerId = 0;
@@ -192,8 +191,8 @@ game.module(
             if(this.level === 1) {
 
                 // Set hypmeter position
-                this.positions[0] = ((game.system.width / App.deviceScale()) / 12) * 3;
-                this.positions[1] = ((game.system.width / App.deviceScale()) / 12) * 9;
+                this.positions[0] = App.pX(25);
+                this.positions[1] = App.pX(75);
 
                 // Set player id
                 this.playerId = 0;
@@ -207,9 +206,9 @@ game.module(
             if(this.level === 2) {
 
                 // Set hypmeter position
-                this.positions[0] = ((game.system.width / App.deviceScale()) / 12) * 2;
-                this.positions[1] = ((game.system.width / App.deviceScale()) / 12) * 6;
-                this.positions[2] = ((game.system.width / App.deviceScale()) / 12) * 10;
+                this.positions[0] = App.pX(20);
+                this.positions[1] = App.pX(50);
+                this.positions[2] = App.pX(80);
 
                 // Set player id
                 this.playerId = 1;

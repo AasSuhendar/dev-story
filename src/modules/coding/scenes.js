@@ -236,11 +236,11 @@ game.module(
             this.mouseZone2 = App.pX(100) - this.mouse.width + (this.mouse.width / 3);
             this.mouseZone3 = App.pX(100) - this.mouse.width + (this.mouse.width / 1.2);
 
-            this.zones = new game.Graphics();
-            this.zones.beginFill(0x0000FF); // GREEN
-            this.zones.drawRect(this.mouseZone1, 0, App.pX(0.2), App.pY(100));
-            this.zones.drawRect(this.mouseZone2, 0, App.pX(0.2), App.pY(100));
-            this.zones.drawRect(this.mouseZone3, 0, App.pX(0.2), App.pY(100));
+            //this.zones = new game.Graphics();
+            //this.zones.beginFill(0x0000FF); // GREEN
+            //this.zones.drawRect(this.mouseZone1, 0, App.pX(0.2), App.pY(100));
+            //this.zones.drawRect(this.mouseZone2, 0, App.pX(0.2), App.pY(100));
+            //this.zones.drawRect(this.mouseZone3, 0, App.pX(0.2), App.pY(100));
 
             // Text box
             this.textBox = new game.Text("Text Box!", { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
@@ -287,7 +287,7 @@ game.module(
             this.pauseButton = new game.PauseButton();
             
             this.container.addChild(this.flash);
-            this.container.addChild(this.zones);
+            //this.container.addChild(this.zones);
             this.stage.addChild(this.container);
 
         },

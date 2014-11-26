@@ -24,16 +24,15 @@ game.module(
         load: function(){
 
             // Store this
-            var launch, radius = 36, angle = (Math.PI * 2), i, j, k, item, position;
+            var launch, radius = App.pX(3), angle = (Math.PI * 2), i, j, k, item, position;
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Draw Guide
             this.guide = new game.Graphics();
             this.guide.beginFill(0x000000);
-            this.guide.drawCircle(game.scene.positions[this.id], (game.system.height / App.deviceScale()) / 1.7, 192);
+            this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(16));
             this.guide.alpha = 0.3;
 
             // Player
@@ -45,24 +44,24 @@ game.module(
                 }
 
                 // Names
-                this.name = new game.Text( game.storage.get("CurrentAppName"), { fill: "white", font: 'bold 32px sans-serif', align: "center", wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 3) });
+                this.name = new game.Text( game.storage.get("CurrentAppName"), { fill: "white", font: 'bold '+App.pX(2)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
                 this.name.position.x = game.scene.positions[this.id] - this.name.width / 2;
-                this.name.position.y = 160 - (this.name.height / 2);
+                this.name.position.y = App.pY(20) - (this.name.height / 2);
                 //this.name.tint = App.getHexNumber(241,88,54);
                 this.container.addChild(this.name);
 
                 // Draw circles
                 this.guide.beginFill(App.currentPalette[1]);
-                this.guide.drawCircle(game.scene.positions[this.id], (game.system.height / App.deviceScale()) / 1.7, 72);
+                this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(5));
                 this.guide.endFill();
 
                 // Draw button
                 this.launch = new game.Graphics();
                 this.launch.beginFill(App.currentPalette[2]);
-                this.launch.drawCircle(game.scene.positions[this.id], (game.system.height / App.deviceScale()) / 1.7, 60);
+                this.launch.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(4));
                 this.launch.endFill();
                 this.launch.interactive = true;
-                this.launch.hitArea = new game.PIXI.Circle(game.scene.positions[this.id], (game.system.height / App.deviceScale()) / 1.7, 72);
+                this.launch.hitArea = new game.PIXI.Circle(game.scene.positions[this.id], App.pY(60), App.pX(5));
                 this.launch.click = this.launch.tap = function(){
                     App.vibrate(1000);
                     game.scene.stop = true;
@@ -72,29 +71,29 @@ game.module(
                 this.container.addChild(this.launch);
 
                 // Draw text
-                launch = new game.Text("Launch Your App", { fill: "white", font: 'bold 20px sans-serif', align: "center", wordWrap: true, wordWrapWidth: 60 });
+                launch = new game.Text("Launch Your App", { fill: "white", font: 'bold '+App.pX(1.5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(5) });
                 launch.position.x = game.scene.positions[this.id] - (launch.width / 2);
-                launch.position.y = ((game.system.height / App.deviceScale()) / 1.7) - (launch.height / 2);
+                launch.position.y = App.pY(60) - (launch.height / 2);
                 this.container.addChild(launch);
 
             } else {
 
                 // Other players
-                this.name = new game.Text( App.generateName(true), { fill: "white", font: '32px sans-serif', align: "center", wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 4) });
+                this.name = new game.Text( App.generateName(true), { fill: "white", font: App.pX(2)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
                 this.name.position.x = game.scene.positions[this.id] - this.name.width / 2;
-                this.name.position.y = 160 - (this.name.height / 2);
+                this.name.position.y = App.pY(20) - (this.name.height / 2);
                 //this.name.tint = App.getHexNumber(241,88,54);
                 this.container.addChild(this.name);
 
                 // Draw circles
                 this.guide.beginFill(0x000000);
-                this.guide.drawCircle(game.scene.positions[this.id], (game.system.height / App.deviceScale()) / 1.7, 72);
+                this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(5));
                 this.guide.endFill();
 
                 // Draw button
                 this.launch = new game.Graphics();
                 this.launch.beginFill(App.currentPalette[3]);
-                this.launch.drawCircle(game.scene.positions[this.id], (game.system.height / App.deviceScale()) / 1.7, 60);
+                this.launch.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(4));
                 this.launch.endFill();
                 this.launch.alpha = 0.25;
                 this.container.addChild(this.guide);
@@ -103,7 +102,7 @@ game.module(
                 // Draw text
                 launch = new game.Text("Rival", { fill: "white", font: 'bold 20px sans-serif', align: "center" });
                 launch.position.x = game.scene.positions[this.id] - (launch.width / 2);
-                launch.position.y = ((game.system.height / App.deviceScale()) / 1.7) - (launch.height / 2);
+                launch.position.y = App.pY(60) - (launch.height / 2);
                 this.container.addChild(launch);
 
             }
@@ -127,8 +126,8 @@ game.module(
 
                     // Draw the item
                     item = new game.PIXI.Sprite.fromImage('media/release/'+ Math.ceil(Math.random() * 25) +'.png');
-                    item.width = 58;
-                    item.height = 58;
+                    item.width = App.pX(4.2);
+                    item.height = App.pX(4.2);
                     item.alpha = 0;
                     item.changed = false;
                     item.pivot = { x: item.width / 2, y: item.height / 2 };
@@ -218,7 +217,7 @@ game.module(
 
             var x, y;
             x = game.scene.positions[this.id] - (Math.cos((angle / k) * j) * ((1.6 * radius) + (radius * i)));
-            y = ((game.system.height / App.deviceScale()) / 1.7) - (Math.sin((angle / k) * j) * ((1.6 * radius) + (radius * i)));
+            y = App.pY(60) - (Math.sin((angle / k) * j) * ((1.6 * radius) + (radius * i)));
             return [x,y];
 
         },

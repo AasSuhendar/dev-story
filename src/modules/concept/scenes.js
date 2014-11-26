@@ -144,8 +144,8 @@ game.module(
                     this.title = text1;
                     this.text1 = text2;
                     this.text2 = text3;
-                    this.img1 = ["media/concept/level_1_intro_1.png", 600, 80];
-                    this.img2 = ["media/concept/level_1_intro_2.png", 400, 80];
+                    this.img1 = ["media/concept/level_"+(self.level+1)+"_intro_1.png", 600, 80];
+                    this.img2 = ["media/concept/level_"+(self.level+1)+"_intro_2.png", 400, 80];
                     this.link = App.Concept.Game;
                     this.load();
                 }
