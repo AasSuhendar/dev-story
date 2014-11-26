@@ -292,12 +292,12 @@ game.module(
             }
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
-            this.back.width = 48;
-            this.back.height = 48;
-            this.back.position.x = 24;
-            this.back.position.y = 24;
+            this.back.width = App.pX(5);
+            this.back.height = App.pX(5);
+            this.back.position.x = App.pX(2);
+            this.back.position.y = App.pX(2);
             this.back.interactive = true;
-            this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
+            this.back.hitArea = new game.PIXI.Rectangle(0,0,App.pX(6),App.pX(6));
             this.back.tap = this.back.click = function(){
                 App.buttonClick(game.scene.wipe, "wipe", "goHome");
             };
@@ -351,12 +351,12 @@ game.module(
             //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
-            this.back.width = 48;
-            this.back.height = 48;
-            this.back.position.x = 24;
-            this.back.position.y = 24;
+            this.back.width = App.pX(5);
+            this.back.height = App.pX(5);
+            this.back.position.x = App.pX(2);
+            this.back.position.y = App.pX(2);
             this.back.interactive = true;
-            this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
+            this.back.hitArea = new game.PIXI.Rectangle(0,0,App.pX(6),App.pX(6));
             this.back.tint = 0xFFFFFF;
             this.back.tap = this.back.click = function(){
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
@@ -567,12 +567,12 @@ game.module(
             game.system.stage.setBackgroundColor(this.colour1);
             
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
-            this.back.width = 48;
-            this.back.height = 48;
-            this.back.position.x = 24;
-            this.back.position.y = 24;
+            this.back.width = App.pX(5);
+            this.back.height = App.pX(5);
+            this.back.position.x = App.pX(2);
+            this.back.position.y = App.pX(2);
             this.back.interactive = true;
-            this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
+            this.back.hitArea = new game.PIXI.Rectangle(0,0,App.pX(6),App.pX(6));
             this.back.tint = 0xFFFFFF;
             this.back.tap = this.back.click = function(){
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
@@ -671,12 +671,12 @@ game.module(
             //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
-            this.back.width = 48;
-            this.back.height = 48;
-            this.back.position.x = 24;
-            this.back.position.y = 24;
+            this.back.width = App.pX(5);
+            this.back.height = App.pX(5);
+            this.back.position.x = App.pX(2);
+            this.back.position.y = App.pX(2);
             this.back.interactive = true;
-            this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
+            this.back.hitArea = new game.PIXI.Rectangle(0,0,App.pX(6),App.pX(6));
             this.back.tint = 0x143559;
             this.back.tap = this.back.click = function(){
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
@@ -898,12 +898,12 @@ game.module(
                 .easing(game.Tween.Easing.Back.Out);
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
-            this.back.width = 48;
-            this.back.height = 48;
-            this.back.position.x = 24;
-            this.back.position.y = 24;
+            this.back.width = App.pX(5);
+            this.back.height = App.pX(5);
+            this.back.position.x = App.pX(2);
+            this.back.position.y = App.pX(2);
             this.back.interactive = true;
-            this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
+            this.back.hitArea = new game.PIXI.Rectangle(0,0,App.pX(6),App.pX(6));
             this.back.tint = this.colour4;
             this.back.tap = this.back.click = function(){
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
@@ -1296,12 +1296,12 @@ game.module(
             heroFgTween.to({ x: App.pX(45) }, 1500).easing(game.Tween.Easing.Quartic.Out);
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
-            this.back.width = 48;
-            this.back.height = 48;
-            this.back.position.x = 24;
-            this.back.position.y = 24;
+            this.back.width = App.pX(5);
+            this.back.height = App.pX(5);
+            this.back.position.x = App.pX(2);
+            this.back.position.y = App.pX(2);
             this.back.interactive = true;
-            this.back.hitArea = new game.PIXI.Rectangle(0,0,96,96);
+            this.back.hitArea = new game.PIXI.Rectangle(0,0,App.pX(6),App.pX(6));
             this.back.tint = this.colour4;
             this.back.tap = this.back.click = function(){
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Levels);
