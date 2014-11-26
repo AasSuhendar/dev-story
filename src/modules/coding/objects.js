@@ -23,17 +23,20 @@ game.module(
                 if(shuffledRow[i] === 1) {
 
                     // Bug squish graphic
-                    this.squish = new game.PIXI.Sprite.fromImage("media/coding/squish.png");
+                    this.squish = new game.Sprite("coding/squish.png");
+                    this.squish.width = App.pX(30);
+                    this.squish.height = App.pX(30);
+                    this.squish.oScale = this.squish.scale;
                     this.squish.scale = { x: 0, y: 0 };
                     this.squish.anchor.set(0.5,0.5);
                     this.squish.position.x = 0;
                     this.squish.position.y = game.scene.positions[i];
-                    this.squish.scaleIn = new game.Tween(this.squish.scale).to({ x: 1, y: 1 }, 250).easing(game.Tween.Easing.Back.Out);
+                    this.squish.scaleIn = new game.Tween(this.squish.scale).to({ x: this.squish.oScale.x, y: this.squish.oScale.y }, 250).easing(game.Tween.Easing.Back.Out);
                     this.squish.scaleOut = new game.Tween(this.squish.scale).to({ x: 0, y: 0 }, 250);
                     this.squish.scaleOut.delay(500);
 
                     // Bug graphic
-                    this.bug = new game.PIXI.Sprite.fromImage("media/coding/bug.png");
+                    this.bug = new game.Sprite("coding/bug.png");
                     this.bug.scale = { x: 0, y: 0 };
                     this.bug.anchor.set(0.52,0.52);
                     this.bug.position.x = 0;
@@ -42,16 +45,18 @@ game.module(
                     this.bug.scaleOut = new game.Tween(this.bug.scale).to({ x: 0, y: 0 }, 500);
 
                     // Hex
-                    this.hex = new game.PIXI.Sprite.fromImage("media/coding/code.png");
+                    this.hex = new game.Sprite("coding/code.png");
                     this.hex.row = i;
+                    this.hex.width = App.pY(18);
+                    this.hex.height = App.pY(18);
                     this.hex.failed = false;
                     this.hex.scored = false;
                     this.hex.isBug = false;
-                    this.hex.scale = { x: 1, y: 1 };
+                    this.hex.oScale = this.hex.scale;
                     this.hex.anchor.set(0.5,0.5);
                     this.hex.position.x = 0;
                     this.hex.position.y = game.scene.positions[i];
-                    this.hex.hitArea = new game.PIXI.Rectangle(-65, -65, 132, 132);
+                    this.hex.hitArea = new game.PIXI.Rectangle(-App.pY(9), -App.pY(9), App.pY(18), App.pY(18));
                     this.hex.click = this.hex.tap = this.removeBug.bind(this);
 
                     // Hex icon
@@ -66,16 +71,18 @@ game.module(
                     this.icon.scaleOut = new game.Tween(this.icon.scale).to({ x: 0, y: 0 }, 500);
 
                     // Hex flash 1
-                    this.flash1 = new game.PIXI.Sprite.fromImage("media/coding/code.png");
+                    this.flash1 = new game.Sprite("coding/code.png");
                     this.flash1.anchor.set(0.5,0.5);
                     this.flash1.position.x = 0;
                     this.flash1.position.y = game.scene.positions[i];
+                    this.flash1.alpha = 0;
 
                     // Hex flash 2
-                    this.flash2 = new game.PIXI.Sprite.fromImage("media/coding/code.png");
+                    this.flash2 = new game.Sprite("coding/code.png");
                     this.flash2.anchor.set(0.5,0.5);
                     this.flash2.position.x = 0;
                     this.flash2.position.y = game.scene.positions[i];
+                    this.flash2.alpha = 0;
 
                     // Add items to hex
                     this.hex.addChild(this.icon);
@@ -142,7 +149,7 @@ game.module(
 
             // Move the objects to the right
             if(!game.scene.ended && !game.scene.pauseObjects && !this.hex.failed && !this.hex.scored && !App.paused) {
-                this.hex.position.x += game.scene.speed * game.system.delta;
+                this.hex.position.x += (App.pX(0.1) * game.scene.speed) * game.system.delta;
                 this.squish.position.x = this.flash1.position.x = this.flash2.position.x = this.hex.position.x;
             }
 
@@ -170,8 +177,8 @@ game.module(
                 this.hex.flashStart = true;
 
                 // Set the initial scale
-                this.flash1.scale = { x: 1, y: 1 };
-                this.flash2.scale = { x: 1, y: 1 };
+                this.flash1.scale = { x: this.hex.oScale.x, y: this.hex.oScale.y };
+                this.flash2.scale = { x: this.hex.oScale.x, y: this.hex.oScale.y };
 
                 // Set the initial alpha
                 this.flash1.alpha = 0.5;
@@ -183,9 +190,9 @@ game.module(
                 flash1Fade.repeat(99);
                 flash2Fade = new game.Tween(this.flash2).to({ alpha: 0 }, 650).easing(game.Tween.Easing.Quartic.Out);
                 flash2Fade.repeat(99);
-                flash1Scale = new game.Tween(this.flash1.scale).to({ x: 1.5, y: 1.5 }, 650).easing(game.Tween.Easing.Quartic.Out);
+                flash1Scale = new game.Tween(this.flash1.scale).to({ x: this.hex.oScale.x * 1.5, y: this.hex.oScale.y * 1.5 }, 650).easing(game.Tween.Easing.Quartic.Out);
                 flash1Scale.repeat(99);
-                flash2Scale = new game.Tween(this.flash2.scale).to({ x: 2, y: 2 }, 650).easing(game.Tween.Easing.Quartic.Out);
+                flash2Scale = new game.Tween(this.flash2.scale).to({ x: this.hex.oScale.x * 2, y: this.hex.oScale.y * 2 }, 650).easing(game.Tween.Easing.Quartic.Out);
                 flash2Scale.repeat(99);
 
                 // Tween group
@@ -218,7 +225,7 @@ game.module(
             }
 
             // Check if item has passed the end zone
-            if(this.hex.position.x > game.scene.mouseZoneStart + 156) {
+            if(this.hex.position.x > game.scene.mouseZone3) {
 
                 // Make uncapturable and fail
                 if(!this.hex.failed && !this.hex.scored) {
@@ -270,7 +277,7 @@ game.module(
             this.text = new game.BitmapText( "Test", { font: 'Roboto-export' });
 
             // Countdown position
-            this.location = new game.Vector(0, 32);
+            this.location = new game.Vector(0, App.pY(5));
 
             // Tint
             this.colour = 0xFFFFFF;
@@ -311,16 +318,16 @@ game.module(
                 textWidth = this.text.getBounds().width;
                 textHeight = this.text.getBounds().height;
                 this.location.set( 
-                    ((game.system.width / App.deviceScale()) / 2) - (textWidth / 2), 
-                    ((game.system.width / App.deviceScale()) / 4) - (textHeight / 2)
+                    App.pX(50) - (textWidth / 2), 
+                    App.pY(50) - (textHeight / 2)
                 );
 
             } else {
 
                 // Move to top right
-                this.textScale = 1;
+                this.textScale = 0.75;
                 textWidth = this.text.getBounds().width;
-                this.location.x = (game.system.width / App.deviceScale()) - (32 + textWidth);
+                this.location.x = App.pX(95);
 
             }
             
@@ -347,15 +354,14 @@ game.module(
 
             // Create container
             this.controls = new game.Container();
-            this.controls.scale.set(App.deviceScale(), App.deviceScale());
 
             // Set controls size
-            var control_size = ((game.system.height / App.deviceScale()) / 5), self = this;
+            var control_size = App.pY(20), self = this;
 
             // Create control graphics            
             this.control_top = new game.Graphics();
             this.control_top.interactive = true;
-            this.control_top.hitArea = new game.PIXI.Rectangle(game.scene.mouseZoneStart, game.scene.positions[0] - (control_size / 2), 180, control_size);
+            this.control_top.hitArea = new game.PIXI.Rectangle(game.scene.mouseZone1, game.scene.positions[0] - (control_size / 2), 180, control_size);
             this.control_top.tap = this.control_top.click = function(){
                 if(!game.scene.ended && !App.paused) {
                     self.playerInput(0);
@@ -364,7 +370,7 @@ game.module(
 
             this.control_middle = new game.Graphics();
             this.control_middle.interactive = true;
-            this.control_middle.hitArea = new game.PIXI.Rectangle(game.scene.mouseZoneStart, game.scene.positions[1] - (control_size / 2), 180, control_size);
+            this.control_middle.hitArea = new game.PIXI.Rectangle(game.scene.mouseZone1, game.scene.positions[1] - (control_size / 2), 180, control_size);
             this.control_middle.tap = this.control_middle.click = function(){
                 if(!game.scene.ended && !App.paused) {
                     self.playerInput(1);
@@ -373,7 +379,7 @@ game.module(
 
             this.control_bottom = new game.Graphics();
             this.control_bottom.interactive = true;
-            this.control_bottom.hitArea = new game.PIXI.Rectangle(game.scene.mouseZoneStart, game.scene.positions[2] - (control_size / 2), 180, control_size);
+            this.control_bottom.hitArea = new game.PIXI.Rectangle(game.scene.mouseZone1, game.scene.positions[2] - (control_size / 2), 180, control_size);
             this.control_bottom.tap = this.control_bottom.click = function(){
                 if(!game.scene.ended && !App.paused) {
                     self.playerInput(2);
@@ -398,7 +404,7 @@ game.module(
             this.hex = game.scene.rows[game.scene.counter].hex;
 
             // Check the hex is passed the first zone
-            if(this.hex.position.x > game.scene.mouseZoneStart) { 
+            if(this.hex.position.x > game.scene.mouseZone1) { 
 
                 // If the hex is in the right row
                 if(this.hex.row === position) {
@@ -410,7 +416,7 @@ game.module(
                     this.hex.scored = true;
 
                     // Check item has passed the second zone
-                    if(this.hex.position.x > game.scene.mouseZoneStart + 48) { 
+                    if(this.hex.position.x > game.scene.mouseZone2) { 
 
                         // Add perfect score
                         game.scene.addPerfectScore();

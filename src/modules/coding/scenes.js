@@ -171,75 +171,80 @@ game.module(
             // Get level
             this.level = game.storage.get("CurrentLevel") || 0;
 
-            var mouse_ratio, cord_ratio, keyboard_ratio;
-
             // Start the music
             App.playMusic("coding_bg", 0.5);
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Screenflash
             this.flash = new game.Graphics();
             this.flash.beginFill(0xFFFFFF);
-            this.flash.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
+            this.flash.drawRect(0, 0, App.pX(100), App.pY(100));
             this.flash.endFill();
             this.flash.alpha = 0;
 
             // Death field
             this.deathField = new game.Graphics();
             this.deathField.beginFill(0xFFFFFF);
-            this.deathField.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
+            this.deathField.drawRect(0, 0, App.pX(100), App.pY(100));
             this.deathField.endFill();
-            this.deathField.position.x = (game.system.width / App.deviceScale());
+            this.deathField.position.x = App.pX(100);
             this.deathField.position.y = 0;
             this.deathField.alpha = 0.5;
             this.deathField.tint = 0xFF0000;
 
             // Capture position
-            this.positions[0] = ((game.system.height / App.deviceScale()) / 2) + 32 - 144;
-            this.positions[1] = ((game.system.height / App.deviceScale()) / 2) + 32;
-            this.positions[2] = ((game.system.height / App.deviceScale()) / 2) + 32 + 144;
+            this.positions[0] = App.pY(35);
+            this.positions[1] = App.pY(55);
+            this.positions[2] = App.pY(75);
 
             // Movement guides
             this.guides = new game.Graphics();
             this.guides.beginFill(App.currentPalette[1]); // GREEN
-            this.guides.drawRect(0, this.positions[0] - 72, (game.system.width / App.deviceScale()), 144);
+            this.guides.drawRect(0, App.pY(25), App.pX(100), App.pY(20));
             this.guides.beginFill(App.currentPalette[2]); // RED
-            this.guides.drawRect(0, this.positions[1] - 72, (game.system.width / App.deviceScale()), 144);
+            this.guides.drawRect(0, App.pY(45), App.pX(100), App.pY(20));
             this.guides.beginFill(App.currentPalette[0]); // BLUE
-            this.guides.drawRect(0, this.positions[2] - 72, (game.system.width / App.deviceScale()), 144);
+            this.guides.drawRect(0, App.pY(65), App.pX(100), App.pY(20));
             this.guides.endFill();
             this.guides.alpha = 0.25;
 
-            this.mouse = new game.PIXI.Sprite.fromImage('media/coding/mouse_'+ (this.level+1) +'.png', 0, 0);
-            mouse_ratio = this.mouse.width / this.mouse.height;
-            this.mouse.height = 456;
-            this.mouse.width = this.mouse.height * mouse_ratio;
-            this.mouse.position.x = (game.system.width / App.deviceScale()) - this.mouse.width;
+            this.mouse = new game.Sprite('coding/mouse_'+ (this.level+1) +'.png');
+            this.mouse.ratio = 224/488;
+            this.mouse.height = App.pY(60);
+            this.mouse.width = this.mouse.height * this.mouse.ratio;
+            this.mouse.position.x = App.pX(100) - this.mouse.width;
             this.mouse.position.y = this.positions[1] - (this.mouse.height / 2);
 
-            this.cord = new game.PIXI.Sprite.fromImage('media/coding/cord.png', 0, 0);
-            cord_ratio = this.cord.width / this.cord.height;
-            this.cord.height = 600;
-            this.cord.width = this.cord.height * cord_ratio;
-            this.cord.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.cord.width / 2) - (this.mouse.width / 2);
+            this.cord = new game.Sprite('coding/cord.png');
+            this.cord.ratio = 1500/592;
+            this.cord.height = App.pY(80);
+            this.cord.width = this.cord.height * this.cord.ratio;
+            this.cord.position.x = App.pX(50) - (this.cord.width / 2) - (this.mouse.width / 2);
             this.cord.position.y = this.positions[1] - (this.cord.height / 2);
 
-            this.keyboard = new game.PIXI.Sprite.fromImage('media/coding/keyboard.png', 0, 0);
-            keyboard_ratio = this.keyboard.width / this.keyboard.height;
-            this.keyboard.height = 504;
-            this.keyboard.width = this.keyboard.height * keyboard_ratio;
+            this.keyboard = new game.Sprite('coding/keyboard.png');
+            this.keyboard.ratio = 130/544;
+            this.keyboard.height = App.pY(75);
+            this.keyboard.width = this.keyboard.height * this.keyboard.ratio;
             this.keyboard.position.x = 0;
             this.keyboard.position.y = this.positions[1] - (this.keyboard.height / 2);
 
             // Set the point where the items can start scoring
-            this.mouseZoneStart = (game.system.width / App.deviceScale()) - this.mouse.width;
+            this.mouseZone1 = App.pX(100) - this.mouse.width;
+            this.mouseZone2 = App.pX(100) - this.mouse.width + (this.mouse.width / 3);
+            this.mouseZone3 = App.pX(100) - this.mouse.width + (this.mouse.width / 1.2);
+
+            this.zones = new game.Graphics();
+            this.zones.beginFill(0x0000FF); // GREEN
+            this.zones.drawRect(this.mouseZone1, 0, App.pX(0.2), App.pY(100));
+            this.zones.drawRect(this.mouseZone2, 0, App.pX(0.2), App.pY(100));
+            this.zones.drawRect(this.mouseZone3, 0, App.pX(0.2), App.pY(100));
 
             // Text box
-            this.textBox = new game.Text("Text Box!", { fill: "white", font: 'bold 64px sans-serif' } );
-            this.textBox.position.y = 64;
+            this.textBox = new game.Text("Text Box!", { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.textBox.position.y = App.pY(5);
             this.textBox.alpha = 0;
 
             this.difficulty = App.shuffleArray(this.difficulty);
@@ -282,6 +287,7 @@ game.module(
             this.pauseButton = new game.PauseButton();
             
             this.container.addChild(this.flash);
+            this.container.addChild(this.zones);
             this.stage.addChild(this.container);
 
         },
@@ -473,7 +479,7 @@ game.module(
             this.textBox.setText("Debug!");
 
             // Set the textbox position
-            this.textBox.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.textBox.width / 2);
+            this.textBox.position.x = App.pX(50) - (this.textBox.width / 2);
 
             // Set the readout text alpha
             this.textBox.alpha = 1;
@@ -483,7 +489,7 @@ game.module(
 
             // Move the mouse right
             mouseTween = new game.Tween(this.mouse.position);
-            mouseTween.to({ x: (game.system.width / App.deviceScale()) }, 500);
+            mouseTween.to({ x: App.pX(100) }, 500);
             mouseTween.start();
 
             // Move the cord right
@@ -506,7 +512,7 @@ game.module(
             var mouseTween, cordTween, keyboardTween;
 
             // Move the deathfield out of view
-            this.deathField.position.x = game.system.width / App.deviceScale();
+            this.deathField.position.x = App.pX(100);
 
             // Screen flash
             this.screenFlash(0x00FF00, "");
@@ -529,7 +535,7 @@ game.module(
 
             // Move the mouse back in
             mouseTween = new game.Tween(this.mouse.position);
-            mouseTween.to({ x: (game.system.width / App.deviceScale()) - this.mouse.width }, 500);
+            mouseTween.to({ x: App.pX(100) - this.mouse.width }, 500);
             mouseTween.start();
 
             // move the cord back in
@@ -631,7 +637,7 @@ game.module(
             this.textBox.alpha = 1;
 
             // Set the textbox position
-            this.textBox.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.textBox.width / 2);
+            this.textBox.position.x = App.pX(50) - (this.textBox.width / 2);
 
             // Create the tweens
             textBoxTween = new game.Tween(this.textBox);
