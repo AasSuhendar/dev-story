@@ -206,9 +206,9 @@ game.module(
             if(this.level === 2) {
 
                 // Set hypmeter position
-                this.positions[0] = App.pX(20);
+                this.positions[0] = App.pX(18);
                 this.positions[1] = App.pX(50);
-                this.positions[2] = App.pX(80);
+                this.positions[2] = App.pX(82);
 
                 // Set player id
                 this.playerId = 1;

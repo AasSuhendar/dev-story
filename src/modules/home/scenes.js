@@ -12,7 +12,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.bg = new game.Sprite.fromImage('media/splash/splash_en.png', 1280, 720);
             this.bg.ratio = 1280/720;
@@ -143,7 +142,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Objects
             this.code = new game.Sprite('home/code.png');
@@ -256,7 +254,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Swipes
             this.swipeDist = App.pX(10);
@@ -348,7 +345,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
             this.back.width = App.pX(5);
@@ -553,7 +549,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.games = App.LevelList[this.level].games;
 
@@ -668,7 +663,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             this.back = new game.PIXI.Sprite.fromImage("media/home/back.png");
             this.back.width = App.pX(5);
@@ -682,7 +676,7 @@ game.module(
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
             };
 
-            this.text1 = new game.Text("Meet the team".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 1.2) } );
+            this.text1 = new game.Text("Meet the team".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(80) } );
             this.text1.anchor.set(0.5, 0.5);
             this.text1.position.x = App.pX(50);
             this.text1.position.y = App.pY(15);
@@ -862,7 +856,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Set colours
             this.colour1 = 0x143559; // Dark
@@ -1168,7 +1161,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Get Data
             this.level = game.storage.get("CurrentLevel");
@@ -1351,7 +1343,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Get Data
             this.level = game.storage.get("CurrentLevel");
@@ -1473,7 +1464,7 @@ game.module(
                 this.feedback.position.y = -72;
                 this.feedback.tint = this.colour4;
 
-                this.author = new game.Text("- " + feedback[1], { fill: "white", align: "center", font: '32px sans-serif', wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 2) } );
+                this.author = new game.Text("- " + feedback[1], { fill: "white", align: "center", font: '32px sans-serif', wordWrap: true, wordWrapWidth: App.pX(50) } );
                 this.author.position.x = -(this.author.width / 2);
                 this.author.position.y = -64 + this.feedback.height + 16;
                 this.author.tint = this.colour4;
@@ -1546,7 +1537,7 @@ game.module(
            
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()) * 5);
+            this.wipe.drawRect(0, 0, App.pX(50), App.pY(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             wipeTween = new game.Tween(this.wipe)
@@ -1558,39 +1549,39 @@ game.module(
 
                 // Container
                 this.pop = new game.Container();
-                this.pop.scale.set(App.deviceScale(), App.deviceScale());
+                //this.pop.scale.set(App.deviceScale(), App.deviceScale());
 
                 this.popupFade = new game.Graphics();
                 this.popupFade.beginFill(this.colour1); 
-                this.popupFade.drawRect(0, 0, (game.system.width / App.deviceScale()), (game.system.height / App.deviceScale()));
+                this.popupFade.drawRect(0, 0, App.pX(100), App.pY(100));
                 this.popupFade.endFill();
                 this.popupFade.alpha = 0.75;
 
                 this.popup = new game.Graphics();
                 this.popup.beginFill(this.colour3); 
-                App.roundRect(this.popup, (game.system.width / App.deviceScale()) / 4, 48, (game.system.width / App.deviceScale()) / 2, (game.system.height / App.deviceScale()) - 96, 24, 24, 24, 24);
+                App.roundRect(this.popup, App.pX(25), App.pY(5), App.pX(50), App.pY(85), App.pX(3), App.pX(3), App.pX(3), App.pX(3));
                 this.popup.beginFill(this.colour4);
-                App.roundRect(this.popup, (game.system.width / App.deviceScale()) / 4, 48, (game.system.width / App.deviceScale()) / 2, 144, 24, 24, 0, 0);
+                App.roundRect(this.popup, App.pX(25), App.pY(5), App.pX(50), App.pY(20), App.pX(3), App.pX(3), 0, 0);
                 this.popup.endFill();
 
-                this.popupTitleText = new game.Text("Get Involved", { fill: "white", font: 'bold 48px sans-serif' } );
-                this.popupTitleText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.popupTitleText.width / 2);
-                this.popupTitleText.position.y = 87.6;
+                this.popupTitleText = new game.Text("Get Involved", { fill: "white", font: 'bold '+App.pX(4)+'px sans-serif' } );
+                this.popupTitleText.position.x = App.pX(50) - (this.popupTitleText.width / 2);
+                this.popupTitleText.position.y = App.pY(10);
 
-                this.popupText = new game.Text("You’ll find the open source code for all these challenges at the Intel® Developer Zone.", { fill: "white", font: '32px sans-serif', wordWrap: true, wordWrapWidth: ((game.system.width / App.deviceScale()) / 2) - 128 } );
-                this.popupText.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.popupText.width / 2);
-                this.popupText.position.y = this.popupTitleText.position.y + this.popupTitleText.height + 96;
+                this.popupText = new game.Text("You’ll find the open source code for all these challenges at the Intel® Developer Zone.", { fill: "white", font: App.pX(2.5)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(40) } );
+                this.popupText.position.x = App.pX(50) - (this.popupText.width / 2);
+                this.popupText.position.y = this.popupTitleText.position.y + this.popupTitleText.height + App.pY(15);
                 this.popupText.tint = this.colour4;
 
-                this.popupGo = new game.Text("Let’s go", { fill: "white", font: 'bold 32px sans-serif' } );
+                this.popupGo = new game.Text("Let’s go", { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
                 this.popupGo.tint = this.colour4;
-                this.popupGo.position.x = (game.system.width / App.deviceScale()) / 4 + 96;
-                this.popupGo.position.y = (game.system.height / App.deviceScale()) - 128;
+                this.popupGo.position.x = App.pX(55);
+                this.popupGo.position.y = App.pY(80);
 
-                this.popupClose = new game.Text("Maybe later", { fill: "white", font: '32px sans-serif' } );
+                this.popupClose = new game.Text("Maybe later", { fill: "white", font: App.pX(3)+'px sans-serif' } );
                 this.popupClose.tint = this.colour4;
-                this.popupClose.position.x = ((game.system.width / App.deviceScale()) * 3/4) - this.popupClose.width - 96;
-                this.popupClose.position.y = (game.system.height / App.deviceScale()) - 128;
+                this.popupClose.position.x = App.pX(30);
+                this.popupClose.position.y = App.pY(80);
     
                 this.popupCloseButton = new game.Graphics();
                 this.popupCloseButton.beginFill(this.colour2); 

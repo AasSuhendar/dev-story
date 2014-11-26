@@ -11,7 +11,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Set bigger play button
             if(this.id === 0) {
@@ -201,7 +200,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Objects
             this.interact = new game.Graphics();
@@ -327,7 +325,6 @@ game.createClass(App.GameIntro, {
 
         // Container
         this.container = new game.Container();
-        this.container.scale.set(App.deviceScale(), App.deviceScale());
 
         // Get level
         this.level = game.storage.get("CurrentLevel");
@@ -414,7 +411,7 @@ game.createClass(App.GameIntro, {
         this.button = new game.Graphics();
         this.button.beginFill(this.colour4); 
         App.roundRect(this.button, 0, 0, this.playText.width + 64, this.playText.height + 24, 24, 24, 24, 24);
-        this.button.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.playText.width / 2) - 32;
+        this.button.position.x = App.pX(50) - (this.playText.width / 2) - 32;
         this.button.position.y = this.playText.position.y - 16;
         this.button.interactive = true;
         this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.playText.width + 24, this.playText.height + 24);
@@ -462,7 +459,6 @@ game.createClass(App.GameOutro, {
 
         // Container
         this.container = new game.Container();
-        //this.container.scale.set(App.deviceScale(), App.deviceScale());
 
         // Get level
         this.level = game.storage.get("CurrentLevel");
@@ -535,7 +531,7 @@ game.createClass(App.GameOutro, {
         this.button = new game.Graphics();
         this.button.beginFill(this.colour4); 
         App.roundRect(this.button, 0, 0, this.nextText.width + 64, this.nextText.height + 24, 24, 24, 24, 24);
-        this.button.position.x = ((game.system.width / App.deviceScale()) / 2) - (this.nextText.width / 2) - 32;
+        this.button.position.x = App.pX(50)- (this.nextText.width / 2) - 32;
         this.button.position.y = this.nextText.position.y - 16;
         this.button.interactive = true;
         this.button.hitArea = new game.PIXI.Rectangle(0, 0, this.nextText.width + 24, this.nextText.height + 24);

@@ -370,7 +370,7 @@ game.module(
             this.text = new game.BitmapText( "Test", { font: 'Roboto-export' });
 
             // Countdown position
-            this.location = new game.Vector(0, 32);
+            this.location = new game.Vector(0, App.pY(5));
 
             // Tint
             this.colour = 0xFFFFFF;
@@ -420,16 +420,16 @@ game.module(
                 textWidth = this.text.getBounds().width;
                 textHeight = this.text.getBounds().height;
                 this.location.set( 
-                    ((game.system.width / App.deviceScale()) / 2) - (textWidth / 2), 
-                    ((game.system.width / App.deviceScale()) / 4) - (textHeight / 2)
+                    App.pX(50) - (textWidth / 2), 
+                    App.pY(50) - (textHeight / 2)
                 );
 
             } else {
 
                 // Move to top right
-                this.textScale = 1;
+                this.textScale = 0.75;
                 textWidth = this.text.getBounds().width;
-                this.location.x = (game.system.width / App.deviceScale()) - (32 + textWidth);
+                this.location.x = App.pX(95);
 
             }
             
