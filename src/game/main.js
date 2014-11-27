@@ -564,28 +564,11 @@ game.module(
     };
     
     App.deviceScale = function(){
-
-        // Check mobile
-        /*if (game.device.mobile){
-
-            // Check device width
-            if(game.system.width / game.device.pixelRatio < 560) {
-
-                // Stupid small screens
-                return 0.6; 
-
-            } 
-
-            // Return pixel ratio
-            return game.device.pixelRatio / 2;  
+        if(game.device.pixelRatio >= 2){
+            return 0.5;
+        }else{
+            return (1/game.device.pixelRatio);
         }
-
-        // Return pixel ratio
-        return game.device.pixelRatio;
-        */
-
-        return 1;
-
     };
 
     App.pX = function(i){
@@ -630,7 +613,7 @@ game.module(
     App.emptyVector = new game.Vector(0,0);
     
     App.getScreenCenter = function(){
-        return new game.Vector((window.innerWidth * game.device.pixelRatio)/2, (window.innerHeight * game.device.pixelRatio)/2);
+        return new game.Vector(window.innerWidth * 0.5, window.innerHeight * 0.5);
     };
     
     App.getDelta = function(){

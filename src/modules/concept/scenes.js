@@ -339,7 +339,8 @@ game.module(
             this.colorCycle = new game.ColorCycle();
             this.timeReverse = new game.TimeReverse();
             
-
+            game.scale = 0.5;
+            
             App.playMusic("music"+levelString, 1);
         },
         

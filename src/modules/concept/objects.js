@@ -18,9 +18,9 @@ game.module(
 
     game.createClass(App.Concept.GameLayer, {
         init: function(){
-            this.gameWidth = App.pX(200);
-            this.gameHeight = App.pY(200);
-
+            this.gameWidth = window.innerWidth * 2;
+            this.gameHeight = window.innerHeight * 2;
+            
             var tScreenCenter = App.getScreenCenter();
             
             this.gameLeftEdge = tScreenCenter.x-(this.gameWidth/2);
@@ -29,6 +29,7 @@ game.module(
             this.gameBottomEdge = tScreenCenter.y+(this.gameHeight/2);
             
             this.container = new game.Container();
+            
             game.scene.stage.addChild(this.container);
         },
         
@@ -67,7 +68,7 @@ game.module(
         init: function(){
             var asset = 'concept/level_' + (game.scene.level+1) + '_background_tile_01.png';
             this.sprite = new game.TilingSprite(asset, game.scene.gameLayer.gameWidth, game.scene.gameLayer.gameHeight);
-            this.sprite.position.set(game.scene.gameLayer.gameLeftEdge, game.scene.gameLayer.gameTopEdge); 
+            this.sprite.position.set(game.scene.gameLayer.gameLeftEdge, game.scene.gameLayer.gameTopEdge);   
             game.scene.gameLayer.container.addChild(this.sprite);
         }
     });
@@ -413,7 +414,7 @@ game.module(
         init: function(){
             this.sprite = new game.Sprite('concept/cat.png');
             this.sprite.anchor.set(0, 0);
-            this.maxScale = App.randomBetween(0.3,0.6);
+            this.maxScale = App.randomBetween(0.3 * App.deviceScale(), 0.6 * App.deviceScale());
             this.location = new game.Vector(App.randomBetween(0,game.system.width-(this.sprite.width*this.maxScale)), App.randomBetween(0,game.system.height-(this.sprite.height*this.maxScale)));
             
             this.leftEyeLocation = new game.Vector(this.location.x + (this.sprite.width * 0.282 * this.maxScale), this.location.y + this.sprite.height * 0.416 * this.maxScale);
@@ -1843,7 +1844,8 @@ game.module(
         init: function(){
             this.energy = 0;
             this.maxEnergy = 100;
-            this.width = (window.innerWidth * game.device.pixelRatio) - (176 * App.deviceScale());
+            this.width = window.innerWidth  - (176 * App.deviceScale());
+            
             this.height = 16 * App.deviceScale();
             this.depletionRate = 1;// XDK_PARAMS Try changing this to make the game easier or harder
             this.energyGraphic = new game.PIXI.Graphics();
@@ -1933,17 +1935,17 @@ game.module(
             
             if(this.displayTime < 6){ 
                 // Animate countdown within players field of view to draw attention to time running out
-                this.textScale = 2 + 0.4 * Math.sin(this.time % 1 * Math.PI);
+                this.textScale = (2 * App.deviceScale()) + (0.4 * App.deviceScale()) * Math.sin(this.time % 1 * Math.PI);
                 var textWidth = this.text.getBounds().width;
                 var textHeight = this.text.getBounds().height;
                 this.location.set( 
-                    (window.innerWidth * game.device.pixelRatio)/2 - (textWidth * App.deviceScale())/2, 
-                    (window.innerHeight * game.device.pixelRatio)/4 - (textHeight * App.deviceScale())/2
+                    (window.innerWidth * 0.5) - (textWidth * App.deviceScale())/2, 
+                    (window.innerHeight * 0.25) - (textHeight * App.deviceScale())/2
                 );
             }else{
-                this.textScale = 1;
+                this.textScale = 1 * App.deviceScale();
                 var textWidth = this.text.getBounds().width;
-                this.location.x = (window.innerWidth * game.device.pixelRatio)-((32 * App.deviceScale())+textWidth);
+                this.location.x = window.innerWidth - ((32 * App.deviceScale())+textWidth);
             }
             
             this.display();
