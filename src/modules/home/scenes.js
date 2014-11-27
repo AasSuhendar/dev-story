@@ -1549,7 +1549,6 @@ game.module(
 
                 // Container
                 this.pop = new game.Container();
-                //this.pop.scale.set(App.deviceScale(), App.deviceScale());
 
                 this.popupFade = new game.Graphics();
                 this.popupFade.beginFill(this.colour1); 
@@ -1564,9 +1563,9 @@ game.module(
                 App.roundRect(this.popup, App.pX(25), App.pY(5), App.pX(50), App.pY(20), App.pX(3), App.pX(3), 0, 0);
                 this.popup.endFill();
 
-                this.popupTitleText = new game.Text("Get Involved", { fill: "white", font: 'bold '+App.pX(4)+'px sans-serif' } );
+                this.popupTitleText = new game.Text("Get Involved", { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
                 this.popupTitleText.position.x = App.pX(50) - (this.popupTitleText.width / 2);
-                this.popupTitleText.position.y = App.pY(10);
+                this.popupTitleText.position.y = App.pY(12);
 
                 this.popupText = new game.Text("You’ll find the open source code for all these challenges at the Intel® Developer Zone.", { fill: "white", font: App.pX(2.5)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(40) } );
                 this.popupText.position.x = App.pX(50) - (this.popupText.width / 2);

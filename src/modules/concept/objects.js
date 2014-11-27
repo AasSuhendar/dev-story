@@ -18,8 +18,8 @@ game.module(
 
     game.createClass(App.Concept.GameLayer, {
         init: function(){
-            this.gameWidth = window.innerWidth * game.device.pixelRatio * 2;
-            this.gameHeight = window.innerHeight * game.device.pixelRatio * 2;
+            this.gameWidth = App.pX(200);
+            this.gameHeight = App.pY(200);
 
             var tScreenCenter = App.getScreenCenter();
             
@@ -29,7 +29,6 @@ game.module(
             this.gameBottomEdge = tScreenCenter.y+(this.gameHeight/2);
             
             this.container = new game.Container();
-            
             game.scene.stage.addChild(this.container);
         },
         
@@ -68,7 +67,7 @@ game.module(
         init: function(){
             var asset = 'concept/level_' + (game.scene.level+1) + '_background_tile_01.png';
             this.sprite = new game.TilingSprite(asset, game.scene.gameLayer.gameWidth, game.scene.gameLayer.gameHeight);
-            this.sprite.position.set(game.scene.gameLayer.gameLeftEdge, game.scene.gameLayer.gameTopEdge);   
+            this.sprite.position.set(game.scene.gameLayer.gameLeftEdge, game.scene.gameLayer.gameTopEdge); 
             game.scene.gameLayer.container.addChild(this.sprite);
         }
     });

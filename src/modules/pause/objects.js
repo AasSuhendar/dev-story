@@ -75,7 +75,6 @@ game.module(
 
             // Container
             this.container = new game.Container();
-            this.container.scale.set(App.deviceScale(), App.deviceScale());
 
             // Objects
             this.colour1 = App.currentPalette[0]; // Dark
