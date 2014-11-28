@@ -95,11 +95,11 @@ game.module(
             App.roundRect(this.bg, App.pX(25), App.pY(5), App.pX(50), App.pY(16), App.pX(3), App.pX(3), 0, 0);
             this.bg.endFill();
 
-            this.titleText = new game.Text( "Paused", { fill: "white", font: 'bold '+App.pX(4)+'px sans-serif' } );
+            this.titleText = new game.Text( "Paused", { fill: "white", font: 'bold '+Math.round(App.pX(4))+'px sans-serif' } );
             this.titleText.position.x = App.pX(50) - (this.titleText.width / 2);
             this.titleText.position.y = App.pY(10);
 
-            this.soundsText = new game.Text( "Sounds", { fill: "white", font: App.pX(4)+'px sans-serif' } );
+            this.soundsText = new game.Text( "Sounds", { fill: "white", font: Math.round(App.pX(4))+'px sans-serif' } );
             this.soundsText.position.x = App.pX(35);
             this.soundsText.position.y = App.pY(28);
             this.soundsText.tint = 0x666666;
@@ -111,7 +111,7 @@ game.module(
             this.soundsIcon.position.y = this.soundsText.position.y - App.pY(1.5);
             this.soundsIcon.tint = 0x666666;
 
-            this.vibrateText = new game.Text( "Vibrate", { fill: "white", font: App.pX(4)+'px sans-serif' } );
+            this.vibrateText = new game.Text( "Vibrate", { fill: "white", font: Math.round(App.pX(4))+'px sans-serif' } );
             this.vibrateText.position.x = App.pX(35);
             this.vibrateText.position.y = this.soundsText.position.y + App.pY(15);
             this.vibrateText.tint = 0x666666;
@@ -123,7 +123,7 @@ game.module(
             this.vibrateIcon.position.y = this.vibrateText.position.y - App.pY(1.5);
             this.vibrateIcon.tint = 0x666666;
 
-            this.quitText = new game.Text( "Quit", { fill: "white", font: App.pX(4)+'px sans-serif' } );
+            this.quitText = new game.Text( "Quit", { fill: "white", font: Math.round(App.pX(4))+'px sans-serif' } );
             this.quitText.position.x = App.pX(35);
             this.quitText.position.y = this.vibrateText.position.y + App.pY(30);
             this.quitText.tint = 0x666666;
@@ -135,7 +135,7 @@ game.module(
             this.quitIcon.position.y = this.quitText.position.y - App.pY(1.5);
             this.quitIcon.tint = 0x666666;
 
-            this.resumeText = new game.Text( "Resume".toUpperCase(), { fill: "white", font: 'bold '+App.pX(4)+'px sans-serif' } );
+            this.resumeText = new game.Text( "Resume".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(4))+'px sans-serif' } );
             this.resumeText.position.x = App.pX(35);
             this.resumeText.position.y = this.quitText.position.y + App.pY(10);
             this.resumeText.tint = this.colour2;

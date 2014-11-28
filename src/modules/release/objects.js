@@ -44,7 +44,7 @@ game.module(
                 }
 
                 // Names
-                this.name = new game.Text( game.storage.get("CurrentAppName"), { fill: "white", font: 'bold '+App.pX(2)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
+                this.name = new game.Text( game.storage.get("CurrentAppName"), { fill: "white", font: 'bold '+Math.round(App.pX(2))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
                 this.name.position.x = game.scene.positions[this.id] - this.name.width / 2;
                 this.name.position.y = App.pY(20) - (this.name.height / 2);
                 //this.name.tint = App.getHexNumber(241,88,54);
@@ -71,7 +71,7 @@ game.module(
                 this.container.addChild(this.launch);
 
                 // Draw text
-                launch = new game.Text("Launch Your App", { fill: "white", font: 'bold '+App.pX(1.5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(5) });
+                launch = new game.Text("Launch Your App", { fill: "white", font: 'bold '+Math.round(App.pX(1.5))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(5) });
                 launch.position.x = game.scene.positions[this.id] - (launch.width / 2);
                 launch.position.y = App.pY(60) - (launch.height / 2);
                 this.container.addChild(launch);
@@ -79,7 +79,7 @@ game.module(
             } else {
 
                 // Other players
-                this.name = new game.Text( App.generateName(true), { fill: "white", font: App.pX(2)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
+                this.name = new game.Text( App.generateName(true), { fill: "white", font: Math.round(App.pX(2))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
                 this.name.position.x = game.scene.positions[this.id] - this.name.width / 2;
                 this.name.position.y = App.pY(20) - (this.name.height / 2);
                 //this.name.tint = App.getHexNumber(241,88,54);

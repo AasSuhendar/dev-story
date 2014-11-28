@@ -358,7 +358,7 @@ game.module(
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
             };
 
-            this.text1 = new game.Text("About the app".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.text1 = new game.Text("About the app".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
             this.text1.anchor.set(0.5, 0.5);
             this.text1.position.x = App.pX(50);
             this.text1.position.y = App.pY(15);
@@ -369,7 +369,7 @@ game.module(
             this.text2.position.x = App.pX(50) - (this.text2.width / 2);
             this.text2.position.y = this.text1.position.y + this.text1.height + App.pY(5);
 
-            this.text3 = new game.Text( "Let’s go".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.text3 = new game.Text( "Let’s go".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
             this.text3.tint = 0xce5064;
             this.text3.position.x = App.pX(50) - (this.text3.width / 2);
             this.text3.position.y = this.text2.position.y + this.text2.height + App.pY(5);
@@ -573,11 +573,11 @@ game.module(
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
             };
 
-            this.text2 = new game.Text("You’re a kick ass developer. The rest of the world just doesn’t know it yet. It’s time to get your killer app out there. But you’ve got to build it from scratch and that’s easier said than done. Have you got what it takes to make it a worldwide success? It’s all down to you.", { fill: "white", font: App.pX(3)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(66) } );
+            this.text2 = new game.Text("You’re a kick ass developer. The rest of the world just doesn’t know it yet. It’s time to get your killer app out there. But you’ve got to build it from scratch and that’s easier said than done. Have you got what it takes to make it a worldwide success? It’s all down to you.", { fill: "white", font: Math.round(App.pX(3))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(66) } );
             this.text2.position.x = App.pX(50) - (this.text2.width / 2);
             this.text2.position.y = App.pY(35) - (this.text2.height / 2);
 
-            this.text3 = new game.Text( "Continue".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.text3 = new game.Text( "Continue".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
             this.text3.tint = 0xce5064;
             this.text3.position.x = App.pX(50) - (this.text3.width / 2);
             this.text3.position.y = this.text2.position.y + this.text2.height + App.pY(5);
@@ -676,7 +676,7 @@ game.module(
                 App.buttonClick(game.scene.wipe, "wipe", "setScene", App.Home.Main);
             };
 
-            this.text1 = new game.Text("Meet the team".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(80) } );
+            this.text1 = new game.Text("Meet the team".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(80) } );
             this.text1.anchor.set(0.5, 0.5);
             this.text1.position.x = App.pX(50);
             this.text1.position.y = App.pY(15);
@@ -690,7 +690,7 @@ game.module(
                 row = 0;
 
                 // Set name
-                section_title = new game.Text(superstars[j][0], { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
+                section_title = new game.Text(superstars[j][0], { fill: "white", font: 'bold '+Math.round(App.pX(3))+'px sans-serif' } );
                 section_title.position.x = App.pX(5);
                 section_title.position.y = this.text1.position.y + this.text1.height + App.pX(5) + this.stageHeight;
                 section_title.tint = 0x143559;
@@ -866,13 +866,13 @@ game.module(
             // Set bg colour
             game.system.stage.setBackgroundColor(this.colour1);
 
-            this.text1 = new game.Text("It's your turn".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.text1 = new game.Text("It's your turn".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
             this.text1.anchor.set(0.5, 0.5);
             this.text1.position.x = App.pX(50);
             this.text1.position.y = App.pY(15);
             this.text1.tint = this.colour4;
 
-            this.text2 = new game.Text("Want to be part of Dev Story/*HACK THE CODE*/? We want you to take the reins (and the credit). Here's how.", { fill: "white", font: App.pX(2.5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(50) } );
+            this.text2 = new game.Text("Want to be part of Dev Story/*HACK THE CODE*/? We want you to take the reins (and the credit). Here's how.", { fill: "white", font: Math.round(App.pX(2.5))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(50) } );
             this.text2.position.x = App.pX(33) - (this.text2.width / 2);
             this.text2.position.y = this.text1.position.y + this.text1.height + 48;
             this.text2.tint = this.colour4;
@@ -906,14 +906,14 @@ game.module(
             this.carousel_position = 0;
 
             this.step1 = new game.Text("Visit the Intel® Developer Zone and download the code.", { 
-                fill: "white",  font: App.pX(2.5)+'px sans-serif',  align: "center", wordWrap: true, 
+                fill: "white",  font: Math.round(App.pX(2.5))+'px sans-serif',  align: "center", wordWrap: true, 
                 wordWrapWidth: App.pX(33) 
             });
             this.step1.position.x = App.pX(33) - (this.step1.width / 2);
             this.step1.position.y = this.text2.position.y + this.text2.height + App.pY(15) - (this.step1.height / 2);
 
             this.step2 = new game.Text("Build your new levels, mini challenges and mods.", { 
-                fill: "white",  font: App.pX(2.5)+'px sans-serif',  align: "center", wordWrap: true, 
+                fill: "white",  font: Math.round(App.pX(2.5))+'px sans-serif',  align: "center", wordWrap: true, 
                 wordWrapWidth: App.pX(33) 
             });
             this.step2.position.x = App.pX(33) - (this.step2.width / 2);
@@ -921,7 +921,7 @@ game.module(
             this.step2.alpha = 0;
 
             this.step3 = new game.Text("Share your ideas with us. If any of them make it into version 2.0, you’ll get the credit!", { 
-                fill: "white",  font: App.pX(2.5)+'px sans-serif',  align: "center", wordWrap: true, 
+                fill: "white",  font: Math.round(App.pX(2.5))+'px sans-serif',  align: "center", wordWrap: true, 
                 wordWrapWidth: App.pX(33) 
             });
             this.step3.position.x = App.pX(33) - (this.step3.width / 2);
@@ -973,7 +973,7 @@ game.module(
             this.arrow_left.hitArea = new game.PIXI.Rectangle(-30,-30,60,60);
             this.arrow_left.tap = this.arrow_left.click = this.carousel_left.bind(this);
 
-            this.text3 = new game.Text( "Let’s go".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.text3 = new game.Text( "Let’s go".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
             this.text3.tint = this.colour3;
             this.text3.position.x = App.pX(33) - (this.text3.width / 2);
             this.text3.position.y = this.pip1.position.y + this.pip1.height + App.pY(5);
@@ -1187,7 +1187,7 @@ game.module(
             this.bottom.drawRect(0, App.pY(95), App.pX(100), App.pY(5));
             this.bottom.endFill();
 
-            this.text4 = new game.Text( "High Score: " + this.rating + "%", { fill: "white", font: App.pX(3)+'px sans-serif' } );
+            this.text4 = new game.Text( "High Score: " + this.rating + "%", { fill: "white", font: Math.round(App.pX(3))+'px sans-serif' } );
             this.text4.position.x = App.pX(97) - this.text4.width;
             this.text4.position.y = App.pY(5);
             this.text4.tint = this.colour4;
@@ -1208,17 +1208,17 @@ game.module(
             this.wreath.position.y = App.pY(5);
             this.wreath.tint = this.colour4;
 
-            this.text1 = new game.Text( this.name, { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
+            this.text1 = new game.Text( this.name, { fill: "white", font: 'bold '+Math.round(App.pX(3))+'px sans-serif' } );
             this.text1.position.x = App.pX(25) - (this.text1.width / 2);
             this.text1.position.y = this.wreath.position.y + this.wreath.height + App.pY(2);
             this.text1.tint = this.colour4;
 
-            this.text2 = new game.Text( this.title, { fill: "white", font: App.pX(3)+'px sans-serif' } );
+            this.text2 = new game.Text( this.title, { fill: "white", font: Math.round(App.pX(3))+'px sans-serif' } );
             this.text2.position.x = App.pX(25) - (this.text2.width / 2);
             this.text2.position.y = this.text1.position.y + this.text1.height + App.pY(2);
             this.text2.tint = this.colour4;
 
-            this.text5 = new game.Text( this.description, { fill: "white", align: "center", font: App.pX(2.5)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(40) } );
+            this.text5 = new game.Text( this.description, { fill: "white", align: "center", font: Math.round(App.pX(2.5))+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(40) } );
             this.text5.position.x = App.pX(25) - (this.text5.width / 2);
             this.text5.position.y = this.text2.position.y + this.text2.height + App.pY(10);
             this.text5.tint = this.colour4;
@@ -1240,7 +1240,7 @@ game.module(
             this.icons.position.x = App.pX(25) - (this.icons.width / 2);
             this.icons.position.y = this.text5.position.y + this.text5.height + App.pY(10) - (this.icons.height / 2);
 
-            this.text3 = new game.Text( "Play".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.text3 = new game.Text( "Play".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
             this.text3.tint = this.colour3;
             this.text3.position.x = App.pX(25) - (this.text3.width / 2);
             this.text3.position.y = this.icons.position.y + (this.icons.height / 2) + App.pY(15);
@@ -1416,12 +1416,12 @@ game.module(
             this.hero.position.x = App.pX(40);
             this.hero.position.y = App.pY(102);
 
-            this.appName = new game.Text(game.storage.get("CurrentAppName"), { fill: "white", font: App.pX(4)+'px sans-serif' } );
+            this.appName = new game.Text(game.storage.get("CurrentAppName"), { fill: "white", font: Math.round(App.pX(4))+'px sans-serif' } );
             this.appName.position.x = App.pX(50) - (this.appName.width / 2);
             this.appName.position.y = App.pY(10);
             this.appName.tint = this.colour3;
 
-            this.nextText = new game.Text( "Next".toUpperCase(), { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.nextText = new game.Text( "Next".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
             this.nextText.tint = this.colour3;
             this.nextText.position.x = App.pX(95) - this.nextText.width;
             this.nextText.position.y = App.pY(85);
@@ -1443,7 +1443,7 @@ game.module(
             this.stars.position.y = App.pY(30);
             this.stars.tint = this.colour4;
 
-            this.scoreText = new game.Text(this.overallScore + "%", { fill: "white", align: "center", font: 'bold '+App.pX(5)+'px sans-serif' } );
+            this.scoreText = new game.Text(this.overallScore + "%", { fill: "white", align: "center", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
             this.scoreText.position.x = App.pX(50) - (this.scoreText.width / 2);
             this.scoreText.position.y = this.stars.position.y + App.pY(10);
             this.scoreText.tint = this.colour4;
@@ -1473,12 +1473,12 @@ game.module(
                 this.wreath.addChild(this.author);
                 this.container.addChild(this.wreath);
             } else {
-                this.feedback1 = new game.Text("Wow this app sucks!", { fill: "white", align: "center", font: 'bold '+App.pX(4)+'px sans-serif' } );
+                this.feedback1 = new game.Text("Wow this app sucks!", { fill: "white", align: "center", font: 'bold '+Math.round(App.pX(4))+'px sans-serif' } );
                 this.feedback1.position.x = App.pX(50) - (this.feedback1.width / 2);
                 this.feedback1.position.y = this.scoreText.position.y + this.scoreText.height + App.pY(10);
                 this.feedback1.tint = this.colour4;
 
-                this.feedback2 = new game.Text("You need at least 1 star to progress to the next level", { fill: "white", align: "center", font: App.pX(2.5)+'px sans-serif' } );
+                this.feedback2 = new game.Text("You need at least 1 star to progress to the next level", { fill: "white", align: "center", font: Math.round(App.pX(2.5))+'px sans-serif' } );
                 this.feedback2.position.x = App.pX(50) - (this.feedback2.width / 2);
                 this.feedback2.position.y = this.feedback1.position.y + this.feedback1.height + App.pY(5);
                 this.feedback2.tint = this.colour4;
@@ -1537,7 +1537,7 @@ game.module(
            
             this.wipe = new game.Graphics();
             this.wipe.beginFill(0xce5064); 
-            this.wipe.drawRect(0, 0, App.pX(50), App.pY(500));
+            this.wipe.drawRect(0, 0, App.pX(100), App.pY(500));
             this.wipe.position.x = 0;
             this.wipe.position.y = 0;
             wipeTween = new game.Tween(this.wipe)
@@ -1563,21 +1563,21 @@ game.module(
                 App.roundRect(this.popup, App.pX(25), App.pY(5), App.pX(50), App.pY(20), App.pX(3), App.pX(3), 0, 0);
                 this.popup.endFill();
 
-                this.popupTitleText = new game.Text("Get Involved", { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
+                this.popupTitleText = new game.Text("Get Involved", { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
                 this.popupTitleText.position.x = App.pX(50) - (this.popupTitleText.width / 2);
                 this.popupTitleText.position.y = App.pY(12);
 
-                this.popupText = new game.Text("You’ll find the open source code for all these challenges at the Intel® Developer Zone.", { fill: "white", font: App.pX(2.5)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(40) } );
+                this.popupText = new game.Text("You’ll find the open source code for all these challenges at the Intel® Developer Zone.", { fill: "white", font: Math.round(App.pX(2.5))+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(40) } );
                 this.popupText.position.x = App.pX(50) - (this.popupText.width / 2);
                 this.popupText.position.y = this.popupTitleText.position.y + this.popupTitleText.height + App.pY(15);
                 this.popupText.tint = this.colour4;
 
-                this.popupGo = new game.Text("Let’s go", { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
+                this.popupGo = new game.Text("Let’s go", { fill: "white", font: 'bold '+Math.round(App.pX(3))+'px sans-serif' } );
                 this.popupGo.tint = this.colour4;
                 this.popupGo.position.x = App.pX(55);
                 this.popupGo.position.y = App.pY(80);
 
-                this.popupClose = new game.Text("Maybe later", { fill: "white", font: App.pX(3)+'px sans-serif' } );
+                this.popupClose = new game.Text("Maybe later", { fill: "white", font: Math.round(App.pX(3))+'px sans-serif' } );
                 this.popupClose.tint = this.colour4;
                 this.popupClose.position.x = App.pX(30);
                 this.popupClose.position.y = App.pY(80);
