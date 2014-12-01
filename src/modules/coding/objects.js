@@ -149,7 +149,7 @@ game.module(
 
             // Move the objects to the right
             if(!game.scene.ended && !game.scene.pauseObjects && !this.hex.failed && !this.hex.scored && !App.paused) {
-                this.hex.position.x += (App.pX(0.1) * game.scene.speed) * game.system.delta;
+                this.hex.position.x += Math.round((App.pX(0.1) * game.scene.speed) * game.system.delta);
                 this.squish.position.x = this.flash1.position.x = this.flash2.position.x = this.hex.position.x;
             }
 

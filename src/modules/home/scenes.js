@@ -152,11 +152,11 @@ game.module(
             this.code.position.y = 0;
 
             this.title = new game.Sprite('home/title.png');
-            this.title.ratio = this.title.height / this.title.width;
-            this.title.width = App.pX(60);
-            this.title.height = this.title.width * this.title.ratio;
+            this.title.ratio = this.title.width / this.title.height;
+            this.title.height = App.pY(30);
+            this.title.width = this.title.height * this.title.ratio;
             this.title.anchor.set(0.5, 0.5);
-            this.title.position.x = App.pX(40);
+            this.title.position.x = App.pX(45);
             this.title.position.y = App.pY(30);
             this.title.oScale = this.title.scale;
             this.title.scale = { x:0, y: 0 };

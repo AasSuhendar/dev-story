@@ -376,8 +376,8 @@ game.createClass(App.GameIntro, {
 
         this.image1 = new game.Sprite(this.img1[0]);
         this.image1.ratio = this.img1[1]/this.img1[2]
-        this.image1.height = App.pY(10);
-        this.image1.width = App.pY(10) * this.image1.ratio;
+        this.image1.height = App.pY(12);
+        this.image1.width = App.pY(12) * this.image1.ratio;
         this.image1.position.y = this.text1.position.y + this.text1.height + App.pY(5);
         
         if(this.text2 !== "") {
@@ -393,8 +393,8 @@ game.createClass(App.GameIntro, {
         if(this.img2[0] !== "") {
             this.image2 = new game.Sprite(this.img2[0]);
             this.image2.ratio = this.img2[1]/this.img2[2]
-            this.image2.height = App.pY(10);
-            this.image2.width = App.pY(10) * this.image2.ratio;
+            this.image2.height = App.pY(12);
+            this.image2.width = App.pY(12) * this.image2.ratio;
             this.image2.position.x = App.pX(50) - (this.image2.width / 2);
         }  else {
             this.image1.height = App.pY(20);

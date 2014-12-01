@@ -24,7 +24,7 @@ game.module(
         load: function(){
 
             // Store this
-            var launch, radius = App.pX(3), angle = (Math.PI * 2), i, j, k, item, position;
+            var launch, radius = App.pX(3.3), angle = (Math.PI * 2), i, j, k, item, position;
 
             // Container
             this.container = new game.Container();
@@ -100,7 +100,7 @@ game.module(
                 this.container.addChild(this.launch);
 
                 // Draw text
-                launch = new game.Text("Rival", { fill: "white", font: 'bold 20px sans-serif', align: "center" });
+                launch = new game.Text("Rival", { fill: "white", font: 'bold '+Math.round(App.pX(2))+'px sans-serif', align: "center" });
                 launch.position.x = game.scene.positions[this.id] - (launch.width / 2);
                 launch.position.y = App.pY(60) - (launch.height / 2);
                 this.container.addChild(launch);
@@ -126,8 +126,8 @@ game.module(
 
                     // Draw the item
                     item = new game.PIXI.Sprite.fromImage('media/release/'+ Math.ceil(Math.random() * 25) +'.png');
-                    item.width = App.pX(4.2);
-                    item.height = App.pX(4.2);
+                    item.width = App.pX(4.3);
+                    item.height = App.pX(4.3);
                     item.alpha = 0;
                     item.changed = false;
                     item.pivot = { x: item.width / 2, y: item.height / 2 };
