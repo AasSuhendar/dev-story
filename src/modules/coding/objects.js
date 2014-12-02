@@ -314,7 +314,7 @@ game.module(
             } else if(this.displayTime < 6){ 
 
                 // Move to center and make bigger
-                this.textScale = 2 + 0.4 * Math.sin(game.scene.timeleft % 1 * Math.PI);
+                this.textScale = 2 + (0.4 * Math.sin(game.scene.timeleft % 1 * Math.PI));
                 textWidth = this.text.getBounds().width;
                 textHeight = this.text.getBounds().height;
                 this.location.set( 
@@ -325,9 +325,9 @@ game.module(
             } else {
 
                 // Move to top right
-                this.textScale = 0.75;
+                this.textScale = 0.5;
                 textWidth = this.text.getBounds().width;
-                this.location.x = App.pX(95);
+                this.location.x = App.pX(98) - textWidth;
 
             }
             

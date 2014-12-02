@@ -243,7 +243,7 @@ game.module(
             //this.zones.drawRect(this.mouseZone3, 0, App.pX(0.2), App.pY(100));
 
             // Text box
-            this.textBox = new game.Text("Text Box!", { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
+            this.textBox = new game.Text("Text Box!", { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
             this.textBox.position.y = App.pY(5);
             this.textBox.alpha = 0;
 

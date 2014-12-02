@@ -24,7 +24,7 @@ game.module(
         load: function(){
 
             // Store this
-            var launch, radius = App.pX(3.3), angle = (Math.PI * 2), i, j, k, item, position;
+            var launch, radius = App.pY(5.5), angle = (Math.PI * 2), i, j, k, item, position;
 
             // Container
             this.container = new game.Container();
@@ -32,7 +32,7 @@ game.module(
             // Draw Guide
             this.guide = new game.Graphics();
             this.guide.beginFill(0x000000);
-            this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(16));
+            this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pY(28));
             this.guide.alpha = 0.3;
 
             // Player
@@ -44,7 +44,7 @@ game.module(
                 }
 
                 // Names
-                this.name = new game.Text( game.storage.get("CurrentAppName"), { fill: "white", font: 'bold '+Math.round(App.pX(2))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
+                this.name = new game.Text( game.storage.get("CurrentAppName"), { fill: "white", font: 'bold '+App.pX(2.4)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
                 this.name.position.x = game.scene.positions[this.id] - this.name.width / 2;
                 this.name.position.y = App.pY(20) - (this.name.height / 2);
                 //this.name.tint = App.getHexNumber(241,88,54);
@@ -52,13 +52,13 @@ game.module(
 
                 // Draw circles
                 this.guide.beginFill(App.currentPalette[1]);
-                this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(5));
+                this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pY(10));
                 this.guide.endFill();
 
                 // Draw button
                 this.launch = new game.Graphics();
                 this.launch.beginFill(App.currentPalette[2]);
-                this.launch.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(4));
+                this.launch.drawCircle(game.scene.positions[this.id], App.pY(60), App.pY(8));
                 this.launch.endFill();
                 this.launch.interactive = true;
                 this.launch.hitArea = new game.PIXI.Circle(game.scene.positions[this.id], App.pY(60), App.pX(5));
@@ -71,7 +71,7 @@ game.module(
                 this.container.addChild(this.launch);
 
                 // Draw text
-                launch = new game.Text("Launch Your App", { fill: "white", font: 'bold '+Math.round(App.pX(1.5))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(5) });
+                launch = new game.Text("Launch Your App", { fill: "white", font: 'bold '+App.pX(1.5)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(5) });
                 launch.position.x = game.scene.positions[this.id] - (launch.width / 2);
                 launch.position.y = App.pY(60) - (launch.height / 2);
                 this.container.addChild(launch);
@@ -79,7 +79,7 @@ game.module(
             } else {
 
                 // Other players
-                this.name = new game.Text( App.generateName(true), { fill: "white", font: Math.round(App.pX(2))+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
+                this.name = new game.Text( App.generateName(true), { fill: "white", font: App.pX(2.4)+'px sans-serif', align: "center", wordWrap: true, wordWrapWidth: App.pX(40) });
                 this.name.position.x = game.scene.positions[this.id] - this.name.width / 2;
                 this.name.position.y = App.pY(20) - (this.name.height / 2);
                 //this.name.tint = App.getHexNumber(241,88,54);
@@ -87,20 +87,20 @@ game.module(
 
                 // Draw circles
                 this.guide.beginFill(0x000000);
-                this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(5));
+                this.guide.drawCircle(game.scene.positions[this.id], App.pY(60), App.pY(10));
                 this.guide.endFill();
 
                 // Draw button
                 this.launch = new game.Graphics();
                 this.launch.beginFill(App.currentPalette[3]);
-                this.launch.drawCircle(game.scene.positions[this.id], App.pY(60), App.pX(4));
+                this.launch.drawCircle(game.scene.positions[this.id], App.pY(60), App.pY(8));
                 this.launch.endFill();
                 this.launch.alpha = 0.25;
                 this.container.addChild(this.guide);
                 this.container.addChild(this.launch);
 
                 // Draw text
-                launch = new game.Text("Rival", { fill: "white", font: 'bold '+Math.round(App.pX(2))+'px sans-serif', align: "center" });
+                launch = new game.Text("Rival", { fill: "white", font: 'bold '+App.pX(2.4)+'px sans-serif', align: "center" });
                 launch.position.x = game.scene.positions[this.id] - (launch.width / 2);
                 launch.position.y = App.pY(60) - (launch.height / 2);
                 this.container.addChild(launch);
@@ -126,8 +126,8 @@ game.module(
 
                     // Draw the item
                     item = new game.PIXI.Sprite.fromImage('media/release/'+ Math.ceil(Math.random() * 25) +'.png');
-                    item.width = App.pX(4.3);
-                    item.height = App.pX(4.3);
+                    item.width = App.pY(8);
+                    item.height = App.pY(8);
                     item.alpha = 0;
                     item.changed = false;
                     item.pivot = { x: item.width / 2, y: item.height / 2 };
@@ -416,7 +416,7 @@ game.module(
             } else if(this.displayTime < 6){ 
 
                 // Move to center and make bigger
-                this.textScale = 2 + 0.4 * Math.sin(this.displayTime % 1 * Math.PI);
+                this.textScale = 2 + (0.4 * Math.sin(this.displayTime % 1 * Math.PI));
                 textWidth = this.text.getBounds().width;
                 textHeight = this.text.getBounds().height;
                 this.location.set( 
@@ -427,9 +427,9 @@ game.module(
             } else {
 
                 // Move to top right
-                this.textScale = 0.75;
+                this.textScale = 0.5;
                 textWidth = this.text.getBounds().width;
-                this.location.x = App.pX(95);
+                this.location.x = App.pX(98) - textWidth;
 
             }
             

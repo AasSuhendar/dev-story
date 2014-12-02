@@ -41,7 +41,7 @@ game.module(
             App.stats.domElement.style.position = 'absolute';
             App.stats.domElement.style.left = '10%';
             App.stats.domElement.style.top = '0px';
-            App.stats.domElement.style.display = 'none';
+            App.stats.domElement.style.display = 'block';
 
             document.body.appendChild( App.stats.domElement );
         }
@@ -564,19 +564,20 @@ game.module(
     };
     
     App.deviceScale = function(){
-        if(game.device.pixelRatio >= 2){
+        /*if(game.device.pixelRatio >= 2){
             return 0.5;
         }else{
             return (1/game.device.pixelRatio);
-        }
+        }*/
+        return 0.5;
     };
 
     App.pX = function(i){
-        return (game.system.width / 100) * i;
+        return Math.round((game.system.width / 100) * i);
     };
 
     App.pY = function(i){
-        return (game.system.height / 100) * i;
+        return Math.round((game.system.height / 100) * i);
     };
     
     App.mapToRange = function(x, inputStart, inputEnd, outputStart, outputEnd){

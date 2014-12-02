@@ -14,12 +14,12 @@ game.module(
 
             // Set bigger play button
             if(this.id === 0) {
-                this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pY(10))+'px sans-serif' } );
+                this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold '+App.pY(10)+'px sans-serif' } );
                 this.text.tint = 0x51b6b0;
                 this.text.position.x = App.pX(17);
                 this.text.position.y = App.pY(50);
             } else {
-                this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pY(5))+'px sans-serif' } );
+                this.text = new game.Text( this.name.toUpperCase(), { fill: "white", font: 'bold '+App.pY(5)+'px sans-serif' } );
                 this.text.position.x = App.pX(17);
                 this.text.position.y = App.pY(55) + (this.id * App.pY(9));
             }
@@ -349,7 +349,7 @@ game.createClass(App.GameIntro, {
         App.roundRect(this.bg, App.pX(5), App.pY(10), App.pX(90), App.pY(18), App.pX(3), App.pX(3), 0, 0);
         this.bg.endFill();
 
-        this.titleText = new game.Text(this.title, { fill: "white", font: 'bold '+Math.round(App.pX(4))+'px sans-serif' } );
+        this.titleText = new game.Text(this.title, { fill: "white", font: 'bold '+App.pX(4)+'px sans-serif' } );
         this.titleText.position.x = App.pX(50) - (this.titleText.width / 2);
         this.titleText.position.y = App.pY(18);
         this.titleText.tint = 0xFFFFFF;
@@ -369,7 +369,7 @@ game.createClass(App.GameIntro, {
         this.titleIcon.position.y = App.pY(10);
         this.titleIcon.tint = this.colour2;
 
-        this.text1 = new game.Text(this.text1, { align: "center", fill: "white", font: Math.round(App.pX(2.5))+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(80)} );
+        this.text1 = new game.Text(this.text1, { align: "center", fill: "white", font: App.pX(2.4)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(80)} );
         this.text1.position.x = App.pX(50) - (this.text1.width / 2);
         this.text1.position.y = this.titleText.position.y + this.titleText.height + App.pY(10);
         this.text1.tint = 0x000000;
@@ -381,12 +381,12 @@ game.createClass(App.GameIntro, {
         this.image1.position.y = this.text1.position.y + this.text1.height + App.pY(5);
         
         if(this.text2 !== "") {
-            this.text2 = new game.Text(this.text2, { align: "center", fill: "white", font: Math.round(App.pX(2.5))+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(80) } );
+            this.text2 = new game.Text(this.text2, { align: "center", fill: "white", font: App.pX(2.4)+'px sans-serif', wordWrap: true, wordWrapWidth: App.pX(80) } );
             this.text2.position.x = App.pX(50) - (this.text2.width / 2);
             this.text2.tint = 0x000000;
         }
 
-        this.playText = new game.Text( "Play".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(3))+'px sans-serif' } );
+        this.playText = new game.Text( "Play".toUpperCase(), { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
         this.playText.tint = this.colour2;
         this.playText.position.x = App.pX(50) - (this.playText.width / 2);
 
@@ -483,7 +483,7 @@ game.createClass(App.GameOutro, {
         App.roundRect(this.bg, App.pX(5), App.pY(10), App.pX(90), App.pY(26), App.pX(3), App.pX(3), 0, 0);
         this.bg.endFill();
 
-        this.titleText1 = new game.Text(this.title, { fill: "white", font: Math.round(App.pX(4))+'px sans-serif' } );
+        this.titleText1 = new game.Text(this.title, { fill: "white", font: App.pX(4)+'px sans-serif' } );
         this.titleText1.position.x = App.pX(50) - (this.titleText1.width / 2);
         this.titleText1.position.y = App.pY(18);
 
@@ -502,11 +502,11 @@ game.createClass(App.GameOutro, {
         this.titleIcon.position.y = App.pY(10);
         this.titleIcon.tint = this.colour2;
 
-        this.titleText2 = new game.Text( "\""+ game.storage.get("CurrentAppName") +"\"", { align: "center", fill: "white", font: 'bold '+Math.round(App.pX(4))+'px sans-serif' } );
+        this.titleText2 = new game.Text( "\""+ game.storage.get("CurrentAppName") +"\"", { align: "center", fill: "white", font: 'bold '+App.pX(4)+'px sans-serif' } );
         this.titleText2.position.x = App.pX(50) - (this.titleText2.width / 2);
         this.titleText2.position.y = App.pY(26);
 
-        this.text1 = new game.Text("Score", { align: "center", fill: "white", font: Math.round(App.pX(3))+'px sans-serif' } );
+        this.text1 = new game.Text("Score", { align: "center", fill: "white", font: App.pX(3)+'px sans-serif' } );
         this.text1.position.x = App.pX(50) - (this.text1.width / 2);
         this.text1.position.y = this.titleText2.position.y + this.titleText2.height + App.pY(10);
         this.text1.tint = 0x000000;
@@ -518,12 +518,12 @@ game.createClass(App.GameOutro, {
         this.shape.position.x = App.pX(50);
         this.shape.position.y = App.pY(65);
 
-        this.scoreText = new game.Text(this.score, { fill: "white", font: 'bold '+Math.round(App.pX(5))+'px sans-serif' } );
+        this.scoreText = new game.Text(this.score, { fill: "white", font: 'bold '+App.pX(5)+'px sans-serif' } );
         this.scoreText.anchor.set(0.5,0.5);
         this.scoreText.position.x = App.pX(50);
         this.scoreText.position.y = App.pY(65);
 
-        this.nextText = new game.Text( "Next".toUpperCase(), { fill: "white", font: 'bold '+Math.round(App.pX(3))+'px sans-serif' } );
+        this.nextText = new game.Text( "Next".toUpperCase(), { fill: "white", font: 'bold '+App.pX(3)+'px sans-serif' } );
         this.nextText.tint = this.colour2;
         this.nextText.position.x = App.pX(50) - (this.nextText.width / 2);
         this.nextText.position.y = this.bg.position.y + this.bg.height;

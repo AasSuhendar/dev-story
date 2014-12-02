@@ -113,7 +113,7 @@ game.System = game.Class.extend({
         if (game.System.retina && game.device.pixelRatio === 2) {
             // Check if we are already using highest textures
             if (game.scale < game.System.hires) {
-                this.retina = true;
+                //this.retina = true;
                 width *= 2;
                 height *= 2;
                 game.scale *= 2;
